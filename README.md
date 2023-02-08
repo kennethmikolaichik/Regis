@@ -35,3 +35,6 @@ Battery: DC 12300 - DC12V Rechargablee 3000mAh lition-ion Battery
 Servos: MG90S
 
 Power Converter: UCTRONICS DC 6V-24V to DC 5V 5A Buck Converter Module, 9-36V Step Down to USB 5V Transformer Dual Output Voltage Regulator Board
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
+All structural pieces are 3D printed using PLA filament.
