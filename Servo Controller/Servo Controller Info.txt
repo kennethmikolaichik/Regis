@@ -1,0 +1,80 @@
+11.30.2022
+The servo Controller of choosing is 'pigpio' software due to its widespread use and multiple programming language support.
+
+https://abyz.me.uk/rpi/pigpio/
+
+The python module is called 'pigpio' in linux. This is the text to call up the installation.
+Copied from website:
+
+o controls one or more Pi's
+
+o hardware timed PWM on any of GPIO 0-31
+
+o hardware timed servo pulses on any of GPIO 0-31
+
+o callbacks when any of GPIO 0-31 change state
+
+o creating and transmitting precisely timed waveforms
+
+o reading/writing GPIO and setting their modes
+
+o wrappers for I2C, SPI, and serial links
+
+o creating and running scripts on the pigpio daemon
+- - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+GPIO
+ALL GPIO are identified by their Broadcom number.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Notes
+Transmitted waveforms are accurate to a microsecond.
+
+Callback level changes are time-stamped and will be accurate to within a few microseconds.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Settings
+A number of settings are determined when the pigpio daemon is started.
+
+o the sample rate (1, 2, 4, 5, 8, or 10 us, default 5 us).
+
+o the set of GPIO which may be updated (generally written to). The default set is those available on the Pi board revision.
+
+o the available PWM frequencies (see set_PWM_frequency).
+- - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Exceptions
+By default a fatal exception is raised if you pass an invalid argument to a pigpio function.
+
+If you wish to handle the returned status yourself you should set pigpio.exceptions to False.
+
+You may prefer to check the returned status in only a few parts of your code. In that case do the following:
+
+Example
+
+pigpio.exceptions = False
+
+# Code where you want to test the error status.
+
+pigpio.exceptions = True
+- - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Usage
+This module uses the services of the C pigpio library. pigpio must be running on the Pi(s) whose GPIO are to be manipulated.
+
+The normal way to start pigpio is as a daemon (during system start).
+
+sudo pigpiod
+
+Your Python program must import pigpio and create one or more instances of the pigpio.pi class. This class gives access to a specified Pi's GPIO.
+
+Example
+
+pi1 = pigpio.pi()       # pi1 accesses the local Pi's GPIO
+pi2 = pigpio.pi('tom')  # pi2 accesses tom's GPIO
+pi3 = pigpio.pi('dick') # pi3 accesses dick's GPIO
+
+pi1.write(4, 0) # set local Pi's GPIO 4 low
+pi2.write(4, 1) # set tom's GPIO 4 to high
+pi3.read(4)     # get level of dick's GPIO 4
+

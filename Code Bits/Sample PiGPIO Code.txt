@@ -1,0 +1,38 @@
+Hey, spider robot dude
+import pigpio
+import time
+
+# Initialize pigpio library and connect to the local Pi
+pi = pigpio.pi()
+
+# Set the default PWM frequency for all the servos to 50Hz
+DEFAULT_FREQ = 50
+
+# Create a list of the GPIO pins that the servos are connected to
+servo_pins = [4, 17, 27, 22, 5, 6, 13, 19, 26, 18, 23, 24, 25, 12]
+
+# Initialize the servos to their default position
+for pin in servo_pins:
+    pi.set_servo_pulsewidth(pin, 1500)
+    pi.set_PWM_frequency(pin, DEFAULT_FREQ)
+
+# Move the servos to a new position
+def move_servos(positions):
+    for pin, pos in zip(servo_pins, positions):
+        pi.set_servo_pulsewidth(pin, pos)
+
+# Example usage
+# Move all servos to 0 degrees
+moveservos([500 for  in servo_pins])
+time.sleep(1)
+
+# Move all servos to 90 degrees
+moveservos([2500 for  in servo_pins])
+time.sleep(1)
+
+# Move all servos back to 0 degrees
+moveservos([500 for  in servo_pins])
+
+# Stop the pigpio library
+pi.stop()
+You will need to change the values of the position of the servo as per your requirement. The values of the position of the servo will vary for different brand and model of the servo.
