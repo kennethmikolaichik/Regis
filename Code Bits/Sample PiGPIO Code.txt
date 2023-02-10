@@ -1,4 +1,3 @@
-Hey, spider robot dude
 import pigpio
 import time
 
@@ -35,4 +34,5 @@ moveservos([500 for  in servo_pins])
 
 # Stop the pigpio library
 pi.stop()
+
 You will need to change the values of the position of the servo as per your requirement. The values of the position of the servo will vary for different brand and model of the servo.

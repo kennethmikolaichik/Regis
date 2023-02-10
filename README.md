@@ -4,8 +4,10 @@ README
 # Regis Quadroupled Robot
 
 #### Working on: (2/10/2023)
-• **Getting the code to turn on the motors. Finding the stop points for each leg in the software.**
+• **Getting the code to turn on the motors.** 
+• **Finding the stop points for each leg in the software.**
 • **Programing a simple stand up and wave function.**
+• **Enabling real time face tracking, get tensorflow to control pan/tilt motors.**
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 This project started out as a desire to bring to life a teachable basic droid.
@@ -25,7 +27,7 @@ Camera: Raspberry Pi Cam Version 2.1
 
 Fan: 50 x 50 x 10mm
 
-Hard Drive: Kingston SSD KC600 2.5" and mSATA SSD
+Hard Drive: Kingston mSATA SSD
 
 HD Converter: Eluteng mSATA to usb3.0 adapter
 
@@ -74,6 +76,6 @@ And that’s it!
 ## Interface
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 For advanced users you may want to set up SSH to dial into your spider.
-Otherwise connect to the micro hdmi port
-Connect a mouse and keyboard to the Raspberry Pi USB ports
-I am running the official raspberry pi GUI
+Otherwise connect to the micro hdmi port.
+Connect a mouse and keyboard to the Raspberry Pi USB ports.
+Currently running the official raspberry pi GUI.
