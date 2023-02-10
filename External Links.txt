@@ -1,0 +1,51 @@
+~ Links ~
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+Hardware:
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+•Original Instructable by RegisHsu
+https://www.instructables.com/DIY-Spider-RobotQuad-robot-Quadruped/
+
+•RegisHsu's Website
+http://regishsu.blogspot.com/search/label/0.SpiderRobot%E8%9C%98%E8%9B%9B
+
+•Pan / Tilt Face Tracking Instructable by Grintor
+https://www.instructables.com/Pan-Tilt-face-tracking-with-the-raspberry-pi/
+
+•A Rendition by Jason's Workshop
+https://www.youtube.com/watch?v=jOsnoSP70g8
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+Software
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+•OpenCV
+https://opencv.org/
+https://docs.opencv.org/3.4/db/d28/tutorial_cascade_classifier.html
+https://www.geeksforgeeks.org/python-opencv-capture-video-from-camera/
+
+•TensorFlow
+https://www.tensorflow.org/lite/guide
+https://www.youtube.com/watch?v=mNjXEybFn98
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+Research
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+•Learning Agile Robotic Locomotion Skills by Imitating Animals
+By 
+Xue Bin Peng (1,2) Erwin Coumans (1) Tingnan Zhang (1) Tsang-Wei Edward Lee (1)Jie Tan (1)Sergey Levine (1,2) (1) Google Research (2) University of California, Berkeley
+https://xbpeng.github.io/projects/Robotic_Imitation/index.html
+
+•Neural Networks and Deep Learning
+http://neuralnetworksanddeeplearning.com/
+
+•Experiments with Google's AI
+https://experiments.withgoogle.com/collection/ai
+https://ai.google/tools/
+
+•Stanford FREE Machine Learning Course
+https://www.coursera.org/learn/machine-learning
+
+•Python Course
+https://www.kaggle.com/learn
+
+•Face Recognition Profiling by 'Tech with Tim'
+https://www.youtube.com/watch?v=D5xqcGk6LEc
