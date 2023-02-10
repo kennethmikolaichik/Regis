@@ -3,9 +3,9 @@ README
 
 # Regis Quadroupled Robot
 
-####Working on: (2/10/2023)
-• *Getting the code to turn on the motors. Finding the stop points for each leg in the software.*
-• *Programing a simple stand up and wave function.*
+#### Working on: (2/10/2023)
+• **Getting the code to turn on the motors. Finding the stop points for each leg in the software.**
+• **Programing a simple stand up and wave function.**
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 This project started out as a desire to bring to life a teachable basic droid.
