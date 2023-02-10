@@ -1,7 +1,7 @@
 README
-2/7/2023
+2/10/2023
 
-Regis Quadroupled Robot
+## Regis Quadroupled Robot
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 This project started out as a desire to bring to life a teachable basic droid.
@@ -14,7 +14,7 @@ He sports three degrees of freedom in his legs, and the motors easily support hi
 Please share any and all mods and improvements! Long live Regis!
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-Technical Specifications:
+###### Technical Specifications:
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 Computer: Raspberry pi 4B 2GB Ram
 
@@ -33,7 +33,7 @@ Servos: MG90S
 Power Converter: UCTRONICS DC 6V-24V to DC 5V 5A Buck Converter Module, 9-36V Step Down to USB 5V Transformer Dual Output Voltage Regulator Board
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-Chassis:
+###### Chassis:
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 All structural pieces have beed 3D printed using PLA filament on an Ender 3. Any G-code files will be for this setup.
 
@@ -42,13 +42,13 @@ All CAD files have been created in FreeCAD Version 0.19 - please convert the fil
 Shoes have been constructed from rubber stoppers from the hardware store (drill half way through and slide on legs).
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-Power Distrobution Board
+###### Power Distrobution Board
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 The power distrobution board for the 14 motors is a necessity. For this, purchase a header set and a small piece of protoboard (~5 inches). The protoboard can be easily cut with a box cutter. Score one side and snap against a hard, clean edged surface. solder the positive, negative, and signal traces like so:
 
 '''
-+ + + + + + + + + + + + + + +  ← positive lead from power converter 
-- - - - - - - - - - - - - - -  ← negative lead from power converter
+"+ + + + + + + + + + + + + + +"  ← positive lead from power converter 
+"- - - - - - - - - - - - - - -"  ← negative lead from power converter
 s1 s2 s3 s4 s5 s6 ...... s14   ← signal wire IN from motor
 s1 s2 s3 s4 s5 s6 ...... s14   ← signal wire OUT to Pi
 '''
@@ -57,7 +57,7 @@ Solder all positive pins together. Solder all negative pins together. Solder the
 This way the 3 pin connector for each leg can be bundled together and a motor easily removed if need. You may want to creates some extra slots if you plan on connecting more motors or other 5V equipment. See pictures.
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-Method of Assembly:
+###### Method of Assembly:
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 The legs for this project are assembled with the screws that come with the MG90 Servos they are 2.5mm. The battery case is assembled with M8 machine screws. the raspberry pi is installed in the case and held to the upper surface of the battery/case with double sided tape. The fan is attached to the upper portion of the raspberry pi case with some oversized screws that penetrate into the honeycomb skin of the raspberry pi case. The SSD is attached with double sided tape, electrical tape is used to shield the IC's from contact with the tape and prevent stray current. Twist ties are employed throughout the robot for wire control and routing. Rubber bands have been used to 'tidy up' the wires coming from the power distribution board and signal wires. 
 
@@ -68,7 +68,7 @@ For all wiring: SEE DIAGRAMS - You will need to 1) Plug the battery into the pow
 And thats it!
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-Interface:
+###### Interface:
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 For advanced users you may want to set up SSH to dial into your spider.
 Otherwise connect to the micro hdmi port
