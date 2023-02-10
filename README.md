@@ -45,12 +45,14 @@ Shoes have been constructed from rubber stoppers from the hardware store (drill 
 Power Distrobution Board
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 The power distrobution board for the 14 motors is a necessity. For this, purchase a header set and a small piece of protoboard (~5 inches). The protoboard can be easily cut with a box cutter. Score one side and snap against a hard, clean edged surface. solder the positive, negative, and signal traces like so:
+""
 
 + + + + + + + + + + + + + + +  ← positive lead from power converter 
 - - - - - - - - - - - - - - -  ← negative lead from power converter
 s1 s2 s3 s4 s5 s6 ...... s14   ← signal wire IN from motor
 s1 s2 s3 s4 s5 s6 ...... s14   ← signal wire OUT to Pi
 
+""
 Solder all positive pins together. Solder all negative pins together. Solder the pairs of signal pins together.
 This way the 3 pin connector for each leg can be bundled together and a motor easily removed if need. You may want to creates some extra slots if you plan on connecting more motors or other 5V equipment. See pictures.
 
