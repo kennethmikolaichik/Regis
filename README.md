@@ -47,8 +47,8 @@ The power distribution board for the 14 motors is a necessity. For this, purchas
 
 https://github.com/kennethmikolaichik/Regis/blob/Branch-1/Wiring%20Diagrams/Power%20Distribution%20Board.jpg
 
-\"+ + + + + + + + + +"  ← positive lead from power converter\
-\"- - - - - - - - - - - - - - -"  ← negative lead from power converter\
+\"- - - - - - - - - - - - - - -"•  ← negative lead from power converter\
+\" + + + + + + + + + +"•  ← positive lead from power converter\
 s1 s2 s3 s4 s5 s6 ...... s14   ← signal wire IN from motor  
 s1 s2 s3 s4 s5 s6 ...... s14   ← signal wire OUT to Pi
 
