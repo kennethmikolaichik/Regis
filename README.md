@@ -45,6 +45,7 @@ Shoes have been constructed from rubber stoppers from the hardware store (drill 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 The power distribution board for the 14 motors is a necessity. For this, purchase a header set and a small piece of protoboard (~5 inches). The protoboard can be easily cut with a box cutter. Score one side and snap against a hard, clean edged surface. solder the positive, negative, and signal traces like so:
 
+https://github.com/kennethmikolaichik/Regis/blob/Branch-1/Wiring%20Diagrams/Power%20Distribution%20Board.jpg
 
 \"+ + + + + + + + + + + + + + +"  ← positive lead from power converter\
 \"- - - - - - - - - - - - - - -"  ← negative lead from power converter\
