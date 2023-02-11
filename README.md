@@ -49,7 +49,7 @@ https://github.com/kennethmikolaichik/Regis/blob/Branch-1/Wiring%20Diagrams/Powe
 
 \"+ + + + + + + + + + + + + + +"  ← positive lead from power converter\
 \"- - - - - - - - - - - - - - -"  ← negative lead from power converter\
-s1 s2 s3 s4 s5 s6 ...... s14   ← signal wire IN from motor
+s1 s2 s3 s4 s5 s6 ...... s14   ← signal wire IN from motor  
 s1 s2 s3 s4 s5 s6 ...... s14   ← signal wire OUT to Pi
 
 
