@@ -1,8 +1,13 @@
 README
-2/10/2023
+Working on: (2/19/2023)
+• Finding a suitable hardware simulation environment.
+• Finding the stop points for each leg in the software.
+• Programing a simple stand up and wave function.
+• Enabling real time face tracking, get tensorflow to control pan/tilt motors.
 
 # Regis Quadroupled Robot
 
+To get started with Regis Download the Pi Image here:
 
 This project started out as a desire to bring to life a teachable basic droid.
 I could see that the technology existed, but there seemed to only be a few entities making any real progress. This work is largely the coupling together of several other open source projects. I have brought together an easily buildable and affordable set of hardware in hopes that this project might be used for research into AI. I believe that the decentralization of AI and its distribution to the public is an important step in an agreeable future.
@@ -19,7 +24,7 @@ Computer: Raspberry pi 4B 2GB Ram
 
 Camera: Raspberry Pi Cam Version 2.1
 
-Fan: 50 x 50 x 10mm
+Fan: 50 x 50 x 10mm (5V)
 
 Hard Drive: Kingston SSD KC600 2.5" and mSATA SSD
 

@@ -1,0 +1,16 @@
+
+MG90S
+180° of travel
++90°
+-90°
+
+Weight: 0.49 oz (14.0 g)
+
+Dimensions:
+Length:0.91 in (23.1 mm)
+Width: 0.48 in (12.2 mm)
+Height: 1.14 in (29.0 mm)
+
+PWM transmission frequency: 50Hz
+
+Stall torque: 1.8 kgf·cm @ (4.8V ), 2.2 kgf·cm @ (6 V)
