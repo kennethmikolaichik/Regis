@@ -1,7 +1,18 @@
 README
-2/10/2023
+
+Working on: (2/19/2023)
+
+• Finding a suitable hardware simulation environment.
+
+• Finding the stop points for each leg in the software.
+
+• Programing a simple stand up and wave function.
+
+• Enabling real time face tracking, get tensorflow to control pan/tilt motors.
 
 # Regis Quadroupled Robot
+
+To get started with Regis Download the Pi Image here:
 
 #### Working on: (2/10/2023)
 • **Finding a suitable hardware simulation environment.**
@@ -15,7 +26,7 @@ README
 This project started out as a desire to bring to life a teachable basic droid.
 I could see that the technology existed, but there seemed to only be a few entities making any real progress. This work is largely the coupling together of several other open source projects. I have brought together an easily buildable and affordable set of hardware in hopes that this project might be used for research into AI. I believe that the decentralization of AI and its distribution to the public is an important step in an agreeable future.
 
-Regis is a basic chassis, power source, and two axis camera head designed loosely around a spider (although 4 legged).
+Regis is a basic mobile quadrupedal chassis, power source, and two axis camera head designed loosely around a spider (although 4 legged).
 He sports three degrees of freedom in his legs, and the motors easily support his light weight. Although battery life is limited due to the power requirements of the Raspberry Pi and SSD, he can easily run plugged in on a table top due to his small size.
 
 Please share any and all mods and improvements! Long live Regis!
@@ -27,7 +38,7 @@ Computer: Raspberry pi 4B 2GB Ram
 
 Camera: Raspberry Pi Cam Version 2.1
 
-Fan: 50 x 50 x 10mm
+Fan: 50 x 50 x 10mm (5V)
 
 Hard Drive: Kingston mSATA SSD
 
@@ -53,10 +64,11 @@ Shoes have been constructed from rubber stoppers from the hardware store (drill 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 The power distribution board for the 14 motors is a necessity. For this, purchase a header set and a small piece of protoboard (~5 inches). The protoboard can be easily cut with a box cutter. Score one side and snap against a hard, clean edged surface. solder the positive, negative, and signal traces like so:
 
+https://github.com/kennethmikolaichik/Regis/blob/Branch-1/Wiring%20Diagrams/Power%20Distribution%20Board.jpg
 
-\"+ + + + + + + + + + + + + + +"  ← positive lead from power converter\
-\"- - - - - - - - - - - - - - -"  ← negative lead from power converter\
-s1 s2 s3 s4 s5 s6 ...... s14   ← signal wire IN from motor
+\"- - - - - - - - - - - - - - -"•  ← negative lead from power converter\
+\" + + + + + + + + + +"•  ← positive lead from power converter\
+s1 s2 s3 s4 s5 s6 ...... s14   ← signal wire IN from motor  
 s1 s2 s3 s4 s5 s6 ...... s14   ← signal wire OUT to Pi
 
 
