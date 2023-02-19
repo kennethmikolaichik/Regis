@@ -1,26 +1,19 @@
+
 README
 
-Working on: (2/19/2023)
+#### Working on: (2/19/2023)
 
-• Finding a suitable hardware simulation environment.
+• **Finding a suitable hardware simulation environment.
 
-• Finding the stop points for each leg in the software.
+• **Finding the stop points for each leg in the software.
 
-• Programing a simple stand up and wave function.
+• **Programing a simple stand up and wave function.
 
-• Enabling real time face tracking, get tensorflow to control pan/tilt motors.
+• **Enabling real time face tracking, get tensorflow to control pan/tilt motors.
 
 # Regis Quadroupled Robot
 
-To get started with Regis Download the Pi Image here:
-
-#### Working on: (2/10/2023)
-• **Finding a suitable hardware simulation environment.**
-• **Setting up remote access and appointment system**  
-• **Getting the code to turn on the motors.** 
-• **Finding the stop points for each leg in the software.**
-• **Programing a simple stand up and wave function.**
-• **Enabling real time face tracking, get tensorflow to control pan/tilt motors.**
+To get started with Regis Download the Pi Image here:  ##insert link##
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 This project started out as a desire to bring to life a teachable basic droid.
