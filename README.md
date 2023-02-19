@@ -3,13 +3,13 @@ README
 
 #### Working on: (2/19/2023)
 
-• **Finding a suitable hardware simulation environment.
+• **Finding a suitable hardware simulation environment.**
 
-• **Finding the stop points for each leg in the software.
+• **Finding the stop points for each leg in the software.**
 
-• **Programing a simple stand up and wave function.
+• **Programing a simple stand up and wave function.**
 
-• **Enabling real time face tracking, get tensorflow to control pan/tilt motors.
+• **Enabling real time face tracking, get tensorflow to control pan/tilt motors.**
 
 # Regis Quadroupled Robot
 
