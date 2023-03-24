@@ -1,9 +1,7 @@
 
 README
 
-#### Working on: (2/19/2023)
-
-• **Finding a suitable hardware simulation environment.**
+#### Working on: (3/24/2023)
 
 • **Finding the stop points for each leg in the software.**
 
@@ -11,7 +9,7 @@ README
 
 • **Enabling real time face tracking, get tensorflow to control pan/tilt motors.**
 
-# Regis Quadroupled Robot
+# Regis Quadruped Robot
 
 To get started with Regis Download the Pi Image here:  ##insert link##
 
@@ -20,9 +18,9 @@ This project started out as a desire to bring to life a teachable basic droid.
 I could see that the technology existed, but there seemed to only be a few entities making any real progress. This work is largely the coupling together of several other open source projects. I have brought together an easily buildable and affordable set of hardware in hopes that this project might be used for research into AI. I believe that the decentralization of AI and its distribution to the public is an important step in an agreeable future.
 
 Regis is a basic mobile quadrupedal chassis, power source, and two axis camera head designed loosely around a spider (although 4 legged).
-He sports three degrees of freedom in his legs, and the motors easily support his light weight. Although battery life is limited due to the power requirements of the Raspberry Pi and SSD, he can easily run plugged in on a table top due to his small size.
+He sports three axes in his legs, and the motors easily support his light weight. Although battery life is limited due to the power requirements of the Raspberry Pi and SSD, he can easily run plugged in on a table top due to his small size.
 
-Please share any and all mods and improvements! Long live Regis!
+Long live Regis!
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 ## Technical Specifications
