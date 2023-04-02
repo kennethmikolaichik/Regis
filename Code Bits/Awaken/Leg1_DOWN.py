@@ -13,6 +13,6 @@ pi.set_servo_pulsewidth(5, 1150)
 pi.set_servo_pulsewidth(6, 2050)
 pi.set_servo_pulsewidth(7, 1450)
 
-print("completed sucessfully")
+print("Leg1_DOWN - completed sucessfully")
 quit()
 

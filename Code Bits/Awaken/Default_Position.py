@@ -26,3 +26,6 @@ def move_servos(positions):
 # Move all servos to 0 degrees
 #move_servos([850 for pin in servos])
 #time.sleep(1)
+
+print("Default Position - completed sucessfully")
+quit()
