@@ -1,9 +1,4 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Tue Apr  4 17:03:45 2023
-
-@author: kenne
-"""
+"""Leg1_Tarsus_Test.py"""
 
 
 import pigpio
@@ -27,8 +22,8 @@ LGT_min = 1150
 LGF_max = 2050
 LGF_min = 500
 #Coxa
-LGC_min = 1500 #do not know value
-LGC_max = 1500 #do not know value
+LGC_min = 1200 #do not know value
+LGC_max = 2200 #do not know value
 
 #- - - - - - - - - - - -#
 C_position = 1500
