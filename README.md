@@ -3,7 +3,7 @@ README
 
 #### Working on: (3/24/2023)
 
-• **Finding the stop points for each leg in the software.**
+• **Building reverse kinematic model and program for defining walking parameters.**
 
 • **Programing a simple stand up and wave function.**
 
