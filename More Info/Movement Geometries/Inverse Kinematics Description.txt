@@ -1,0 +1,15 @@
+Inverse kinematics is the technique used to determine the joint angles of a robot's limbs, given its end-effector position and orientation. This technique is useful for controlling mobile robots, and particularly suited for quadrupedal robots.
+
+The inverse kinematics solver for Raspberry Pi quadrupedal robot legs can be implemented in Python or C++. Here are the steps involved in creating an inverse kinematics solver:
+
+Define the robot's kinematic structure: Quadrupedal robots have four legs, each with three joints - the hip, knee, and ankle. The joints can be modeled as revolute joints, allowing for rotation along a single axis.
+
+Create a forward kinematics function: This function computes the position and orientation of the end-effector for a given set of joint angles.
+
+Define the inverse kinematics equations: These equations relate the joint angles to the end-effector's position and orientation. Depending on the robot's kinematic structure, the equations can be solved analytically or numerically.
+
+Implement the solver: The solver takes the desired end-effector position and orientation as inputs and computes the required joint angles using the inverse kinematics equations.
+
+Validate the solver: The solver can be tested by verifying that the computed joint angles result in the desired end-effector position and orientation.
+
+In summary, implementing an inverse kinematics solver for a Raspberry Pi quadrupedal robot involves defining the robot's kinematic structure, creating a forward kinematics function, defining the inverse kinematics equations, implementing the solver, and validating its performance.
