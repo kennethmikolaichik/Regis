@@ -22,8 +22,8 @@ LGT_min = 1150
 LGF_max = 2050
 LGF_min = 500
 #Coxa
-LGC_min = 1200 #do not know value
-LGC_max = 2200 #do not know value
+LGC_min = 1200
+LGC_max = 2200
 
 #- - - - - - - - - - - -#
 C_position = 1500

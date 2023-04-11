@@ -30,7 +30,6 @@ ALL_SERVOS = [4, 5, 6, 7, 12, 13, 16, 20, 21, 22, 23, 24, 25, 27]
 # Initialize the servos
 for pin in ALL_SERVOS:
     pi.set_mode(pin, pigpio.OUTPUT)    
-    pi.set_PWM_frequency(pin, DEFAULT_FREQ)
 
 #- - Define Servo Sets - -#
 Coxa = [7, 12, 23, 16]
@@ -79,6 +78,10 @@ time.sleep(.3)
 
 # Raise Femurs
 move_femur([F_max for motor in Femur])
+time.sleep(.3)
+
+# Spread Coxa
+move_coxa([(C_max/2) for motor in Coxa])
 time.sleep(.3)
 
 # Lower Tarsus
