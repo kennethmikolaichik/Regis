@@ -1,17 +1,19 @@
 
 README
 
-#### Working on: (3/24/2023)
-
-• **Finding the stop points for each leg in the software.**
+#### Working on: (4/9/2023)
 
 • **Programing a simple stand up and wave function.**
 
 • **Enabling real time face tracking, get tensorflow to control pan/tilt motors.**
 
+• **Finding a sutable server to host Pi Image (2.5GB+).**
+
+• **Building reverse kinematic model and program for defining walking parameters.**
+
 # Regis Quadruped Robot
 
-To get started with Regis Download the Pi Image here:  ##insert link##
+Download the Pi Image here:  ##insert link##
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 This project started out as a desire to bring to life a teachable basic droid.
