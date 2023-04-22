@@ -8,18 +8,19 @@ Created on Thu Apr  6 22:49:41 2023
 import pigpio
 import time
 
-# Initialize pigpio library and connect to the local Pi
+# Initialize pigpio library
 pi = pigpio.pi()
 
 # Set the default PWM frequency for all the servos to 50Hz
 DEFAULT_FREQ = 50
+
 #- - Define Leg Parameters - -#
 #Tarsus
 T_max = 2450
 T_min = 1150
 #Femur
-F_max = 2050
-F_min = 500
+F_max = 1950
+F_min = 600
 #Coxa
 C_min = 1200
 C_max = 2200
@@ -30,7 +31,8 @@ ALL_SERVOS = [4, 5, 6, 7, 12, 13, 16, 20, 21, 22, 23, 24, 25, 27]
 # Initialize the servos
 for pin in ALL_SERVOS:
     pi.set_mode(pin, pigpio.OUTPUT)    
-
+    pi.set_PWM_frequency(pin, DEFAULT_FREQ)
+    
 #- - Define Servo Sets - -#
 Coxa = [7, 12, 23, 16]
 Femur = [6, 25, 4, 21]
@@ -73,23 +75,29 @@ def move_femur(positions):
         pi.set_servo_pulsewidth(motor, pos)
 
 # Raise Tarsus
-move_tarsus([T_max for motor in Tarsus])
+pi.set_servo_pulsewidth(5, T_max) #Leg1
+pi.set_servo_pulsewidth(24, T_min) #Leg2
+pi.set_servo_pulsewidth(27, T_min) #Leg3
+pi.set_servo_pulsewidth(20, T_max) #Leg4
 time.sleep(.3)
 
 # Raise Femurs
-move_femur([F_max for motor in Femur])
+pi.set_servo_pulsewidth(6, F_max) #Leg1
+pi.set_servo_pulsewidth(25, F_min) #Leg2
+pi.set_servo_pulsewidth(4, F_min) #Leg3
+pi.set_servo_pulsewidth(21, F_max) #Leg4
 time.sleep(.3)
 
 # Spread Coxa
-move_coxa([(C_max/2) for motor in Coxa])
-time.sleep(.3)
+#move_coxa([(C_max/2) for motor in Coxa])
+#time.sleep(.3)
 
 # Lower Tarsus
-move_tarsus([T_min for motor in Tarsus])
-time.sleep(.3)
+#move_tarsus([T_min for motor in Tarsus])
+#time.sleep(.3)
 
 # Femur to middle
-move_femur([1500 for motor in Femur])
+#move_femur([1500 for motor in Femur])
 
 print("Stand From Rest - completed sucessfully")
 quit()
