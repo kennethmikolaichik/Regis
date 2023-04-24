@@ -113,36 +113,4 @@ while F_Angle <= F_max:
     if F_Angle >= F_max:
         break
 
-#Tarsus Up
-while T_Angle <= T_max:
-    
-    T_Angle = T_Angle + 0.5
-    Inverted_Angle = -1 * T_Angle
-    S_Signal = ((1000 * T_Angle) / 90) + 1500
-    N_Signal = ((1000 * Inverted_Angle) / 90) + 1500
-    pi.set_servo_pulsewidth(5, N_Signal) #Leg1
-    pi.set_servo_pulsewidth(24, S_Signal) #Leg2
-    pi.set_servo_pulsewidth(27, S_Signal) #Leg3
-    pi.set_servo_pulsewidth(20, N_Signal) #Leg4
-    print(f"ServoSignal:{S_Signal:.1f}, Angle:{T_Angle:.1f}° ", end="\r")
-    time.sleep(.05)
-    if T_Angle >= T_max:
-        break
-    
-#Femurs to Center
-while F_Angle >= 0:
-    
-    F_Angle = F_Angle - 0.5
-    Inverted_Angle = -1 * F_Angle
-    S_Signal = ((1000 * F_Angle) / 90) + 1500
-    N_Signal = ((1000 * Inverted_Angle) / 90) + 1500
-    pi.set_servo_pulsewidth(6, N_Signal) #Leg1
-    pi.set_servo_pulsewidth(25, S_Signal) #Leg2
-    pi.set_servo_pulsewidth(4, S_Signal) #Leg3
-    pi.set_servo_pulsewidth(21, N_Signal) #Leg4
-    print(f"ServoSignal:{S_Signal:.1f}, Angle:{F_Angle:.1f}° ", end="\r")
-    time.sleep(.05)
-    if F_Angle <= 0:
-        break
-    
     
