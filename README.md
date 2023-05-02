@@ -1,9 +1,9 @@
 
 README
 
-#### Working on: (4/9/2023)
+#### Working on: (5/2/2023)
 
-• **Programing a simple stand up and wave function.**
+• **Programing a simple stand up function.**
 
 • **Enabling real time face tracking, get tensorflow to control pan/tilt motors.**
 
@@ -20,7 +20,7 @@ This project started out as a desire to bring to life a teachable basic droid.
 I could see that the technology existed, but there seemed to only be a few entities making any real progress. This work is largely the coupling together of several other open source projects. I have brought together an easily buildable and affordable set of hardware in hopes that this project might be used for research into AI. I believe that the decentralization of AI and its distribution to the public is an important step in an agreeable future.
 
 Regis is a basic mobile quadrupedal chassis, power source, and two axis camera head designed loosely around a spider (although 4 legged).
-He sports three axes in his legs, and the motors easily support his light weight. Although battery life is limited due to the power requirements of the Raspberry Pi and SSD, he can easily run plugged in on a table top due to his small size.
+He sports three degrees of freedom in his legs, and the motors easily support his light weight. Although battery life is limited due to the power requirements of the Raspberry Pi and SSD, he can easily run plugged in on a table top due to his small size.
 
 Long live Regis!
 
@@ -75,7 +75,7 @@ The legs for this project are assembled with the screws that come with the MG90 
 
 *NOTE: This is a prototype and will be constantly changing which is why I have opted for impermanent fastening of nonstructural components.
 
-For all wiring: SEE DIAGRAMS - You will need to 1) Plug the battery into the power converter. 2) Wire the power distribution board to the power converter. 3) Route and plug in all motors to power distribution board. 4) Connect all signal wires to their proper Raspberry Pi GPUIO pin. 5) Connect the fan to the power converter output (this way it will always be on when the battery is on) 6) plug in the SSD/mSATA to USB adapter.
+For all wiring: SEE DIAGRAMS - You will need to 1) Plug the battery into the power converter. 2) Wire the power distribution board to the power converter. 3) Route and plug in all motors to power distribution board. 4) Connect all signal wires to their proper Raspberry Pi GPIO pin. 5) Connect the fan to the power converter output (this way it will always be on when the battery is on) 6) plug in the SSD/mSATA to USB adapter and then into pi. The camera requires a ribbon cable.
 
 And that’s it!
 
@@ -86,3 +86,15 @@ For advanced users you may want to set up SSH to dial into your spider.
 Otherwise connect to the micro hdmi port.
 Connect a mouse and keyboard to the Raspberry Pi USB ports.
 Currently running the official raspberry pi GUI.
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+## Using Your Spider
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+Now that your very own 'Regis' robot is up and running. Download all file in >Code Bits to your robots local directory.
+sudo apt update / upgrade everything. Make sure you have Python 3 installed as some of the camera software will not work correctly with Python 2 and below.
+The files in the directory 'Awaken' Can be run to control the legs and head. Try out <~$ Python3 Leg1_UP.py>, the robot should lift its front right leg if everything is wired correctly.
+
+### I am currently in the process of setting up leg control software so that the robot can walk and run. I am investigating different Inverse Kinematic solving libraries to this end. I am also writing programs to display all of the servo motor angles and location position of each motor in real time. 5.2.2023
+
+### I have begun the process of designing Regis V0.2, this robot will have a 10Ah battery, larger servos, and will run on Ubuntu-64x with the robot operating system(ROS) and a seperate Arduino as the motor controller.
+
