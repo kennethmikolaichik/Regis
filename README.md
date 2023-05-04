@@ -109,11 +109,15 @@ The files in the directory 'Awaken' Can be run to control the legs and head.
 
 Hit enter. This will engage the PiGPIO daemon to run in the background. This will allow the motor controler to run.
 
-3). Now try out:
+3). Move to the directory containing the motor control files, if you copied the entire directory it will be in Code Bits > Awaken:
+
+    cd Awaken
+
+ Now try out:
 
     Python3 Leg1_UP.py
 
-The robot should lift its front right leg if everything is wired correctly.
+The robot should lift its front right leg and the terminal should output "completed sucessfully"
 
 The remaining motor control files can be run in this manner through the command line.
 
