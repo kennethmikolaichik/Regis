@@ -97,9 +97,23 @@ https://abyz.me.uk/rpi/pigpio/
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 Now that your very own 'Regis' robot is up and running. Download all files in >Code Bits to your robots local directory.
 
-sudo apt update / upgrade everything.
+1). Update everything
 
-The files in the directory 'Awaken' Can be run to control the legs and head. Open the command terminal. Type <~$ sudo pigpiod> and hit enter. This will engage the PiGPIO daemon to run in the background. Now try out <~$ Python3 Leg1_UP.py>, the robot should lift its front right leg if everything is wired correctly.
+    sudo apt -get update
+
+The files in the directory 'Awaken' Can be run to control the legs and head. 
+
+2). Open the command terminal. Type: 
+
+    sudo pigpiod
+
+Hit enter. This will engage the PiGPIO daemon to run in the background. This will allow the motor controler to run.
+
+3). Now try out:
+
+    Python3 Leg1_UP.py
+
+The robot should lift its front right leg if everything is wired correctly.
 
 The remaining motor control files can be run in this manner through the command line.
 
