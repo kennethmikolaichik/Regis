@@ -70,10 +70,10 @@ Correction_Array = np.array([[1],
 # of the leg motors in order to reach the desired position
 # Angle data will be sent through the angle to PWM converter
 # Then the PWM signal will be applied to the Leg Array
-Servo_Array = np.array([[Leg1],
-                        [Leg2],
-                        [Leg3],
-                        [Leg4]])
+Servo_Array = np.array([[7, 6, 5],
+                        [12, 25, 24],
+                        [23, 4, 27],
+                        [16, 21, 20]])
 
 #- - Positional Data - -#
 Bx = float()
