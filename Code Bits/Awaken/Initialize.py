@@ -257,7 +257,8 @@ for i in range(3): #scans rows from top to bottom
             # - Update servo signal - #
             Angle = A[0,i]
             PWM_Signal = ((1000 * Angle) / 90) + 1500
-            pi.set_servo_pulsewidth(Servo_Array[0,i], PWM_Signal)
+            Pin = Servo_Array[0,i]
+            pi.set_servo_pulsewidth(Pin, PWM_Signal)
             time.sleep(Speed)
     #For row 1, while greater than desired angle
     while A[0,i] > B[0,i]:
@@ -268,7 +269,8 @@ for i in range(3): #scans rows from top to bottom
             # - Update servo signal - #
             Angle = A[0,i]
             PWM_Signal = ((1000 * Angle) / 90) + 1500
-            pi.set_servo_pulsewidth(Servo_Array[0,i], PWM_Signal)
+            Pin = Servo_Array[0,i]
+            pi.set_servo_pulsewidth(Pin, PWM_Signal)
             time.sleep(Speed)
 
 #Element [1,i] - - - - - - - - - - - - - - - - - - - - -  
@@ -281,7 +283,8 @@ for i in range(3): #scans rows from top to bottom
             # - Update servo signal - #
             Angle = A[1,i]
             PWM_Signal = ((1000 * Angle) / 90) + 1500
-            pi.set_servo_pulsewidth(Servo_Array[1,i], PWM_Signal)
+            Pin = Servo_Array[1,i]
+            pi.set_servo_pulsewidth(Pin, PWM_Signal)
             time.sleep(Speed)
      #For row 2, while greater than desired angle        
     while A[1,i] > B[1,i]:
@@ -292,7 +295,8 @@ for i in range(3): #scans rows from top to bottom
             # - Update servo signal - #
             Angle = A[1,i]
             PWM_Signal = ((1000 * Angle) / 90) + 1500
-            pi.set_servo_pulsewidth(Servo_Array[1,i], PWM_Signal)
+            Pin = Servo_Array[1,i]
+            pi.set_servo_pulsewidth(Pin, PWM_Signal)
             time.sleep(Speed)
 
 #Element [2,i] - - - - - - - - - - - - - - - - - - - - -          
@@ -305,7 +309,8 @@ for i in range(3): #scans rows from top to bottom
             # - Update servo signal - #
             Angle = A[2,i]
             PWM_Signal = ((1000 * Angle) / 90) + 1500
-            pi.set_servo_pulsewidth(Servo_Array[2,i], PWM_Signal)
+            Pin = Servo_Array[2,i]
+            pi.set_servo_pulsewidth(Pin, PWM_Signal)
             time.sleep(Speed)
     #For row 3, while greater than desired angle            
     while A[2,i] > B[2,i]:
@@ -316,7 +321,8 @@ for i in range(3): #scans rows from top to bottom
             # - Update servo signal - #
             Angle = A[2,i]
             PWM_Signal = ((1000 * Angle) / 90) + 1500
-            pi.set_servo_pulsewidth(Servo_Array[2,i], PWM_Signal)
+            Pin = Servo_Array[2,i]
+            pi.set_servo_pulsewidth(Pin, PWM_Signal)
             time.sleep(Speed)
 
 #Element [3,i] - - - - - - - - - - - - - - - - - - - - -        
@@ -329,7 +335,8 @@ for i in range(3): #scans rows from top to bottom
             # - Update servo signal - #
             Angle = A[3,i]
             PWM_Signal = ((1000 * Angle) / 90) + 1500
-            pi.set_servo_pulsewidth(Servo_Array[3,i], PWM_Signal)
+            Pin = Servo_Array[3,i]
+            pi.set_servo_pulsewidth(Pin, PWM_Signal)
             time.sleep(Speed)
     #For row 4, while greater than desired angle 
     while A[3,i] > B[3,i]:
@@ -340,7 +347,8 @@ for i in range(3): #scans rows from top to bottom
             # - Update servo signal - #
             Angle = A[3,i]
             PWM_Signal = ((1000 * Angle) / 90) + 1500
-            pi.set_servo_pulsewidth(Servo_Array[3,i], PWM_Signal)
+            Pin = Servo_Array[3,i]
+            pi.set_servo_pulsewidth(Pin, PWM_Signal)
             time.sleep(Speed)
 
         
