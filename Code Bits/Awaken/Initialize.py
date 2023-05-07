@@ -56,8 +56,8 @@ Tilt = [13]
 Head = [22, 13]
 
 #- - Signal Correction Matrix - -#
-Correction_Array = np.array([[1],
-                             [-1],
+Correction_Array = np.array([[-1],
+                             [1],
                              [1],
                              [-1]])
 
