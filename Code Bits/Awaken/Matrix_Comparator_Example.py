@@ -35,15 +35,26 @@ D = B+E
 
 # Combes through columns of 'A' and adds 1 until Column 'A' = Column 'E'
 # Where i is the number of Rows of 'A'
+#A = Initial Array
+#B = Target Array
+
 for i in range(3):
-    while A[0,i] < E[0,i]:
+    while A[0,i] < B[0,i]:
         A[0,i] +=1
-    while A[1,i] < E[1,i]:
+    while A[0,i] > B[0,i]:
+        A[0,i] -=1
+    while A[1,i] < B[1,i]:
         A[1,i] +=1
-    while A[2,i] < E[2,i]:
+    while A[1,i] > B[1,i]:
+        A[1,i] -=1
+    while A[2,i] < B[2,i]:
         A[2,i] +=1
-    while A[3,i] < E[3,i]:
+    while A[2,i] > B[2,i]:
+        A[2,i] -=1
+    while A[3,i] < B[3,i]:
         A[3,i] +=1
+    while A[3,i] > B[3,i]:
+        A[3,i] -=1
 print(A)
 
 
