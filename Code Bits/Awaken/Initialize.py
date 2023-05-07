@@ -6,7 +6,7 @@ import numpy as np
 import pigpio
 
 # - - Behavior Modifiers - - #
-Speed = 0.05
+Speed = 0.01
 # This is how fast the robot moves, Zero is fastest
 # it is the number of seconds to wait per each 0.1 degrees of movement
 # Between 0 and 1 is usually reasonable
