@@ -241,148 +241,145 @@ Position = Body_Frame = [0, 0, 0]
 
 #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
 #TEST DATA - DELETE!!!!
-Tda1 = 40
-Tda2 = 40
-Tda3 = 40
-Tda4 = 40
+Cda1 = 10
+Cda2 = 30
+Cda3 = 30
+Cda4 = 10
+Fda1 = 8
+Fda2 = -8
+Fda3 = -8
+Fda4 = 8
+Tda1 = -40
+Tda2 = -40
+Tda3 = -40
+Tda4 = -40
 Desired_Angle_Array = np.array([[Cda1, Fda1, Tda1],
                                 [Cda2, Fda2, Tda2],
                                 [Cda3, Fda3, Tda3],
                                 [Cda4, Fda4, Tda4]])
 
+
+
+
 #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
 #- - Speed Controller & Matrix Update Program - -#
 #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
-#
-# Combes through columns of 'A' from top to bottom and adds or subtracts 0.1,
-# until Column 'A' = Column 'B' and matrix 'A' == 'B'
-# Where i is the number of Rows of 'A'
 # Correction_Array corrects for mirrored Leg hardware
-A = Angle_Array * Correction_Array
-B = Desired_Angle_Array * Correction_Array
+A = Angle_Array
+B = Desired_Angle_Array
 C = Adjust_Array
-MIN = Min_Angle_Array * Correction_Array
-MAX = Max_Angle_Array * Correction_Array
+MIN = Min_Angle_Array
+MAX = Max_Angle_Array
 
-for i in range(3): #scans rows from top to bottom
+# Limiting Program: keeps motors from attempting to move past physical stops
+# Replaces improper value with limit value
+for i in range(3):
+    if B[0,i] >= MAX[0,i]:
+        B[0,i] = MAX[0,i]
+    if B[0,i] <= MIN[0,i]:
+        B[0,i] = MIN[0,i]
+    if B[1,i] >= MAX[1,i]:
+        B[1,i] = MAX[1,i]
+    if B[1,i] <= MIN[1,i]:
+        B[1,i] = MIN[1,i]
+    if B[2,i] >= MAX[2,i]:
+        B[2,i] = MAX[2,i]
+    if B[2,i] <= MIN[2,i]:
+        B[2,i] = MIN[2,i]
+    if B[3,i] >= MAX[3,i]:
+        B[3,i] = MAX[3,i]
+    if B[3,i] <= MIN[3,i]:
+        B[3,i] = MIN[3,i]
 
-#Element [0,i] - - - - - - - - - - - - - - - - - - - - -  
-    #For row 1, while less than desired angle
-    while A[0,i] < B[0,i]:
-        if A[0,i] > MAX[0,i]:
-            break
-        else:
-            A[0,i] +=0.1 #increase angle towards desired angle
-            # - Update servo signal - #
-            Angle = A[0,i]
-            PWM_Signal = ((1000 * Angle) / 90) + 1500
-            Pin = Servo_Array[0,i]
-            pi.set_servo_pulsewidth(Pin, PWM_Signal)
-            time.sleep(Speed)
-    #For row 1, while greater than desired angle
-    while A[0,i] > B[0,i]:
-        if A[0,i] >= MIN[0,i]:
-            break
-        else:
-            A[0,i] -=0.1 #dencrease angle towards desired angle
-            # - Update servo signal - #
-            Angle = A[0,i]
-            PWM_Signal = ((1000 * Angle) / 90) + 1500
-            Pin = Servo_Array[0,i]
-            pi.set_servo_pulsewidth(Pin, PWM_Signal)
-            time.sleep(Speed)
+# Combes through columns of 'A' from top to bottom determines if difference,
+# Creates Matrix 'C' which adds or subtracts 0.1 until matrix 'A' == 'B'
+# Where i is the number of Rows of 'A'
+while np.allclose(A, B, rtol=0.001, atol=0.001) == False:
+    for i in range(3): #scans rows from top to bottom
+    
+    #Element [0,i] - - - - - - - - - - - - - - - - - - - - -  
+        #For row 1, while less than desired angle
+        if A[0,i] < B[0,i]:
+            C[0,i] +=0.1 #increase angle towards desired angle
+        #For row 1, while greater than desired angle
+        if A[0,i] > B[0,i]:
+            C[0,i] -=0.1 #dencrease angle towards desired angle   
 
-#Element [1,i] - - - - - - - - - - - - - - - - - - - - -  
-    #For row 2, while less than desired angle
-    while A[1,i] < B[1,i]:
-        if A[1,i] >= MAX[1,i]:
-            break
-        else:
-            A[1,i] +=0.1 #increase angle towards desired angle
-            # - Update servo signal - #
-            Angle = A[1,i]
-            PWM_Signal = ((1000 * Angle) / 90) + 1500
-            Pin = Servo_Array[1,i]
-            pi.set_servo_pulsewidth(Pin, PWM_Signal)
-            time.sleep(Speed)
-     #For row 2, while greater than desired angle        
-    while A[1,i] > B[1,i]:
-        if A[1,i] >= MIN[1,i]:
-            break
-        else:
-            A[1,i] -=0.1 #dencrease angle towards desired angle
-            # - Update servo signal - #
-            Angle = A[1,i]
-            PWM_Signal = ((1000 * Angle) / 90) + 1500
-            Pin = Servo_Array[1,i]
-            pi.set_servo_pulsewidth(Pin, PWM_Signal)
-            time.sleep(Speed)
+            
+    #Element [1,i] - - - - - - - - - - - - - - - - - - - - -  
+        #For row 2, while less than desired angle
+        if A[1,i] < B[1,i]:
+            C[1,i] +=0.1 #increase angle towards desired angle        
+         #For row 2, while greater than desired angle        
+        if A[1,i] > B[1,i]:
+            C[1,i] -=0.1 #dencrease angle towards desired angle   
 
-#Element [2,i] - - - - - - - - - - - - - - - - - - - - -          
-    #For row 3, while less than desired angle            
-    while A[2,i] < B[2,i]:
-        if A[2,i] >= MAX[2,i]:
-            break
-        else:
-            A[2,i] +=0.1 #increase angle towards desired angle
-            # - Update servo signal - #
-            Angle = A[2,i]
-            PWM_Signal = ((1000 * Angle) / 90) + 1500
-            Pin = Servo_Array[2,i]
-            pi.set_servo_pulsewidth(Pin, PWM_Signal)
-            time.sleep(Speed)
-    #For row 3, while greater than desired angle            
-    while A[2,i] > B[2,i]:
-        if A[2,i] >= MIN[2,i]:
-            break
-        else:
-            A[2,i] -=0.1 #dencrease angle towards desired angle
-            # - Update servo signal - #
-            Angle = A[2,i]
-            PWM_Signal = ((1000 * Angle) / 90) + 1500
-            Pin = Servo_Array[2,i]
-            pi.set_servo_pulsewidth(Pin, PWM_Signal)
-            time.sleep(Speed)
+            
+    #Element [2,i] - - - - - - - - - - - - - - - - - - - - -          
+        #For row 3, while less than desired angle            
+        if A[2,i] < B[2,i]:
+            C[2,i] +=0.1 #increase angle towards desired angle    
+        #For row 3, while greater than desired angle            
+        if A[2,i] > B[2,i]:
+            C[2,i] -=0.1 #dencrease angle towards desired angle   
 
-#Element [3,i] - - - - - - - - - - - - - - - - - - - - -        
-    #For row 4, while less than desired angle     
-    while A[3,i] < B[3,i]:
-        if A[3,i] >= MAX[3,i]:
-            break
-        else:
-            A[3,i] +=0.1 #increase angle towards desired angle
-            # - Update servo signal - #
-            Angle = A[3,i]
-            PWM_Signal = ((1000 * Angle) / 90) + 1500
-            Pin = Servo_Array[3,i]
-            pi.set_servo_pulsewidth(Pin, PWM_Signal)
-            time.sleep(Speed)
-    #For row 4, while greater than desired angle 
-    while A[3,i] > B[3,i]:
-        if A[3,i] >= MIN[3,i]:
-            break
-        else:
-            A[3,i] -=0.1 #dencrease angle towards desired angle
-            # - Update servo signal - #
-            Angle = A[3,i]
-            PWM_Signal = ((1000 * Angle) / 90) + 1500
-            Pin = Servo_Array[3,i]
-            pi.set_servo_pulsewidth(Pin, PWM_Signal)
-            time.sleep(Speed)
+            
+    #Element [3,i] - - - - - - - - - - - - - - - - - - - - -        
+        #For row 4, while less than desired angle     
+        if A[3,i] < B[3,i]:
+            C[3,i] +=0.1 #increase angle towards desired angle   
+        #For row 4, while greater than desired angle 
+        if A[3,i] > B[3,i]:
+            C[3,i] -=0.1 #dencrease angle towards desired angle    
 
-        
-print("Motor Positions:\n", B)
+            
+    A = A+C
+    A = A*Correction_Array
+    for i in range(3): #scans rows from top to bottom
+    # - Update servo signal - #
+        Angle = A[0,i]
+        PWM_Signal = ((1000 * Angle) / 90) + 1500
+        Pin = Servo_Array[0,i]
+        pi.set_servo_pulsewidth(Pin, PWM_Signal)
+        Angle = A[1,i]
+        PWM_Signal = ((1000 * Angle) / 90) + 1500
+        Pin = Servo_Array[1,i]
+        pi.set_servo_pulsewidth(Pin, PWM_Signal)
+        Angle = A[2,i]
+        PWM_Signal = ((1000 * Angle) / 90) + 1500
+        Pin = Servo_Array[2,i]
+        pi.set_servo_pulsewidth(Pin, PWM_Signal)
+        Angle = A[3,i]
+        PWM_Signal = ((1000 * Angle) / 90) + 1500
+        Pin = Servo_Array[3,i]
+        pi.set_servo_pulsewidth(Pin, PWM_Signal)
+
+    A = A*Correction_Array
+
+    time.sleep(Speed)   
+#Debugging    print(A,"Current Angles\n\n",C, "adjustment Array\n\n", B,"Desired Angles\n\n", "completed =",np.allclose(A, B, rtol=0.001, atol=0.001))    
+
+    C = np.array([[float(0.0), float(0.0), float(0.0)],
+                  [float(0.0), float(0.0), float(0.0)],
+                  [float(0.0), float(0.0), float(0.0)],
+                  [float(0.0), float(0.0), float(0.0)]])
+
+  
+    if np.allclose(A, B, rtol=0.001, atol=0.001) == True:
+        break
+print(A,"Current Angles\n\n", B,"Desired Angles\n\n", "completed =",np.allclose(A, B, rtol=0.001, atol=0.001))    
 
 
-
-
-
-
-
-
-
-
-
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
 
 
