@@ -352,7 +352,7 @@ for i in range(3): #scans rows from top to bottom
             time.sleep(Speed)
 
         
-print(B,"   ",Servo_Array)
+print("Motor Positions:\n", B)
 
 
 
