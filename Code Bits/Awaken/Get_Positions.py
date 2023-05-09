@@ -2,6 +2,7 @@
 Created on Sat May  6 19:20:34 2023
 @author: Kenneth Mikolaichik
 """
+from Initialize.py import *
 print("Positional Data:")
 print("Body_Frame =", Body_Frame)
 print("Head_Frame =", Head_Frame)

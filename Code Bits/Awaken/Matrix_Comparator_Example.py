@@ -1,9 +1,6 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Sun May  7 00:42:12 2023
-
-@author: kenne
-"""
+"""Initialize
+Created by: Kenneth Mikolaichik
+5.7.2023"""
 import time
 import numpy as np
 
