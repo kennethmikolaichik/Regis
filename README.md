@@ -9,11 +9,6 @@ README
 • **Building reverse kinematic model and program for defining walking parameters.**
 
 # Regis Quadruped Robot
-
-#number1
-![alt text](https://github.com/kennethmikolaichik/Regis/the_readme_pic/main/image.jpg?raw=true)
-
-#number2
 ![Regis Looking Cool](https://github.com/kennethmikolaichik/Regis/blob/main/Fun%20Progress%20Pics/the_readme_pic.jpg)
 
 Download the Pi Image here:  ##insert link##
@@ -60,7 +55,7 @@ Shoes have been constructed from rubber stoppers from the hardware store (drill 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 The power distribution board for the 14 motors is a necessity. For this, purchase a header set and a small piece of protoboard (~5 inches). The protoboard can be easily cut with a box cutter. Score one side and snap against a hard, clean edged surface. solder the positive, negative, and signal traces like so:
 
-https://github.com/kennethmikolaichik/Regis/blob/Branch-1/Wiring%20Diagrams/Power%20Distribution%20Board.jpg
+![PDP Pic](https://github.com/kennethmikolaichik/Regis/blob/Branch-1/Wiring%20Diagrams/Power%20Distribution%20Board.jpg)
 
 \"- - - - - - - - - - - - - - -"•  ← negative lead from power converter\
 \" + + + + + + + + + +"•  ← positive lead from power converter\
