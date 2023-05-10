@@ -4,8 +4,8 @@ README
 #### Working on: (5/2/2023)
 
 • **Programing a simple stand up function.**
-• **Enabling real time face tracking, get tensorflow to control pan/tilt motors.**
-• **Finding a sutable server to host Pi Image (2.5GB+).**
+• **Enabling real time face tracking, get TensorFlow to control pan/tilt motors.**
+• **Finding a suitable server to host Pi Image (2.5GB+).**
 • **Building reverse kinematic model and program for defining walking parameters.**
 
 # Regis Quadruped Robot
@@ -15,10 +15,10 @@ Download the Pi Image here:  ##insert link##
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 This project started out as a desire to bring to life a teachable basic droid.
-I could see that the technology existed, but there seemed to only be a few entities making any real progress. This work is largely the coupling together of several other open source projects. I have brought together an easily buildable and affordable set of hardware in hopes that this project might be used for research into AI. I believe that the decentralization of AI and its distribution to the public is an important step in an agreeable future.
+I could see that the technology existed, but there seemed to only be a few entities making any real progress. This work is largely the coupling together of several other open-source projects. I have brought together an easily buildable and affordable set of hardware in hopes that this project might be used for research into AI. I believe that the decentralization of AI and its distribution to the public is an important step in an agreeable future.
 
 Regis is a basic mobile quadrupedal chassis, power source, and two axis camera head designed loosely around a spider (although 4 legged).
-He sports three degrees of freedom in his legs, and the motors easily support his light weight. Although battery life is limited due to the power requirements of the Raspberry Pi and SSD, he can easily run plugged in on a table top due to his small size.
+He sports three degrees of freedom in his legs, and the motors easily support his light weight. Although battery life is limited due to the power requirements of the Raspberry Pi and SSD, he can easily run plugged in on a tabletop due to his small size.
 
 Long live Regis!
 
@@ -44,6 +44,8 @@ Power Converter: UCTRONICS DC 6V-24V to DC 5V 5A Buck Converter Module, 9-36V St
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 ## Chassis
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
+![Chassis Cad Model](https://github.com/kennethmikolaichik/Regis/blob/main/Fun%20Progress%20Pics/chassis_cad_pic.png)
 All structural pieces have been 3D printed using PLA filament on an Ender 3. Any G-code files will be for this setup.
 
 All CAD files have been created in FreeCAD Version 0.19 - please convert the filetype if using another program.
@@ -64,16 +66,16 @@ s1 s2 s3 s4 s5 s6 ...... s14   ← signal wire OUT to Pi
 
 
 Solder all positive pins together. Solder all negative pins together. Solder the pairs of signal pins together.
-This way the 3-pin connector for each leg can be bundled together and a motor easily removed if need. You may want to create some extra slots if you plan on connecting more motors or other 5V equipment. See pictures.
+This way the 3-pin connector for each leg can be bundled together and a motor easily removed if needed. You may want to create some extra slots if you plan on connecting more motors or other 5V equipment. See pictures.
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 ## Method of Assembly
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-The legs for this project are assembled with the screws that come with the MG90 Servos they are 2.5mm. The battery case is assembled with M8 machine screws. the raspberry pi is installed in the case and held to the upper surface of the battery/case with double sided tape. The fan is attached to the upper portion of the raspberry pi case with some oversized screws that penetrate into the honeycomb skin of the raspberry pi case. The SSD is attached with double sided tape, electrical tape is used to shield the IC's from contact with the tape and prevent stray current. Twist ties are employed throughout the robot for wire control and routing. Rubber bands have been used to 'tidy up' the wires coming from the power distribution board and signal wires. 
+The legs for this project are assembled with the screws that come with the MG90 Servos. They are 2.5mm. The battery case is assembled with M8 machine screws. The raspberry pi is installed in the case and held to the upper surface of the battery/case with double sided tape. The fan is attached to the upper portion of the raspberry pi case with some oversized screws that penetrate into the honeycomb skin of the raspberry pi case. The SSD is attached with double sided tape, electrical tape is used to shield the IC's from contact with the tape and prevent stray current. Twist ties are employed throughout the robot for wire control and routing. Rubber bands have been used to 'tidy up' the wires coming from the power distribution board and signal wires. 
 
 *NOTE: This is a prototype and will be constantly changing which is why I have opted for impermanent fastening of nonstructural components.
 
-For all wiring: SEE DIAGRAMS - You will need to 1) Plug the battery into the power converter. 2) Wire the power distribution board to the power converter. 3) Route and plug in all motors to power distribution board. 4) Connect all signal wires to their proper Raspberry Pi GPIO pin. 5) Connect the fan to the power converter output (this way it will always be on when the battery is on) 6) plug in the SSD/mSATA to USB adapter and then into pi. The camera requires a ribbon cable.
+For all wiring: SEE DIAGRAMS - You will need to 1) Plug the battery into the power converter. 2) Wire the power distribution board to the power converter. 3) Route and plug in all motors to the power distribution board. 4) Connect all signal wires to their proper Raspberry Pi GPIO pin. 5) Connect the fan to the power converter output (this way it will always be on when the battery is on) 6) plug in the SSD/mSATA to USB adapter and then into pi. The camera requires a ribbon cable.
 
 And that’s it!
 
@@ -81,7 +83,7 @@ And that’s it!
 ## Interface
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 For advanced users you may want to set up SSH to dial into your spider.
-Otherwise connect a monitor(or tv) to the micro hdmi port.
+Otherwise connect a monitor (or tv) to the micro HDMI port.
 Connect a mouse and keyboard to the Raspberry Pi USB ports.
 Currently running the official raspberry pi GUI.
 
@@ -93,7 +95,7 @@ https://abyz.me.uk/rpi/pigpio/
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 ## Using Your Spider
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-Now that your very own 'Regis' robot is up and running. Download all files in >Code Bits to your robots local directory.
+Now that your very own 'Regis' robot is up and running. Download all files in >Code Bits to your robot’s local directory.
 
 1). Update everything
 
@@ -105,9 +107,9 @@ The files in the directory 'Awaken' Can be run to control the legs and head.
 
     sudo pigpiod
 
-Hit enter. This will engage the PiGPIO daemon to run in the background. This will allow the motor controler to run.
+Hit enter. This will engage the PiGPIO daemon to run in the background. This will allow the motor controller to run.
 
-3). Move to the directory containing the motor control files, if you copied the entire directory it will be in Code Bits > Awaken:
+3). Move to the directory containing the motor control files, if you copied the entire directory, it will be in Code Bits > Awaken:
 
     cd Awaken
 
@@ -115,11 +117,11 @@ Hit enter. This will engage the PiGPIO daemon to run in the background. This wil
 
     Python3 Leg1_UP.py
 
-The robot should lift its front right leg and the terminal should output "completed sucessfully"
+The robot should lift its front right leg and the terminal should output "completed successfully"
 
 The remaining motor control files can be run in this manner through the command line.
 
 #### I am currently in the process of setting up leg control software so that the robot can walk and run. I am investigating different Inverse Kinematic solving libraries to this end. I am also writing programs to display all of the servo motor angles and location position of each motor in real time. 5.2.2023
 
-#### I have begun the process of designing Regis V0.2, this robot will have a 10Ah battery, larger servos, and will run on Ubuntu-64x with the robot operating system(ROS) and a seperate Arduino as the motor controller.
+#### I have begun the process of designing Regis V0.2, this robot will have a 10Ah battery, larger servos, and will run on Ubuntu-64x with the robot operating system(ROS) and a separate Arduino as the motor controller.
 
