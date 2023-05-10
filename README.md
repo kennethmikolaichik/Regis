@@ -11,8 +11,10 @@ README
 # Regis Quadruped Robot
 ![Regis Looking Cool](https://github.com/kennethmikolaichik/Regis/blob/main/Fun%20Progress%20Pics/the_readme_pic.jpg)
 
-Download the Pi Image here:  ##insert link##
+####Download the Pi Image here:  ##insert link##
 
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+## Inspiration and General Description
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 This project started out as a desire to bring to life a teachable basic droid.
 I could see that the technology existed, but there seemed to only be a few entities making any real progress. This work is largely the coupling together of several other open-source projects. I have brought together an easily buildable and affordable set of hardware in hopes that this project might be used for research into AI. I believe that the decentralization of AI and its distribution to the public is an important step in an agreeable future.
