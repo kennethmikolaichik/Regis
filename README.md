@@ -46,6 +46,7 @@ Power Converter: UCTRONICS DC 6V-24V to DC 5V 5A Buck Converter Module, 9-36V St
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
 ![Chassis Cad Model](https://github.com/kennethmikolaichik/Regis/blob/main/Fun%20Progress%20Pics/chassis_cad_pic.png)
+
 All structural pieces have been 3D printed using PLA filament on an Ender 3. Any G-code files will be for this setup.
 
 All CAD files have been created in FreeCAD Version 0.19 - please convert the filetype if using another program.
