@@ -5,11 +5,11 @@ import time
 import math
 import numpy as np
 import pigpio
-from klampt import IKObjective,IKSolver
+#from klampt import IKObjective,IKSolver
 #from klampt.modle import ik
 
 # - - Speed Modifier - - #
-Speed = 0.000
+Speed = 0.005
 # This is how fast the robot moves, Zero is fastest
 # it is the number of seconds to wait per each 0.1 degrees of movement
 # Between 0 and 0.05 is usually reasonable
@@ -24,7 +24,7 @@ Speed = 0.000
 # the number is converted to signal and is sent to the matrix of leg motors.
 
 
-'''
+
 #- - - - - - - - - - - - - - - - - - - - - - - - - -#
 #- - - - - - - -Servo Motor Definitions- - - - - - -#
 #- - - - - - - - - - - - - - - - - - - - - - - - - -#
@@ -39,7 +39,7 @@ servos = [4, 5, 6, 7, 12, 13, 16, 20, 21, 22, 23, 24, 25, 27]
 for pin in servos:
     pi.set_mode(pin, pigpio.OUTPUT)    
     pi.set_PWM_frequency(pin, DEFAULT_FREQ)
-'''
+
 
 #- - Define Servo Groups - -#
 Coxa = [7, 12, 23, 16] #Shoulders
@@ -55,10 +55,10 @@ Head = [22, 13] #(xy, z)
 
 #- - Signal Correction Matrix - -#
 # This matrix is necessary to correct for way the motors are mounted.
-Correction_Array = np.array([[-1],
-                             [1],
-                             [1],
-                             [-1]])
+Correction_Array = np.array([[1, -1, -1],
+                             [1, 1, 1],
+                             [-1, 1, 1],
+                             [-1, -1, -1]])
 #- - Leg Servo Matrix - -#
 # C1 F1 T1
 # C2 F2 T2
@@ -418,7 +418,7 @@ while True:
                 
         A = A+C #Adjust each element of angle Matrix 'A' by +/-0.1 of Matric 'C'
         A = A*Correction_Array #Correct for mirrored hardware setup
-        '''    
+          
         # - - - Update servo signal - - - #
         for i in range(3): #scans rows from L/R, top to bottom
             Angle = A[0,i]
@@ -437,7 +437,7 @@ while True:
             PWM_Signal = ((1000 * Angle) / 90) + 1500
             Pin = Servo_Array[3,i]
             pi.set_servo_pulsewidth(Pin, PWM_Signal)
-            '''
+            
         A = A*Correction_Array #Remove correction
     
         time.sleep(Speed) #Speed Controller
@@ -447,14 +447,19 @@ while True:
         Counter +=1
         #Comapres A to B within tolerance of 0.001
         #if equal then stop movement. 
-        if np.allclose(A, B, rtol=0.001, atol=0.001) == True:
+        if Counter >= 1500:
+            print("ERROR - Move_Time timeout")
+            time.sleep(1)
+            break
+        
+        if np.allclose(A, B, rtol=0.001, atol=0.005) == True:
             
             Counter = 0
             break
         
     Angle_Array = B
     A = Angle_Array
-    print("\n\n Servo Angles:\n",Angle_Array)    
+    print("\n Servo Angles:\n",Angle_Array)    
     
     
     #- - - - - - - - - - - - - - - - - - - - - - - - - -#
@@ -519,13 +524,6 @@ while True:
  
     # - - Positional Computations - - #      
     
-    
-    
-    
-    
-    
-    
-    
     print(f"Femur 1 reach: {F1lr:.3f}")
     print(f"Femur 1 z: {F1lh:.3f}")
     print(f"Leg1 Femur + Tarsus Angle: {Theta_1:.3f}radians")
@@ -534,7 +532,7 @@ while True:
     print(f"Leg 1 reach: {Reach_1r:.3f}")
     print(f"Leg 1 z: {Reach_1h:.3f}")
     print("\n")
-    time.sleep(8)
+    time.sleep(3)
     ###############LAST WORKING 5.9.2023
     
     
