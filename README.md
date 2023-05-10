@@ -4,14 +4,13 @@ README
 #### Working on: (5/2/2023)
 
 • **Programing a simple stand up function.**
-
 • **Enabling real time face tracking, get tensorflow to control pan/tilt motors.**
-
 • **Finding a sutable server to host Pi Image (2.5GB+).**
-
 • **Building reverse kinematic model and program for defining walking parameters.**
 
 # Regis Quadruped Robot
+
+![alt text](https://github.com/kennethmikolaichik/Regis/the_readme_pic/main/image.jpg?raw=true)
 
 Download the Pi Image here:  ##insert link##
 
