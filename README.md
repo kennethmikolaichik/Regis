@@ -33,7 +33,7 @@ Camera: Raspberry Pi Cam Version 2.1
 
 Fan: 50 x 50 x 10mm (5V)
 
-Hard Drive: Kingston mSATA SSD
+Hard Drive: Kingston mSATA SSD (recommend 128GB or greater)
 
 HD Converter: Eluteng mSATA to usb3.0 adapter
 
