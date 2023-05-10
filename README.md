@@ -14,7 +14,7 @@ README
 ![alt text](https://github.com/kennethmikolaichik/Regis/the_readme_pic/main/image.jpg?raw=true)
 
 #number2
-![alt text]https://github.com/kennethmikolaichik/Regis/blob/main/Fun%20Progress%20Pics/the_readme_pic.jpg
+![Regis Looking Cool](https://github.com/kennethmikolaichik/Regis/blob/main/Fun%20Progress%20Pics/the_readme_pic.jpg)
 
 Download the Pi Image here:  ##insert link##
 
