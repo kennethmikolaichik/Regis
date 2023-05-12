@@ -49,11 +49,12 @@ Power Converter: UCTRONICS DC 6V-24V to DC 5V 5A Buck Converter Module, 9-36V St
 
 ![Chassis Cad Model](https://github.com/kennethmikolaichik/Regis/blob/main/Fun%20Progress%20Pics/chassis_cad_pic.png)
 
-All structural pieces have been 3D printed using PLA filament on an Ender 3. Any G-code files will be for this setup.
+Use Regis > CAD FILES > Version 0.0
+All structural pieces have been 3D printed using PLA and ABS filament on an Ender 3. Any G-code files will be for this setup. Recommend high percentage to solid infill.
 
-All CAD files have been created in FreeCAD Version 0.19 - please convert the filetype if using another program.
+All working CAD files have been created in FreeCAD Version 0.19 - (.FCStd) filetype. Please convert the if using another program. Or fall in love with Freecad at https://www.freecad.org/ 
 
-Shoes have been constructed from rubber stoppers from the hardware store (drill halfway through and slide on legs).
+The robots "shoes" have been constructed from rubber stoppers from the hardware store. They are necessary for any sort of traction on smooth surfaces. Purchase 1/2 inch stoppers and drill halfway through with a 7/64" or 1//4". Clean out the hole and slide on the ends of the legs.
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 ## Power Distribution Board
@@ -88,12 +89,16 @@ And that’s it!
 For advanced users you may want to set up SSH to dial into your spider.
 Otherwise connect a monitor (or tv) to the micro HDMI port.
 Connect a mouse and keyboard to the Raspberry Pi USB ports.
-Currently running the official raspberry pi GUI.
+Currently running the official raspberry pi GUI, 32 bit for reliability reasons.
 
 A Note about Software:
 Make sure you have Python 3 installed as some of the camera software will not work correctly with Python 2 and below.
 The servo PWM timing is written with the aid of the PiGPIO library:
 https://abyz.me.uk/rpi/pigpio/
+
+As of 5.11.2023:
+Run the folowing program to control the robots movment and camera. It is the main interface I have created for controlling the robot.
+    Initialize.py
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 ## Using Your Spider
