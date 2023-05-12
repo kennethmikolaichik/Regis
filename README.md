@@ -88,7 +88,7 @@ And that’s it!
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 For advanced users you may want to set up SSH to dial into your spider.
 Otherwise connect a monitor (or tv) to the micro HDMI port.
-Connect a mouse and keyboard to the Raspberry Pi USB ports.
+Connect a mouse and keyboard to the Raspberry Pi USB ports. I highly recommend a wireless keyboard and mouse combo. I use a logitec model.
 Currently running the official raspberry pi GUI, 32 bit for reliability reasons.
 
 A Note about Software:
@@ -96,8 +96,8 @@ Make sure you have Python 3 installed as some of the camera software will not wo
 The servo PWM timing is written with the aid of the PiGPIO library:
 https://abyz.me.uk/rpi/pigpio/
 
-As of 5.11.2023:
-Run the folowing program to control the robots movment and camera. It is the main interface I have created for controlling the robot.
+Run the folowing program from the command line of your pi to control the robots movment and camera. It is the main interface I have created for controlling the robot. It is in the 'Awaken' folder.
+
     Initialize.py
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
