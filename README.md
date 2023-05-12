@@ -131,8 +131,9 @@ The remaining motor control files in this folder can be run in this manner throu
 
 Now, run the folowing program from the command line of your pi to control the robots movment and camera. It is the main interface I have created for controlling the robot:
 
-   cd Awaken
-   python3 Initialize.py
+    cd Awaken
+   
+    python3 Initialize.py
 
 
 #### I am currently in the process of setting up leg control software so that the robot can walk and run. I am investigating different Inverse Kinematic solving libraries to this end. I am also writing programs to display all of the servo motor angles and location position of each motor in real time. 5.11.2023
