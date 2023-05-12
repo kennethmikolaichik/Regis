@@ -105,13 +105,13 @@ Run the folowing program from the command line of your pi to control the robots 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 Now that your very own 'Regis' robot is up and running. Download all files in >Code Bits to your robot’s local directory.
 
-1). Update everything
+1). Update everything. Open the command terminal. Type:
 
     sudo apt -get update
 
 The files in the directory 'Awaken' Can be run to control the legs and head. 
 
-2). Open the command terminal. Type: 
+2). Now type: 
 
     sudo pigpiod
 
