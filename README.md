@@ -52,9 +52,9 @@ Power Converter: UCTRONICS DC 6V-24V to DC 5V 5A Buck Converter Module, 9-36V St
 Use Regis > CAD FILES > Version 0.0
 All structural pieces have been 3D printed using PLA and ABS filament on an Ender 3. Any G-code files will be for this setup. Recommend high percentage to solid infill.
 
-All working CAD files have been created in FreeCAD Version 0.19 - (.FCStd) filetype. Please convert the if using another program. Or fall in love with Freecad at https://www.freecad.org/ 
+All working CAD files have been created in FreeCAD Version 0.19 - (.FCStd) filetype. Please convert if using another program. Or fall in love with Freecad at https://www.freecad.org/ 
 
-The robots "shoes" have been constructed from rubber stoppers from the hardware store. They are necessary for any sort of traction on smooth surfaces. Purchase 1/2 inch stoppers and drill halfway through with a 7/64" or 1//4". Clean out the hole and slide on the ends of the legs.
+The robots "shoes" have been constructed from rubber stoppers from the hardware store. They are necessary for any sort of traction on smooth surfaces. Purchase 1/2 inch stoppers and drill halfway through with a 7/64" or 1//4" drill bit. Clean out the holes and slide on the ends of the legs.
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 ## Power Distribution Board
