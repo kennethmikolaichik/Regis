@@ -105,7 +105,7 @@ Run the folowing program from the command line of your pi to control the robots 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 Now that your very own 'Regis' robot is up and running. Download all files in >Code Bits to your robot’s local directory.
 
-1). Update everything. Open the command terminal. Type:
+1). First, update everything. Open the command terminal and type:
 
     sudo apt -get update
 
