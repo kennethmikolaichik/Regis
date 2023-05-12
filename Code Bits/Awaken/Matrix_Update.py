@@ -4,15 +4,10 @@ Created by: Kenneth Mikolaichik
 
 import time
 import numpy as np
-import pigpio
-from Initialize import Speed
-from Initialize import Angle_Array
-from Initialize import Desired_Angle_Array
-from Initialize import Min_Angle_Array
-from Initialize import Max_Angle_Array
-from Initialize import Correction_Array
-from Initialize import Servo_Array
-pi = pigpio.pi()
+#import pigpio
+import Initialize
+
+#pi = pigpio.pi()
 #- - - - - - - - - - - - - - - - - - - - - - - - - -#
 #- - - - - - - - Matrix Update Program - - - - - - -#
 #- - - - - - - - - - - - - - - - - - - - - - - - - -#
@@ -100,7 +95,7 @@ while np.allclose(A, B, rtol=0.001, atol=0.001) == False:
             
     A = A+C #Adjust each element of angle Matrix 'A' by +/-0.1 of Matric 'C'
     A = A*Correction_Array #Correct for mirrored hardware setup
-    
+    '''
     # - - - Update servo signal - - - #
     for i in range(3): #scans rows from L/R, top to bottom
         Angle = A[0,i]
@@ -119,7 +114,7 @@ while np.allclose(A, B, rtol=0.001, atol=0.001) == False:
         PWM_Signal = ((1000 * Angle) / 90) + 1500
         Pin = Servo_Array[3,i]
         pi.set_servo_pulsewidth(Pin, PWM_Signal)
-    
+    '''
     A = A*Correction_Array #Remove correction
 
     time.sleep(Speed) #Speed Controller
