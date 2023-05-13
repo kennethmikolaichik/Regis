@@ -96,11 +96,6 @@ Make sure you have Python 3 installed as some of the camera software will not wo
 The servo PWM timing is written with the aid of the PiGPIO library:
 https://abyz.me.uk/rpi/pigpio/
 
-Run the folowing program from the command line of your pi to control the robots movment and camera. It is the main interface I have created for controlling the robot. It is in the 'Awaken' folder.
-
-    Initialize.py
-
-
 ![Look Up](https://github.com/kennethmikolaichik/Regis/blob/main/Fun%20Progress%20Pics/Head%20to%20Chassis%20incorporation!.jpg)
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 ## Using Your Spider
