@@ -2,6 +2,7 @@
 Created by: Kenneth Mikolaichik
 5.8.2023"""
 import os
+import math
 import numpy as np
 import pigpio
 import time
@@ -210,6 +211,8 @@ Servo_Array = np.array([[7, 6, 5],
                         [16, 21, 20]])
 
 #- - Define Min/Max Leg Servo Parameters - -#
+# min is closed-curled under and squeezed together.
+# max is extended out-legs held high and full fwd/aft.
 #Coxa
 C_min = -27
 C_max = 63
@@ -279,6 +282,7 @@ time.sleep(1.5)
 
 # DEFAULT POSITION AT AWAKEN
 #All shoulders square, Femurs Up, Tarsus Up
+# Really need a way to move to this position slowly!!!!!
 Ca1 = float(25)
 Ca2 = float(-25)
 Ca3 = float(25)
@@ -295,6 +299,7 @@ Current_Array = np.array([[Ca1, Fa1, Ta1],
                           [Ca2, Fa2, Ta2],
                           [Ca3, Fa3, Ta3],
                           [Ca4, Fa4, Ta4]])
+
 Desired_Angle_Array = Current_Array
 Matrix_Update()
 time.sleep(1.5)
@@ -337,9 +342,10 @@ while True:
         print("  2) Turn on Camera")     
         print("  3) Go to Default Position")        
         print("  4) Move Robot / Servo Angle Input Mode")
-        print("  5) Get Current Servo Angles")
-        print("  6) Desired Position Prompt")
-        print("  7) Get Current Positions")
+        print("  5) Desired Position Prompt")
+        print("  6) Get Current Servo Angles")
+        print("  7) Get Current Frames / Positions")
+        print("  8) Get Current Leg Dimensions")
         
         Main_Pgm_Answer = int(input("Enter 1,2,3...\n"))
     #--------------------------------------------------------------------------
@@ -543,14 +549,7 @@ while True:
                 continue
         elif Answer == "n":
             print(" ")
-    #--------------------------------------------------------------------------
-    while Main_Pgm_Answer == 5: #Get Servo Angles       
-        print(Current_Array)
-        dummy = input("press enter to continue")
-        Main_Pgm_Answer = 0
-        break    
-    #--------------------------------------------------------------------------
-    while Main_Pgm_Answer == 6: #Desired Position Prompt
+    while Main_Pgm_Answer == 5: #Desired Position Prompt
         
         #- - - - - - - - - - - - - - - - - - - - - - - - - -#
         #- - - - - - - -Desired Position Prompt- - - - - - -#
@@ -578,14 +577,82 @@ while True:
         dummy = input("press enter to continue")
         Main_Pgm_Answer = 0
         break
-    #--------------------------------------------------------------------------    
-    while Main_Pgm_Answer == 7: #Get Current Position
+    #--------------------------------------------------------------------------  
+    while Main_Pgm_Answer == 6: #Get Servo Angles       
+        print(Current_Array)
+        dummy = input("press enter to continue")
+        Main_Pgm_Answer = 0
+        break    
+     #--------------------------------------------------------------------------    
+    while Main_Pgm_Answer == 7: #Get Current Frames / Positions
+        
+    
+    
+    
         print("\nUNDER CONSTRUCTION! -SORRY-5.10.2023\n")
+        dummy = input("press enter to continue")
+        Main_Pgm_Answer = 0
+        break
+    #--------------------------------------------------------------------------    
+    while Main_Pgm_Answer == 8: #Get Current Leg Dimensions
+        # - - Dimensional Computations - - #    
+
+        deg2rad = (math.pi/180)
+        #Leg1
+
+        F1lr = Femur_Length * (math.cos(deg2rad*Current_Array[0,1]))#Leg1 Femur [i,1]
+        F1lh = Femur_Length * (math.sin(deg2rad*Current_Array[0,1]))#Leg1 Femur [i,1]
+        Theta_1 = deg2rad*Current_Array[0,1] + deg2rad*Current_Array[0,2]
+        T1lr = Tarsus_Length * math.sin(Theta_1)
+        T1lh = Tarsus_Length * math.cos(Theta_1)
+        Reach_1r = F1lr + T1lr
+        Reach_1h = F1lh + T1lh
+
+        #Leg2
+        F2lr = Femur_Length * np.cos(deg2rad*Current_Array[1,1])
+        F2lh = Femur_Length * np.sin(deg2rad*Current_Array[1,1])
+        Theta_2 = deg2rad*Current_Array[1,1] + deg2rad*Current_Array[1,2]
+        T2lr = Tarsus_Length * np.sin(Theta_2)
+        T2lh = Tarsus_Length * np.cos(Theta_2)
+        Reach_2r = F2lr + T2lr
+        Reach_2h = F2lh + T2lh
+
+        #Leg3
+        F3lr = Femur_Length * np.cos(deg2rad*Current_Array[2,1]) #Leg 1 Femur [i,1]
+        F3lh = Femur_Length * np.sin(deg2rad*Current_Array[2,1]) #Leg 1 Femur [i,1]
+        Theta_3 = deg2rad*Current_Array[2,1] + deg2rad*Current_Array[2,2]
+        T3lr = Tarsus_Length * np.sin(Theta_3)
+        T3lh = Tarsus_Length * np.cos(Theta_3)
+        Reach_3r = F3lr + T3lr
+        Reach_3h = F3lh + T3lh
+
+        #Leg4
+        F4lr = Femur_Length * np.cos(deg2rad*Current_Array[3,1]) #Leg 1 Femur [i,1]
+        F4lh = Femur_Length * np.sin(deg2rad*Current_Array[3,1]) #Leg 1 Femur [i,1]
+        Theta_4 = deg2rad*Current_Array[3,1] + deg2rad*Current_Array[3,2]
+        T4lr = Tarsus_Length * np.sin(Theta_4)
+        T4lh = Tarsus_Length * np.cos(Theta_4)
+        Reach_4r = F4lr + T4lr
+        Reach_4h = F4lh + T4lh
+         
+        # - - Positional Computations - - #      
+        print("Where reach is the Hypotenuse of the Femur and Tarsus,")
+        print("and z is the position above or below initial xy-plane.")
+        print(f"Leg 1 reach: {Reach_1r:.3f}")
+        print(f"Leg 1 z: {Reach_1h:.3f}")
+        print(f"Leg 2 reach: {Reach_2r:.3f}")
+        print(f"Leg 2 z: {Reach_2h:.3f}")
+        print(f"Leg 3 reach: {Reach_3r:.3f}")
+        print(f"Leg 3 z: {Reach_3h:.3f}")
+        print(f"Leg 4 reach: {Reach_4r:.3f}")
+        print(f"Leg 4 z: {Reach_4h:.3f}")
+        print("\n")
+        #---------
         dummy = input("press enter to continue")
         Main_Pgm_Answer = 0
         break  
     #--------------------------------------------------------------------------
-    while Main_Pgm_Answer >= 8: #Invalid Selection
+    while Main_Pgm_Answer >= 9: #Invalid Selection
         print("\nPlease Make a Valid Selection\n")
         dummy = input("press enter to continue")
         Main_Pgm_Answer = 0

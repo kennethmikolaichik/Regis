@@ -100,6 +100,8 @@ Run the folowing program from the command line of your pi to control the robots 
 
     Initialize.py
 
+
+![Look Up](https://github.com/kennethmikolaichik/Regis/blob/main/Fun%20Progress%20Pics/Head%20to%20Chassis%20incorporation!.jpg)
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 ## Using Your Spider
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
