@@ -134,6 +134,7 @@ Now, run the folowing program from the command line of your pi to control the ro
 
 
 #### I am currently in the process of setting up leg control software so that the robot can walk and run. I am investigating different Inverse Kinematic solving libraries to this end. I am also writing programs to display all of the servo motor angles and location position of each motor in real time. 5.11.2023
+'Klampt' python library seems usefull. Also see this walkthrough: https://hackaday.io/project/171456-diy-hobby-servos-quadruped-robot/log/177488-lets-talk-about-the-kinematic-model
 
 #### I have begun the process of designing Regis V0.2, this robot will have a 10Ah battery, larger servos, and will run on Ubuntu-64x with the robot operating system(ROS) and a separate Arduino as the motor controller.
 
