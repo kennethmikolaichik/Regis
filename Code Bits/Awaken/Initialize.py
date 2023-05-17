@@ -174,6 +174,10 @@ Body_Length = 0.105
 Coxa_Length = 0.023
 Femur_Length = 0.031
 Tarsus_Length = 0.09
+Head_Offset_x = 0.025 #GET REAL VALUES HERE
+Head_Offset_y = 0.025 #GET REAL VALUES HERE 
+Head_Offset_z = 0.025 #GET REAL VALUES HERE 
+
 
 h = Height = 0.0
 Body_Frame = [0, 0, h] #This should be taken from a GPS module or something
@@ -585,7 +589,89 @@ while True:
         break    
      #--------------------------------------------------------------------------    
     while Main_Pgm_Answer == 7: #Get Current Frames / Positions
+        deg2rad = (math.pi/180)
         
+        #- - Positional Data - -#
+
+        Body_Frame = [0, 0, 0]
+        [Bx, By, Bz] = Body_Frame
+        #Center of body
+
+
+        Head_Frame = Body_Frame + [Head_Offset_x, Head_Offset_y, Head_Offset_z]
+        [Hx, Hy, Hz] = Head_Frame
+        #Center of head
+
+        #Leg 1 - Fwd RH. Quadrant I (+x,+y, z)
+        C1_Angle = Current_Array[0,0]
+        C1_Offset_x = Coxa_Length * math.cos(Current_Array[0,0])
+        C1_Offset_y = Coxa_Length * math.cos(Current_Array[0,0])
+        
+        C1_Frame = Body_Frame + [C1_Offset_x, C1_Offset_y, 0]
+        [Cx1, Cy1, Cz1] = C1_Frame
+        #- - - - - -
+        F1_Angle = Current_Array[0,1]
+        F1_Frame = C1_Frame + [Femur_Length * math.cos(F1_Angle), 0, Femur_Length * math.sin(F1_Angle)]
+        [Fx1, Fy1, Fz1] = F1_Frame
+        #- - - - - -
+        
+        T1_Frame = [Tx1, Ty1, Tz1]
+        #- - - - - -
+        #Manipulator
+
+
+
+
+
+        M1_Frame = [Mx1, My1, Mz1]
+        #Leg2
+        #- - - - - -
+        #Manipulator
+        M2_Frame = [Mx2, My2, Mz2]
+        #- - - - - -
+        C2_Frame = [Cx2, Cy2, Cz2]
+        F2_Frame = [Fx2, Fy2, Fz2]
+        T2_Frame = [Tx2, Ty2, Tz2]
+
+        #Leg3
+        #- - - - - -
+        #Manipulator
+        M3_Frame = [Mx3, My3, Mz3]
+        #- - - - - -
+        C3_Frame = [Cx3, Cy3, Cz3]
+        F3_Frame = [Fx3, Fy3, Fz3]
+        T3_Frame = [Tx3, Ty3, Tz3]
+
+        #Leg4
+        #- - - - - -
+        #Manipulator
+        M4_Frame = [Mx4, My4, Mz4]
+        #- - - - - -
+        C4_Frame = [Cx4, Cy4, Cz4]
+        F1_Frame = [Fx4, Fy4, Fz4]
+        T4_Frame = [Tx4, Ty4, Tz4]
+          
+        print("Positional Data:")
+        print("Body_Frame =", Body_Frame)
+        print("Head_Frame =", Head_Frame)
+        print("Leg1:")
+        print("Coxa 1 =", C1_Frame)
+        print("Femur 1 =", F1_Frame)
+        print("Tarsus 1 =", T1_Frame)
+        print("Leg2:")
+        print("Coxa 2 =", C2_Frame)
+        print("Femur 2 =", F2_Frame)
+        print("Tarsus 2 =", T2_Frame)
+        print("Leg3:")
+        print("Coxa 3 =", C3_Frame)
+        print("Femur 3 =", F3_Frame)
+        print("Tarsus 3 =", T3_Frame)
+        print("Leg4:")
+        print("Coxa 4 =", C4_Frame)
+        print("Femur 4 =", F4_Frame)
+        print("Tarsus 4 =", T4_Frame)
+
+
     
     
     
@@ -609,29 +695,29 @@ while True:
         Reach_1h = F1lh + T1lh
 
         #Leg2
-        F2lr = Femur_Length * np.cos(deg2rad*Current_Array[1,1])
-        F2lh = Femur_Length * np.sin(deg2rad*Current_Array[1,1])
+        F2lr = Femur_Length * math.cos(deg2rad*Current_Array[1,1])
+        F2lh = Femur_Length * math.sin(deg2rad*Current_Array[1,1])
         Theta_2 = deg2rad*Current_Array[1,1] + deg2rad*Current_Array[1,2]
-        T2lr = Tarsus_Length * np.sin(Theta_2)
-        T2lh = Tarsus_Length * np.cos(Theta_2)
+        T2lr = Tarsus_Length * math.sin(Theta_2)
+        T2lh = Tarsus_Length * math.cos(Theta_2)
         Reach_2r = F2lr + T2lr
         Reach_2h = F2lh + T2lh
 
         #Leg3
-        F3lr = Femur_Length * np.cos(deg2rad*Current_Array[2,1]) #Leg 1 Femur [i,1]
-        F3lh = Femur_Length * np.sin(deg2rad*Current_Array[2,1]) #Leg 1 Femur [i,1]
+        F3lr = Femur_Length * math.cos(deg2rad*Current_Array[2,1]) #Leg 1 Femur [i,1]
+        F3lh = Femur_Length * math.sin(deg2rad*Current_Array[2,1]) #Leg 1 Femur [i,1]
         Theta_3 = deg2rad*Current_Array[2,1] + deg2rad*Current_Array[2,2]
-        T3lr = Tarsus_Length * np.sin(Theta_3)
-        T3lh = Tarsus_Length * np.cos(Theta_3)
+        T3lr = Tarsus_Length * math.sin(Theta_3)
+        T3lh = Tarsus_Length * math.cos(Theta_3)
         Reach_3r = F3lr + T3lr
         Reach_3h = F3lh + T3lh
 
         #Leg4
-        F4lr = Femur_Length * np.cos(deg2rad*Current_Array[3,1]) #Leg 1 Femur [i,1]
-        F4lh = Femur_Length * np.sin(deg2rad*Current_Array[3,1]) #Leg 1 Femur [i,1]
+        F4lr = Femur_Length * math.cos(deg2rad*Current_Array[3,1]) #Leg 1 Femur [i,1]
+        F4lh = Femur_Length * math.sin(deg2rad*Current_Array[3,1]) #Leg 1 Femur [i,1]
         Theta_4 = deg2rad*Current_Array[3,1] + deg2rad*Current_Array[3,2]
-        T4lr = Tarsus_Length * np.sin(Theta_4)
-        T4lh = Tarsus_Length * np.cos(Theta_4)
+        T4lr = Tarsus_Length * math.sin(Theta_4)
+        T4lh = Tarsus_Length * math.cos(Theta_4)
         Reach_4r = F4lr + T4lr
         Reach_4h = F4lh + T4lh
          
