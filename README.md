@@ -1,5 +1,4 @@
-
-README
+![Visitor Count](https://profile-counter.glitch.me/{kennethmikoliachik}/count.svg)
 
 #### Working on: (5/11/2023)
 
