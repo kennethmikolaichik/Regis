@@ -1,16 +1,40 @@
 """Initialize
 Created by: Kenneth Mikolaichik
 5.8.2023"""
-import os  #command lines, run linux operations with python
-import math  #trigonometry Functions
-import numpy as np  #numerical computations
-import pigpio  #access to GPIO pins
-import time  #timing
-import pyttsx3  #Text to speech engine (offline)
-from picamera.array import PiRGBArray  #Raspberry Pi camera library
-from picamera import PiCamera  #Raspberry Pi camera library
-import cv2  #OpenCV - Computer Vision Software
-import smbus  #gyro/accelerometer MPU6050 Chip
+import os
+import math
+import numpy as np
+import pigpio
+import time
+import pyttsx3
+from picamera.array import PiRGBArray
+from picamera import PiCamera
+import cv2
+import pygame
+#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+def Pan_Update():
+
+    # Limiting Program: keeps motors from attempting to move past physical stops
+    # Replaces improper value with limit value
+    '''
+    if Desired_Pan >= P_max
+        Desired_Pan = P_max
+    if Desired_Pan <= P_min
+        Desired_Pan = P_min
+    '''
+    #if less than desired angle
+    if Pan_Angle < Desired_Pan:
+        Pan_Angle +=0.1 #increase angle towards desired angle
+    #if greater than desired angle
+    if Pan_Angle > Desired_Pan:
+        Pan_Angle -=0.1 #dencrease angle towards desired angle   
+    
+    PWM_Signal = ((1000 * Pan_Angle) / 90) + 1500
+    pi.set_servo_pulsewidth(Pan, PWM_Signal)
+
+    time.sleep(Speed) #Speed Controller
+
+
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 def Matrix_Update():
@@ -50,7 +74,7 @@ def Matrix_Update():
     # Each pass creates Matrix 'C' which has an element value of either 0 or +/-0.1
     # The adjustment matrix 'C' is then added to 'A', the current angles.
     # This information is then converted to PWM signal and sent to servo motor
-    # The program will then halt according to the value of 'Speed' (line 9)
+    # The program will then halt according to the value of variable 'Speed'
     # The process repeats until 'A' == 'B', within tolerance.
     Counter = 1
     Move_Time = 0 
@@ -150,36 +174,6 @@ def Solve_Inverse_Kinematic():
     print("IS THIS RIGHT??")
     # Need to get inverse kinematic solver for here!!!!!
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-def read_raw_data(addr):
-	#Accelero and Gyro value are 16-bit
-        high = bus.read_byte_data(Device_Address, addr)
-        low = bus.read_byte_data(Device_Address, addr+1)
-    
-        #concatenate higher and lower value
-        value = ((high << 8) | low)
-        
-        #to get signed value from mpu6050
-        if(value > 32768):
-                value = value - 65536
-        return value
-#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-def MPU_Init():
-	#write to sample rate register
-	bus.write_byte_data(Device_Address, SMPLRT_DIV, 7)
-	
-	#Write to power management register
-	bus.write_byte_data(Device_Address, PWR_MGMT_1, 1)
-	
-	#Write to Configuration register
-	bus.write_byte_data(Device_Address, CONFIG, 0)
-	
-	#Write to Gyro configuration register
-	bus.write_byte_data(Device_Address, GYRO_CONFIG, 24)
-	
-	#Write to interrupt enable register
-	bus.write_byte_data(Device_Address, INT_ENABLE, 1)
-#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-
 print("")
 print("******************************************************")
 print("* REGIS,    R-0.1:  Created by Kenneth Mikolaichik   *")
@@ -187,22 +181,24 @@ print("******************************************************")
 print("")
 os.system('sudo pigpiod')
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-
-# - - Gyro/Accelerometer/Thermometer
-bus = smbus.SMBus(1) 	# or bus = smbus.SMBus(0) for older version boards
-Device_Address = 0x68   # MPU6050 device address
-#some MPU6050 Registers and their Address
-PWR_MGMT_1   = 0x6B
-SMPLRT_DIV   = 0x19
-CONFIG       = 0x1A
-GYRO_CONFIG  = 0x1B
-INT_ENABLE   = 0x38
-ACCEL_XOUT_H = 0x3B
-ACCEL_YOUT_H = 0x3D
-ACCEL_ZOUT_H = 0x3F
-GYRO_XOUT_H  = 0x43
-GYRO_YOUT_H  = 0x45
-GYRO_ZOUT_H  = 0x47
+#- - Define Min/Max Leg Servo Parameters - -#
+# min is closed-curled under and squeezed together.
+# max is extended out-legs held high and full fwd/aft.
+#Coxa
+C_min = -27
+C_max = 63
+#Femur
+F_min = -49.5
+F_max = 90
+#Tarsus
+T_min = -31.5
+T_max = 85.5
+#Pan
+P_min = -90
+P_max = 90
+#Tilt
+Ti_min = -45
+Ti_max = 80
 
 # - - Text to Speech Engine - - #
 engine = pyttsx3.init()
@@ -245,7 +241,7 @@ Leg3 = [23, 4, 27] #LH Fwd
 Leg4 = [16, 21, 20] #RH Aft
 Pan = [22] #Angle in xy-plane (zero is fwd)
 Tilt = [13] #Angle from xy-plane to z-axis (zero is horizontal)
-Head = [22, 13] #(xy, z)
+Head_Servos = [22, 13] #(xy, z)
 
 #- - Signal Correction Matrix - -#
 # This matrix is necessary to correct for way the motors are mounted.
@@ -262,19 +258,6 @@ Servo_Array = np.array([[7, 6, 5],
                         [12, 25, 24],
                         [23, 4, 27],
                         [16, 21, 20]])
-
-#- - Define Min/Max Leg Servo Parameters - -#
-# min is closed-curled under and squeezed together.
-# max is extended out-legs held high and full fwd/aft.
-#Coxa
-C_min = -27
-C_max = 63
-#Femur
-F_min = -49.5
-F_max = 90
-#Tarsus
-T_min = -31.5
-T_max = 85.5
 
 Max_Angle_Array = np.array([[C_max, F_max, T_max],
                             [C_max, F_max, T_max],
@@ -304,6 +287,11 @@ Desired_Angle_Array = np.array([[Cda1, Fda1, Tda1],
                                 [Cda2, Fda2, Tda2],
                                 [Cda3, Fda3, Tda3],
                                 [Cda4, Fda4, Tda4]])
+
+Pan_Angle = 0
+Tilt_Angle = 0
+Desired_Pan = 0
+Desired_Tilt = 0
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 #- - Bring Servo Motors Online - -#
 pi = pigpio.pi()
@@ -316,7 +304,7 @@ for pin in servos:
     pi.set_mode(pin, pigpio.OUTPUT)    
     pi.set_PWM_frequency(pin, DEFAULT_FREQ)
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-
+'''
 #- - Stand Up Sequence - -#
 print("Please ensure Regis is laying flat and clear of obstacles, stand clear.", end="\r")
 time.sleep(0.4)
@@ -332,7 +320,7 @@ print("Please ensure Regis is laying flat and clear of obstacles, stand clear...
 time.sleep(0.4)
 print("\nPreparing to move!")
 time.sleep(1.5)
-
+'''
 # DEFAULT POSITION AT AWAKEN
 #All shoulders square, Femurs Up, Tarsus Up
 # Really need a way to move to this position slowly!!!!!
@@ -356,7 +344,7 @@ Current_Array = np.array([[Ca1, Fa1, Ta1],
 Desired_Angle_Array = Current_Array
 Matrix_Update()
 time.sleep(1.5)
-
+'''
 # All Tarsus Down
 Desired_Angle_Array = np.array ([[25, F_max, 0],
                                  [-25, F_max, 0],
@@ -364,7 +352,7 @@ Desired_Angle_Array = np.array ([[25, F_max, 0],
                                  [-25, F_max, 0]])   
 Matrix_Update()
 Current_Array = Matrix_Update.Angle_Array 
-
+'''
 #Stand
 Desired_Angle_Array = np.array ([[25, 5, -20],
                                  [-25, 5, -20],
@@ -393,13 +381,17 @@ while True:
         print("\nSelect from the following:")
         print("  1) Wave Hello!")
         print("  2) Turn on Camera")     
-        print("  3) Go to Default Position")        
+        print("  3) Go to Default Position (all leg servos zero)")        
         print("  4) Move Robot / Servo Angle Input Mode")
         print("  5) Desired Position Prompt")
         print("  6) Get Current Servo Angles")
         print("  7) Get Current Frames / Positions")
         print("  8) Get Current Leg Dimensions")
-        print("  9) Get Gyro Data")
+        print("  9) Sit Down")
+        print(" 10) Stand Up")
+        print(" 11) Stand Tall")
+        print(" 12) Pan Left & Right")
+        print(" 13) Look Around")
         
         Main_Pgm_Answer = int(input("Enter 1,2,3...\n"))
     #--------------------------------------------------------------------------
@@ -505,7 +497,10 @@ while True:
         Desired_Angle_Array = Final_Array
         Matrix_Update()
         #---------
-        engine.say("Hi There, How is it going today?")
+        engine.say("Hello, greetings and salutations")
+        engine.runAndWait()
+        engine.say("I am Regis")
+        engine.runAndWait()
         dummy = input("\npress enter to continue")
         Main_Pgm_Answer = 0
         break    
@@ -603,7 +598,6 @@ while True:
                 continue
         elif Answer == "n":
             print(" ")
-    #--------------------------------------------------------------------------
     while Main_Pgm_Answer == 5: #Desired Position Prompt
         
         #- - - - - - - - - - - - - - - - - - - - - - - - - -#
@@ -789,35 +783,165 @@ while True:
         Main_Pgm_Answer = 0
         break  
     #--------------------------------------------------------------------------
-    while Main_Pgm_Answer == 9: #Get Gyro Data
-        MPU_Init()
-    
-        #Read Accelerometer raw value
-        acc_x = read_raw_data(ACCEL_XOUT_H)
-        acc_y = read_raw_data(ACCEL_YOUT_H)
-        acc_z = read_raw_data(ACCEL_ZOUT_H)
-        
-        #Read Gyroscope raw value
-        gyro_x = read_raw_data(GYRO_XOUT_H)
-        gyro_y = read_raw_data(GYRO_YOUT_H)
-        gyro_z = read_raw_data(GYRO_ZOUT_H)
-        
-        #Full scale range +/- 250 degree/C as per sensitivity scale factor
-        Ax = acc_x/16384.0
-        Ay = acc_y/16384.0
-        Az = acc_z/16384.0
-        
-        Gx = gyro_x/131.0
-        Gy = gyro_y/131.0
-        Gz = gyro_z/131.0
-    	
-    
-        print ("Gx=%.2f" %Gx, u'\u00b0'+ "/s", "\tGy=%.2f" %Gy, u'\u00b0'+ "/s", "\tGz=%.2f" %Gz, u'\u00b0'+ "/s", "\tAx=%.2f g" %Ax, "\tAy=%.2f g" %Ay, "\tAz=%.2f g" %Az) 	
-        time.sleep(1)
+    while Main_Pgm_Answer == 9:
+        #Sit
+        Desired_Angle_Array = np.array ([[25, 80, -40],
+                                         [-25, 80, -40],
+                                         [25, 80, -40],
+                                         [-25, 80, -40]])  
+        Matrix_Update()
+        Current_Array = Matrix_Update.Angle_Array 
 
-    
+        Desired_Angle_Array = np.array ([[15, 80, -40],
+                                        [-15, 80, -40],
+                                        [15, 80, -40],
+                                        [-15, 80, -40]]) 
+        Main_Pgm_Answer = 0
+        break  
     #--------------------------------------------------------------------------
-    while Main_Pgm_Answer >= 10: #Invalid Selection
+    while Main_Pgm_Answer == 10:
+        #Stand
+
+        speed = 0
+        # Legs up
+        Desired_Angle_Array = np.array ([[25, F_max, T_min],
+                                         [-25, F_max, T_min],
+                                         [25, F_max, T_min],
+                                         [-25, F_max, T_min]])         
+        Matrix_Update()
+        Current_Array = Matrix_Update.Angle_Array 
+        
+        # All Tarsus Down    
+        Desired_Angle_Array = np.array ([[25, F_max, 0],
+                                         [-25, F_max, 0],
+                                         [25, F_max, 0],
+                                         [-25, F_max, 0]])   
+        Matrix_Update()
+        Current_Array = Matrix_Update.Angle_Array 
+        
+        # Stand
+        Desired_Angle_Array = np.array ([[25, 5, -20],
+                                         [-25, 5, -20],
+                                         [25, 5, -20],
+                                         [-25, 5, -20]])   
+        Matrix_Update()
+        Current_Array = Matrix_Update.Angle_Array 
+
+        Desired_Angle_Array = np.array ([[25, 20, 5],
+                                         [-25, 20, 5],
+                                         [25, 20, 5],
+                                         [-25, 20, 5]])   
+        Matrix_Update()
+        Current_Array = Matrix_Update.Angle_Array
+        Main_Pgm_Answer = 0
+        break 
+    #--------------------------------------------------------------------------
+    while Main_Pgm_Answer == 11:    
+        speed = 0
+        #Stand Tall
+        Desired_Angle_Array = np.array ([[25, F_min, 80],
+                                         [-25, F_min, 80],
+                                         [25, F_min, 80],
+                                         [-25, F_min, 80]])         
+        Matrix_Update()
+        Current_Array = Matrix_Update.Angle_Array
+
+        Main_Pgm_Answer = 0
+        break 
+    #--------------------------------------------------------------------------
+    while Main_Pgm_Answer == 12:
+        #Pan L & R
+        #- -DEFINE PARAMETERS- -#
+        position = 1500
+        pi = pigpio.pi()
+        #- - -MOTOR SETUP- - - -#
+        pi.set_mode(22, pigpio.OUTPUT)
+        pi.set_PWM_frequency(22, 50)
+        pi.set_servo_pulsewidth(22, position) #sets pan to center(1500)
+        pi.set_servo_pulsewidth(13, position) #sets pan to center(1500)
+        #- - - - - - - - - - - -#
+        while position <= 2250:    
+            position = position -10
+            degree = ((position-1500)/(1000))*90
+            pi.set_servo_pulsewidth(22, position)
+            print(f"ServoSignal:{position}, Degree:{degree:.1f}° ", end="\r")
+            time.sleep(.1)
+            if position <= 750:
+                break
+        while position >= 750:
+            position = position +10
+            degree = ((position-1500)/(1000))*90
+            pi.set_servo_pulsewidth(22, position)
+            print(f"ServoSignal:{position}, Degree:{degree:.1f}° ", end="\r")
+            time.sleep(.1)
+            if position >= 2250:
+                break
+        while position <= 2250:    
+            position = position -10
+            degree = ((position-1500)/(1000))*90
+            pi.set_servo_pulsewidth(22, position)
+            print(f"ServoSignal:{position}, Degree:{degree:.1f}° ", end="\r")
+            time.sleep(.1)
+            if position <= 1500:
+                break
+        Main_Pgm_Answer = 0
+        break 
+    #--------------------------------------------------------------------------
+    while Main_Pgm_Answer == 13:
+        # Camera configuration
+        CAMERA_SPEED = 5
+        WIDTH = 400
+        HEIGHT = 400
+
+        # Initialize Pygame
+        pygame.init()
+        screen = pygame.display.set_mode((WIDTH, HEIGHT))
+        pygame.display.set_caption("Camera Control")
+
+        # Camera position
+        camera_x = WIDTH // 2
+        camera_y = HEIGHT // 2
+
+        # Main game loop
+        running = True
+        while running:
+            # Handle events
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    running = False
+
+                if event.type == pygame.KEYDOWN:
+                    # Move camera based on arrow keys
+                    if event.key == pygame.K_LEFT:
+                        camera_x -= CAMERA_SPEED
+                        
+                    elif event.key == pygame.K_RIGHT:
+                        camera_x += CAMERA_SPEED
+                    elif event.key == pygame.K_UP:
+                        camera_y -= CAMERA_SPEED
+                    elif event.key == pygame.K_DOWN:
+                        camera_y += CAMERA_SPEED
+
+            # Clear the screen
+            screen.fill((0, 0, 0))
+
+            # Draw camera position
+            pygame.draw.circle(screen, (255, 0, 0), (camera_x, camera_y), 10)
+
+            # Update the screen
+            pygame.display.flip()
+            
+            # Update Servo Signal
+            Pan_Update()
+
+        # Quit the program
+        pygame.quit()
+
+
+        Main_Pgm_Answer = 0
+        break     
+    #--------------------------------------------------------------------------
+    while Main_Pgm_Answer >= 14: #Invalid Selection
         print("\nPlease Make a Valid Selection\n")
         dummy = input("press enter to continue")
         Main_Pgm_Answer = 0
