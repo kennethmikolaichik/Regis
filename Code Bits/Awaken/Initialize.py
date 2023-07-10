@@ -861,10 +861,10 @@ while True:
     while Main_Pgm_Answer == 11:    
         speed = 0
         #Stand Tall
-        Desired_Angle_Array = np.array ([[25, F_min, 80],
-                                         [-25, F_min, 80],
-                                         [25, F_min, 80],
-                                         [-25, F_min, 80]])         
+        Desired_Angle_Array = np.array ([[25, F_min, 70],
+                                         [-25, F_min, 70],
+                                         [25, F_min, 70],
+                                         [-25, F_min, 70]])         
         Matrix_Update()
         Current_Array = Matrix_Update.Angle_Array
 
