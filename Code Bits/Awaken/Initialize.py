@@ -415,6 +415,7 @@ while True:
         print(" 11) Stand Tall")
         print(" 12) Pan Left & Right")
         print(" 13) Look Around")
+        print(" 14) Turn on Camera with Object Detection")
         
         Main_Pgm_Answer = int(input("Enter 1,2,3...\n"))
     #--------------------------------------------------------------------------
@@ -940,7 +941,12 @@ while True:
         Main_Pgm_Answer = 0
         break     
     #--------------------------------------------------------------------------
-    while Main_Pgm_Answer >= 14: #Invalid Selection
+    while Main_Pgm_Answer == 14:
+        subprocess.call(['lxterminal', '-e', 'python /home/kennethmikolaichik/examples/lite/examples/object_detection/raspberry_pi/detect.py'])
+        Main_Pgm_Answer = 0
+        break  
+    #--------------------------------------------------------------------------
+    while Main_Pgm_Answer >= 15: #Invalid Selection
         print("\nPlease Make a Valid Selection\n")
         dummy = input("press enter to continue")
         Main_Pgm_Answer = 0
