@@ -199,7 +199,7 @@ def Solve_Inverse_Kinematic():
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 print("")
 print("******************************************************")
-print("* REGIS,    R-0.1:  Created by Kenneth Mikolaichik   *")
+print("*   REGIS,  R-0.1:  Created by Kenneth Mikolaichik   *")
 print("******************************************************")
 print("")
 os.system('sudo pigpiod')
@@ -528,11 +528,13 @@ while True:
         engine.say("I am Regis")
         engine.runAndWait()
         dummy = input("\npress enter to continue")
+        os.system('clear')
         Main_Pgm_Answer = 0
         break    
     #--------------------------------------------------------------------------
     while Main_Pgm_Answer == 2: #Turn on Camera
         subprocess.call(['lxterminal', '-e', 'python /home/kennethmikolaichik/Camera/Picamera_with_OpenCV.py'])
+        os.system('clear')
         Main_Pgm_Answer = 0
         break
     #--------------------------------------------------------------------------
@@ -543,6 +545,7 @@ while True:
                                          [0, 0, 0]])   
         Matrix_Update()
         Current_Array = Matrix_Update.Angle_Array
+        os.system('clear')
         Main_Pgm_Answer = 0
         break  
     #--------------------------------------------------------------------------
@@ -619,12 +622,14 @@ while True:
         
         print("\nUNDER CONSTRUCTION! -SORRY-5.10.2023\n")
         dummy = input("press enter to continue")
+        os.system('clear')
         Main_Pgm_Answer = 0
         break
     #--------------------------------------------------------------------------  
     while Main_Pgm_Answer == 6: #Get Servo Angles       
         print(Current_Array)
         dummy = input("press enter to continue")
+        os.system('clear')
         Main_Pgm_Answer = 0
         break    
      #--------------------------------------------------------------------------    
@@ -717,6 +722,7 @@ while True:
     
         print("\nUNDER CONSTRUCTION! -SORRY-5.10.2023\n")
         dummy = input("press enter to continue")
+        os.system('clear')
         Main_Pgm_Answer = 0
         break
     #--------------------------------------------------------------------------    
@@ -775,6 +781,7 @@ while True:
         print("\n")
         #---------
         dummy = input("press enter to continue")
+        os.system('clear')
         Main_Pgm_Answer = 0
         break  
     #--------------------------------------------------------------------------
@@ -790,7 +797,8 @@ while True:
         Desired_Angle_Array = np.array ([[15, 80, -40],
                                         [-15, 80, -40],
                                         [15, 80, -40],
-                                        [-15, 80, -40]]) 
+                                        [-15, 80, -40]])
+        os.system('clear')
         Main_Pgm_Answer = 0
         break  
     #--------------------------------------------------------------------------
@@ -828,6 +836,7 @@ while True:
                                          [-25, 20, 5]])   
         Matrix_Update()
         Current_Array = Matrix_Update.Angle_Array
+        os.system('clear')
         Main_Pgm_Answer = 0
         break 
     #--------------------------------------------------------------------------
@@ -840,7 +849,7 @@ while True:
                                          [-25, F_min, 70]])         
         Matrix_Update()
         Current_Array = Matrix_Update.Angle_Array
-
+        os.system('clear')
         Main_Pgm_Answer = 0
         break 
     #--------------------------------------------------------------------------
@@ -879,6 +888,8 @@ while True:
             time.sleep(.1)
             if position <= 1500:
                 break
+
+        os.system('clear')
         Main_Pgm_Answer = 0
         break 
     #--------------------------------------------------------------------------
@@ -938,17 +949,22 @@ while True:
 
         # Quit the program
         pygame.quit()
+        os.system('clear')
         Main_Pgm_Answer = 0
         break     
     #--------------------------------------------------------------------------
     while Main_Pgm_Answer == 14:
-        subprocess.call(['lxterminal', '-e', 'python /home/kennethmikolaichik/examples/lite/examples/object_detection/raspberry_pi/detect.py'])
+        os.chdir('/home/kennethmikolaichik/examples/lite/examples/object_detection/raspberry_pi')
+        subprocess.call(['lxterminal', '-e', 'python detect.py'])
+        os.chdir('/')
+        os.system('clear')
         Main_Pgm_Answer = 0
         break  
     #--------------------------------------------------------------------------
     while Main_Pgm_Answer >= 15: #Invalid Selection
         print("\nPlease Make a Valid Selection\n")
         dummy = input("press enter to continue")
+        os.system('clear')
         Main_Pgm_Answer = 0
         break
         
