@@ -2,6 +2,7 @@
 Created by: Kenneth Mikolaichik
 5.8.2023"""
 import os
+import sys
 import subprocess
 import math
 import numpy as np
@@ -397,14 +398,14 @@ Current_Array = Matrix_Update.Angle_Array
 while True:
     Main_Pgm_Answer = int(0)
     while Main_Pgm_Answer == 0:
-        print("\n\n")
+        print("\n")
         print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
         print("$                    MAIN PROGRAM --- LONG LIVE REGIS!                  $")
         print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
         print("\nSelect from the following:")
         print("  1) Wave Hello!")
         print("  2) Turn on Camera")     
-        print("  3) Go to Default Position (all leg servos zero)")        
+        print("  3) Go to Maintenance Position")        
         print("  4) Move Robot / Servo Angle Input Mode")
         print("  5) Desired Position Prompt")
         print("  6) Get Current Servo Angles")
@@ -626,9 +627,25 @@ while True:
         Main_Pgm_Answer = 0
         break
     #--------------------------------------------------------------------------  
-    while Main_Pgm_Answer == 6: #Get Servo Angles       
-        print(Current_Array)
-        dummy = input("press enter to continue")
+    while Main_Pgm_Answer == 6: #Get Servo Angles  
+        '''
+        try:
+          subprocess.call(['lxterminal', '-e', 'display_servo_angles.py'])
+        except BaseException:
+          print(sys.exc_info()[0])
+          import traceback
+          print(traceback.format_exc())
+        finally:
+          input()
+        '''
+        
+        os.chdir('/home/kennethmikolaichik/Awaken/modules')
+        subprocess.call(['lxterminal', '-e', 'display_servo_angles.py'])
+        os.chdir('/')
+        os.system('clear')
+        
+
+        #print(Current_Array)   
         os.system('clear')
         Main_Pgm_Answer = 0
         break    
