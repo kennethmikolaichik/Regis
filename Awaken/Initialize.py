@@ -187,7 +187,7 @@ def Matrix_Update():
             time.sleep(1)
             break
 
-        #Comapres A to B within tolerance of 0.001
+        #Comapres A to B within tolerance of 0.002
         #if equal then stop movement.         
         if np.allclose(A, B, rtol=0.002, atol=0.005) == True: 
             Matrix_Update.Angle_Array = A
@@ -409,7 +409,7 @@ while True:
         print("  4) Move Robot / Servo Angle Input Mode")
         print("  5) Desired Position Prompt")
         print("  6) Get Current Servo Angles")
-        print("  7) Get Current Frames / Positions")
+        print("  7) Get Current Joint Positions")
         print("  8) Get Current Leg Dimensions")
         print("  9) Sit Down")
         print(" 10) Stand Up")

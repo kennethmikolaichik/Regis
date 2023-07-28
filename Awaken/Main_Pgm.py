@@ -1,15 +1,14 @@
-"""Main_Menu
+"""Main_Pgm
 Created by: Kenneth Mikolaichik
 7.26.2023"""
 from time import sleep
-import os, sys, subprocess
+import os
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 print("")
 print("******************************************************")
 print("*   REGIS,  R-0.1:  Created by Kenneth Mikolaichik   *")
 print("******************************************************")
 print("")
-os.system('sudo pigpiod')
 sleep(2.5)
 os.system('clear')
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -21,6 +20,7 @@ while True:
         print("|                    MAIN PROGRAM --- LONG LIVE REGIS!                  |")
         print(" - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ")
         print("\nSelect from the following:")
+        print("  0) Engage Motors"
         print("  1) Wave Hello!")
         print("  2) Turn on Camera")     
         print("  3) Go to Maintenance Position")        
@@ -35,5 +35,12 @@ while True:
         print(" 12) Pan Left & Right")
         print(" 13) Look Around")
         print(" 14) Turn on Camera with Object Detection")
-        
         Main_Pgm_Ans = int(input("Enter 1,2,3...\n"))
+
+        '''
+        if Main_Pgm_Ans != int()
+            print("Invalid Input - try again")
+            sleep(3)
+            Main_Pgm_Ans == 0
+            os.system('clear')
+        '''
