@@ -1,3 +1,5 @@
+import time
+from Main_Pgm import Current_Array
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 def Matrix_Update():
@@ -10,6 +12,7 @@ def Matrix_Update():
     B = Desired_Angle_Array
     MIN = Min_Angle_Array
     MAX = Max_Angle_Array
+
 
     # Limiting Program: keeps motors from attempting to move past physical stops
     # Replaces improper value with limit value

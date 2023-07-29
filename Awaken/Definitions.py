@@ -1,3 +1,5 @@
+import pyttsx3
+import numpy as np
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 #- - Define Min/Max Leg Servo Parameters - -#
 # min is closed-curled under and squeezed together.
@@ -86,6 +88,26 @@ Min_Angle_Array = np.array([[C_min, F_min, T_min],
                             [C_min, F_min, T_min],
                             [C_min, F_min, T_min],
                             [C_min, F_min, T_min]])
+
+# DEFAULT POSITION AT AWAKEN
+#All shoulders square, Femurs Up, Tarsus Up
+# Really need a way to move to this position slowly!!!!!
+Ca1 = float(25)
+Ca2 = float(-25)
+Ca3 = float(25)
+Ca4 = float(-25)
+Fa1 = float(F_max)
+Fa2 = float(F_max)
+Fa3 = float(F_max)
+Fa4 = float(F_max)
+Ta1 = float(T_max)
+Ta2 = float(T_max)
+Ta3 = float(T_max)
+Ta4 = float(T_max) 
+Current_Array = np.array([[Ca1, Fa1, Ta1],
+                          [Ca2, Fa2, Ta2],
+                          [Ca3, Fa3, Ta3],
+                          [Ca4, Fa4, Ta4]])
 
 #- - Leg Servo Desired Angle Matrix - -#
 Cda1 = float()

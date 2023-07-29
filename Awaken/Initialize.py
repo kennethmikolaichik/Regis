@@ -2,63 +2,55 @@
 Created by: Kenneth Mikolaichik
 5.8.2023"""
 import os
-import sys
+from playsound import playsound
 import subprocess
 import math
 import numpy as np
 import pigpio
 import time
 import pyttsx3
-from picamera.array import PiRGBArray
-from picamera import PiCamera
-import cv2
 import pygame
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-def Pan_Update():
-
+def Pan_Update(Pan_Angle, Desired_Pan):
     # Limiting Program: keeps motors from attempting to move past physical stops
-    # Replaces improper value with limit value
-    '''
-    if Desired_Pan >= P_max
+    # Replaces improper value with limit value 
+    if Desired_Pan >= P_max:
         Desired_Pan = P_max
-    if Desired_Pan <= P_min
+    if Desired_Pan <= P_min:
         Desired_Pan = P_min
-    '''
+    
     #if less than desired angle
     if Pan_Angle < Desired_Pan:
-        Pan_Angle +=0.1 #increase angle towards desired angle
+        Pan_Angle +=1 #increase angle towards desired angle
     #if greater than desired angle
     if Pan_Angle > Desired_Pan:
-        Pan_Angle -=0.1 #dencrease angle towards desired angle   
+        Pan_Angle -=1 #dencrease angle towards desired angle   
     
     PWM_Signal = ((1000 * Pan_Angle) / 90) + 1500
-    pi.set_servo_pulsewidth(Pan, PWM_Signal)
+    pi.set_servo_pulsewidth(22, PWM_Signal)
 
-    time.sleep(Speed) #Speed Controller
+    Pan_Update.Pan_Angle = Pan_Angle
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-def Tilt_Update():
-
+def Tilt_Update(Tilt_Angle, Desired_Tilt):
     # Limiting Program: keeps motors from attempting to move past physical stops
     # Replaces improper value with limit value
-    '''
-    if Desired_Pan >= P_max
-        Desired_Pan = P_max
-    if Desired_Pan <= P_min
-        Desired_Pan = P_min
-    '''
+    if Desired_Tilt >= Ti_max:
+        Desired_Tilt = Ti_max
+    if Desired_Tilt <= Ti_min:
+        Desired_Tilt = Ti_min
+    
     #if less than desired angle
     if Tilt_Angle < Desired_Tilt:
-        Tilt_Angle +=0.1 #increase angle towards desired angle
+        Tilt_Angle +=1 #increase angle towards desired angle
     #if greater than desired angle
     if Tilt_Angle > Desired_Tilt:
-        Tilt_Angle -=0.1 #dencrease angle towards desired angle   
+        Tilt_Angle -=1 #dencrease angle towards desired angle   
     
     PWM_Signal = ((1000 * Tilt_Angle) / 90) + 1500
-    pi.set_servo_pulsewidth(Pan, PWM_Signal)
+    pi.set_servo_pulsewidth(13, PWM_Signal)
 
-    time.sleep(Speed) #Speed Controller
-
+    Tilt_Update.Tilt_Angle = Tilt_Angle
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 def Matrix_Update():
@@ -184,12 +176,12 @@ def Matrix_Update():
             Matrix_Update.Angle_Array = A
             print("ERROR - Move_Time timeout")
             Counter = 0
-            time.sleep(1)
+            time.sleep(0.25)
             break
 
-        #Comapres A to B within tolerance of 0.002
+        #Comapres A to B within tolerance of 0.003
         #if equal then stop movement.         
-        if np.allclose(A, B, rtol=0.002, atol=0.005) == True: 
+        if np.allclose(A, B, rtol=0.003, atol=0.007) == True: 
             Matrix_Update.Angle_Array = A
             Counter = 0           
             break 
@@ -198,6 +190,7 @@ def Solve_Inverse_Kinematic():
     print("IS THIS RIGHT??")
     # Need to get inverse kinematic solver for here!!!!!
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+os.system('clear')
 print("")
 print("******************************************************")
 print("*   REGIS,  R-0.1:  Created by Kenneth Mikolaichik   *")
@@ -233,6 +226,7 @@ Speed = 0.000
 # This is how fast the robot moves, Zero is fastest
 # it is the number of seconds to wait per each 0.1 degrees of movement
 # Between 0 and 0.05 is usually reasonable
+print("Speed setting:", Speed)
 
 # - - Measurements / Dimensions - - #
 # All data is in Meter/Second/Kilogram system
@@ -328,6 +322,9 @@ for pin in servos:
     pi.set_mode(pin, pigpio.OUTPUT)    
     pi.set_PWM_frequency(pin, DEFAULT_FREQ)
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+#Boot up Sound File
+#playsound('/home/kennethmikolaichik/Regis/Sounds/holy-smokes-its-me-regis-im-a-sexy-little-monkey.mp3')
+#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 '''
 #- - Stand Up Sequence - -#
 print("Please ensure Regis is laying flat and clear of obstacles, stand clear.", end="\r")
@@ -376,7 +373,7 @@ Desired_Angle_Array = np.array ([[25, F_max, 0],
                                  [-25, F_max, 0]])   
 Matrix_Update()
 Current_Array = Matrix_Update.Angle_Array 
-'''
+
 #Stand
 Desired_Angle_Array = np.array ([[25, 5, -20],
                                  [-25, 5, -20],
@@ -389,8 +386,15 @@ Desired_Angle_Array = np.array ([[25, 5, 0],
                                  [-25, 5, 0],
                                  [25, 5, 0],
                                  [-25, 5, 0]])   
+'''
 Matrix_Update()
 Current_Array = Matrix_Update.Angle_Array 
+
+# Moves Head to center
+Pan_Update(Pan_Angle, Desired_Pan)
+Pan_Angle = Pan_Update.Pan_Angle
+Tilt_Update(Tilt_Angle, Desired_Tilt)
+Tilt_Angle = Tilt_Update.Tilt_Angle
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@    
 '''                               MAIN PROGRAM                              '''
@@ -398,6 +402,7 @@ Current_Array = Matrix_Update.Angle_Array
 while True:
     Main_Pgm_Answer = int(0)
     while Main_Pgm_Answer == 0:
+        os.system('clear')
         print("\n")
         print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
         print("$                    MAIN PROGRAM --- LONG LIVE REGIS!                  $")
@@ -415,12 +420,13 @@ while True:
         print(" 10) Stand Up")
         print(" 11) Stand Tall")
         print(" 12) Pan Left & Right")
-        print(" 13) Look Around")
+        print(" 13) Control Camera Head")
         print(" 14) Turn on Camera with Object Detection")
         
         Main_Pgm_Answer = int(input("Enter 1,2,3...\n"))
     #--------------------------------------------------------------------------
     while Main_Pgm_Answer == 1: #Wave Hello 
+        os.system('clear')
         print("\nHello!\n")
         Final_Array = Current_Array
         Ca1 = Current_Array[0,0]
@@ -524,17 +530,13 @@ while True:
         Matrix_Update()
         Current_Array = Matrix_Update.Angle_Array 
         #---------
-        engine.say("Hello, greetings and salutations")
-        engine.runAndWait()
-        engine.say("I am Regis")
-        engine.runAndWait()
-        dummy = input("\npress enter to continue")
+        playsound('/home/kennethmikolaichik/Regis/Sounds/hello-hi-nice-to-see-you.mp3')
         os.system('clear')
         Main_Pgm_Answer = 0
         break    
     #--------------------------------------------------------------------------
     while Main_Pgm_Answer == 2: #Turn on Camera
-        subprocess.call(['lxterminal', '-e', 'python /home/kennethmikolaichik/Camera/Picamera_with_OpenCV.py'])
+        subprocess.call(['lxterminal', '-e', 'python /home/kennethmikolaichik/Regis/Awaken/Camera/Picamera_with_OpenCV.py'])
         os.system('clear')
         Main_Pgm_Answer = 0
         break
@@ -639,13 +641,17 @@ while True:
           input()
         '''
         
-        os.chdir('/home/kennethmikolaichik/Awaken/modules')
-        subprocess.call(['lxterminal', '-e', 'display_servo_angles.py'])
+        '''
+        #launches the file in another window but it closes immediately
+        os.chdir('/home/kennethmikolaichik/Regis/Awaken')
+        subprocess.call(['lxterminal', '-e', 'Display_Servo_Angles.py'])
         os.chdir('/')
         os.system('clear')
-        
+        '''
 
-        #print(Current_Array)   
+        os.system('clear')
+        print(Current_Array)   
+        dummy = input("\npress enter to continue")
         os.system('clear')
         Main_Pgm_Answer = 0
         break    
@@ -784,7 +790,8 @@ while True:
         Reach_4r = F4lr + T4lr
         Reach_4h = F4lh + T4lh
          
-        # - - Positional Computations - - #      
+        # - - Positional Computations - - #  
+        os.system('clear')    
         print("Where reach is the Hypotenuse of the Femur and Tarsus,")
         print("and z is the position above or below initial xy-plane.")
         print(f"Leg 1 reach: {Reach_1r:.3f}")
@@ -795,7 +802,6 @@ while True:
         print(f"Leg 3 z: {Reach_3h:.3f}")
         print(f"Leg 4 reach: {Reach_4r:.3f}")
         print(f"Leg 4 z: {Reach_4h:.3f}")
-        print("\n")
         #---------
         dummy = input("press enter to continue")
         os.system('clear')
@@ -911,10 +917,10 @@ while True:
         break 
     #--------------------------------------------------------------------------
     while Main_Pgm_Answer == 13:
-        # Camera configuration
-        CAMERA_SPEED = 5
-        WIDTH = 400
-        HEIGHT = 400
+        # Camera Window configuration
+        CAMERA_SPEED = 1
+        WIDTH = 200
+        HEIGHT = 150
 
         # Initialize Pygame
         pygame.init()
@@ -922,56 +928,112 @@ while True:
         pygame.display.set_caption("Camera Control")
 
         # Camera position
-        camera_x = WIDTH // 2
-        camera_y = HEIGHT // 2
+        camera_x = Pan_Angle + 100
+        camera_y = Tilt_Angle + 95
+
+        # Flags to track key presses
+        moving_left = False
+        moving_right = False
+        moving_up = False
+        moving_down = False
 
         # Main game loop
         running = True
         while running:
+
             # Handle events
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
-
+ 
                 if event.type == pygame.KEYDOWN:
-                    # Move camera based on arrow keys
+                    # Set the corresponding flag when a key is pressed down
                     if event.key == pygame.K_LEFT:
-                        camera_x -= CAMERA_SPEED
-                        Desired_Pan -=1
-                        
+                        moving_left = True
                     elif event.key == pygame.K_RIGHT:
-                        camera_x += CAMERA_SPEED
-                        Desired_Pan +=1
-
+                        moving_right = True
                     elif event.key == pygame.K_UP:
-                        camera_y -= CAMERA_SPEED
-                        Desired_Tilt -=1
-
+                        moving_up = True
                     elif event.key == pygame.K_DOWN:
-                        camera_y += CAMERA_SPEED
-                        Desired_Tilt +=1
+                        moving_down = True
+
+                if event.type == pygame.KEYUP:
+                    # Reset the corresponding flag when a key is released
+                    if event.key == pygame.K_LEFT:
+                        moving_left = False
+                    elif event.key == pygame.K_RIGHT:
+                        moving_right = False
+                    elif event.key == pygame.K_UP:
+                        moving_up = False
+                    elif event.key == pygame.K_DOWN:
+                        moving_down = False
+
+
+            # Update camera position based on the flags
+            if moving_left:
+                camera_x -= CAMERA_SPEED
+                Desired_Pan -=1
+                
+            if moving_right:
+                camera_x += CAMERA_SPEED
+                Desired_Pan +=1
+            if moving_up:
+                camera_y -= CAMERA_SPEED
+                Desired_Tilt +=1
+            if moving_down:
+                camera_y += CAMERA_SPEED
+                Desired_Tilt -=1
+            
+            # Limit camera position red dot and align with actual angles
+            if camera_x >= 190:
+                camera_x = 190
+                Desired_Pan = 90
+            if camera_x <= 10:
+                camera_x = 10
+                Desired_Pan = -90
+
+            if camera_y >= 140:
+                camera_y = 140
+                Desired_Tilt = -45
+            if camera_y <= 15:
+                camera_y = 15
+                Desired_Tilt = 80
 
             # Clear the screen
             screen.fill((0, 0, 0))
-
-            # Draw camera position
+            # Draw camera position red dot
             pygame.draw.circle(screen, (255, 0, 0), (camera_x, camera_y), 10)
-
             # Update the screen
             pygame.display.flip()
+
+            # Update Servo Signals
+            Pan_Update(Pan_Angle, Desired_Pan)
+            Pan_Angle = Pan_Update.Pan_Angle
+            Tilt_Update(Tilt_Angle, Desired_Tilt)
+            Tilt_Angle = Tilt_Update.Tilt_Angle
+
+            os.system('clear')
+            print("\nUse the Camera Control Window and your keyboards arrow keys")
+            print("")
+            print("Pan Angle:", Pan_Angle)
+            print("Tilt Angle:", Tilt_Angle)
             
-            # Update Servo Signal
-            Pan_Update()
-            Tilt_Update()
+            #-------- Debugging
+            #print("")
+            #print("Camera x-axis:", camera_x)
+            #print("Camera y-axis:", camera_y)
+
+            # control the speed of camera movement
+            time.sleep(Speed)
 
         # Quit the program
         pygame.quit()
-        os.system('clear')
         Main_Pgm_Answer = 0
         break     
     #--------------------------------------------------------------------------
     while Main_Pgm_Answer == 14:
-        os.chdir('/home/kennethmikolaichik/examples/lite/examples/object_detection/raspberry_pi')
+        os.chdir('/home/kennethmikolaichik/Regis/examples/lite/examples/object_detection/raspberry_pi')
+
         subprocess.call(['lxterminal', '-e', 'python detect.py'])
         os.chdir('/')
         os.system('clear')
