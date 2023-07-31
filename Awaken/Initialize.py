@@ -917,6 +917,9 @@ while True:
         break 
     #--------------------------------------------------------------------------
     while Main_Pgm_Answer == 13:
+        Desired_Pan = Pan_Angle
+        Desired_Tilt = Tilt_Angle
+
         # Camera Window configuration
         CAMERA_SPEED = 1
         WIDTH = 200
