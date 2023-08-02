@@ -8,7 +8,7 @@
 • **Training a hand signal model that Regis will respond to**
 
 # Regis Quadruped Robot
-![Regis Looking Cool](https://github.com/kennethmikolaichik/Regis/blob/main/Fun%20Progress%20Pics/the_readme_pic.jpg)
+![Regis Looking Cool](https://github.com/kennethmikolaichik/Regis/blob/main/Progress%20Pictures/the_readme_pic.jpg)
 
 ####Download the Pi Image here:  ##insert link##
 
@@ -46,7 +46,7 @@ Power Converter: UCTRONICS DC 6V-24V to DC 5V 5A Buck Converter Module, 9-36V St
 ## Chassis
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
-![Chassis Cad Model](https://github.com/kennethmikolaichik/Regis/blob/main/Fun%20Progress%20Pics/chassis_cad_pic.png)
+![Chassis Cad Model](https://github.com/kennethmikolaichik/Regis/blob/main/Progress%20Pictures/chassis_cad_pic.png)
 
 Use Regis > CAD FILES > Version 0.0
 All structural pieces have been 3D printed using PLA and ABS filament on an Ender 3. Any G-code files will be for this setup. Recommend high percentage to solid infill.
@@ -95,7 +95,7 @@ Make sure you have Python 3 installed as some of the camera software will not wo
 The servo PWM timing is written with the aid of the PiGPIO library:
 https://abyz.me.uk/rpi/pigpio/
 
-![Look Up](https://github.com/kennethmikolaichik/Regis/blob/main/Fun%20Progress%20Pics/Head%20to%20Chassis%20incorporation!.jpg)
+![Look Up](https://github.com/kennethmikolaichik/Regis/blob/main/Progress%20Pictures/Head%20to%20Chassis%20incorporation!.jpg)
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 ## Using Your Spider
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
