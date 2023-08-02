@@ -4,7 +4,7 @@
 
 • **Enabling real time face tracking, get TensorFlow to control pan/tilt motors.**
 • **Finding a suitable server to host Pi Image (2.5GB+).**
-• **Building reverse kinematic model and program for defining walking parameters.**
+• **Building inverse kinematic model and program for defining walking parameters.**
 • **Training a hand signal model that Regis will respond to**
 
 # Regis Quadruped Robot
