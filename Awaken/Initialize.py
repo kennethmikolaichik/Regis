@@ -1034,7 +1034,7 @@ while True:
         Main_Pgm_Answer = 0
         break     
     #--------------------------------------------------------------------------
-    while Main_Pgm_Answer == 14:
+    while Main_Pgm_Answer == 14: #Tensorflow Object Detectrion and Classification
         os.chdir('/home/kennethmikolaichik/Regis/examples/lite/examples/object_detection/raspberry_pi')
 
         subprocess.call(['lxterminal', '-e', 'python detect.py'])
@@ -1043,7 +1043,13 @@ while True:
         Main_Pgm_Answer = 0
         break  
     #--------------------------------------------------------------------------
-    while Main_Pgm_Answer >= 15: #Invalid Selection
+    while Main_Pgm_Answer == 15: #Real Time Leg Control
+        print("under construction 7.31.2023")
+        time.sleept(2)
+        Main_Pgm_Answer = 0
+        break
+    #--------------------------------------------------------------------------
+    while Main_Pgm_Answer >= 16: #Invalid Selection
         print("\nPlease Make a Valid Selection\n")
         dummy = input("press enter to continue")
         os.system('clear')
