@@ -113,7 +113,7 @@ The files in the directory 'Awaken' Can be run to control the legs and head.
 
 Hit enter. This will engage the PiGPIO daemon to run in the background. This will allow the motor controller to run.
 
-3). Move to the directory containing the motor control files, if you copied the entire directory, it will be in Code Bits > Awaken:
+3). Move to the directory containing the motor control files, if you copied the entire directory, it will be in Regis > Awaken:
 
     cd Awaken/Old_Programs
 
@@ -125,7 +125,7 @@ The robot should lift its front right leg and the terminal should output "comple
 
 The remaining motor control files in this folder can be run in this manner through the command line.
 
-Now, run the folowing program from the command line of your pi to control the robots movment and camera. It is the main interface I have created for controlling the robot:
+Now, run the folowing program from the command line of your pi to control the robots movment and camera. This file is the main interface I have created for controlling the robot:
 
     cd Awaken
    
@@ -133,7 +133,7 @@ Now, run the folowing program from the command line of your pi to control the ro
 
 
 #### I am currently in the process of setting up leg control software so that the robot can walk and run. I am investigating different Inverse Kinematic solving libraries to this end. I am also writing programs to display all of the servo motor angles and location position of each motor in real time. 5.11.2023
-• 'Klampt' python library seems useful. Also see this walkthrough: https://hackaday.io/project/171456-diy-hobby-servos-quadruped-robot/log/177488-lets-talk-about-the-kinematic-model
+• 'Klampt' python library seems useful. Also the 'Moveit' library. Also see this walkthrough: https://hackaday.io/project/171456-diy-hobby-servos-quadruped-robot/log/177488-lets-talk-about-the-kinematic-model
 
 #### I have begun the process of designing Regis V0.2, this robot will have a 10Ah battery, larger servos, and will run on Ubuntu-64x with the robot operating system(ROS) and a separate Arduino as the motor controller.
 
