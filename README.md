@@ -12,9 +12,7 @@
 
 #### Download the Pi Image here: https://downloads.raspberrypi.org/raspios_full_armhf/images/raspios_full_armhf-2023-05-03/2023-05-03-raspios-bullseye-armhf-full.img.xz
 
-You will need to install a number of packages from the terminal/command line in order for the python packages to be imported sucessfully. First ensure that 'wheels' and 'python3' are installed. Then pip install the following python modules:
-
-os, playsound, subprocess, math, numpy, pigpio, time, pyttsx3, and pygame.
+You will need to install a number of packages from the terminal/command line in order for the python packages to be imported sucessfully. First ensure that 'wheels' and 'python3' are installed. Then pip install the following python modules:  os, playsound, subprocess, math, numpy, pigpio, time, pyttsx3, and pygame.
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 ## Inspiration and General Description
