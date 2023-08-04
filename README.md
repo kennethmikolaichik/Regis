@@ -10,7 +10,9 @@
 # Regis Quadruped Robot
 ![Regis Looking Cool](https://github.com/kennethmikolaichik/Regis/blob/main/Progress%20Pictures/the_readme_pic.jpg)
 
-####Download the Pi Image here:  ##insert link##
+####Download the Pi Image here: https://downloads.raspberrypi.org/raspios_full_armhf/images/raspios_full_armhf-2023-05-03/2023-05-03-raspios-bullseye-armhf-full.img.xz
+
+You will need to install a number of packages from the terminal/command line in order for the python packages to be imported. List soon to come!
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 ## Inspiration and General Description
