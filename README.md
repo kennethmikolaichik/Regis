@@ -1,6 +1,6 @@
 ![Visitor Count](https://profile-counter.glitch.me/{kennethmikoliachik}/count.svg)
 
-#### Working on: 8/4/2023)
+#### Working on: 8/4/2023
 
 • **Enabling real time face tracking, get TensorFlow to control pan/tilt motors.** see here: https://www.instructables.com/Pan-Tilt-face-tracking-with-the-raspberry-pi/
 
