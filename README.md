@@ -1,18 +1,15 @@
 ![Visitor Count](https://profile-counter.glitch.me/{kennethmikoliachik}/count.svg)
 
-#### Working on: (5/11/2023)
+#### Working on: 8/4/2023)
 
-• **Enabling real time face tracking, get TensorFlow to control pan/tilt motors.**
-• **Finding a suitable server to host Pi Image (2.5GB+).**
-• **Building inverse kinematic model and program for defining walking parameters.**
-• **Training a hand signal model that Regis will respond to**
+• **Enabling real time face tracking, get TensorFlow to control pan/tilt motors.** see here: https://www.instructables.com/Pan-Tilt-face-tracking-with-the-raspberry-pi/
+
+• **Building inverse kinematic model and program for defining walking parameters.** see here: https://hackaday.io/project/171456-diy-hobby-servos-quadruped-robot/log/177488-lets-talk-about-the-kinematic-model
+
+• **Training a hand signal model that Regis will respond to** see here: https://techvidvan.com/tutorials/hand-gesture-recognition-tensorflow-opencv/
 
 # Regis Quadruped Robot
 ![Regis Looking Cool](https://github.com/kennethmikolaichik/Regis/blob/main/Progress%20Pictures/the_readme_pic.jpg)
-
-#### Download the Pi Image here: https://downloads.raspberrypi.org/raspios_full_armhf/images/raspios_full_armhf-2023-05-03/2023-05-03-raspios-bullseye-armhf-full.img.xz
-
-You will need to install a number of packages from the terminal/command line in order for the python packages to be imported sucessfully. First ensure that 'wheels' and 'python3' are installed. Then pip install the following python modules:  os, playsound, subprocess, math, numpy, pigpio, time, pyttsx3, and pygame.
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 ## Inspiration and General Description
@@ -87,6 +84,11 @@ And that’s it!
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 ## Interface
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
+#### Download the Pi Image here: https://downloads.raspberrypi.org/raspios_full_armhf/images/raspios_full_armhf-2023-05-03/2023-05-03-raspios-bullseye-armhf-full.img.xz
+
+You will need to install a number of packages from the terminal/command line in order for the python packages to be imported sucessfully. First ensure that 'wheels' and 'python3' are installed. Then pip install the following python modules:  os, playsound, subprocess, math, numpy, pigpio, time, pyttsx3, and pygame.
+
 For advanced users you may want to set up SSH to dial into your spider.
 Otherwise connect a monitor (or tv) to the micro HDMI port.
 Connect a mouse and keyboard to the Raspberry Pi USB ports. I highly recommend a wireless keyboard and mouse combo. I use a logitec model.
@@ -134,8 +136,7 @@ Now, run the folowing program from the command line of your pi to control the ro
     python3 Initialize.py
 
 
-#### I am currently in the process of setting up leg control software so that the robot can walk and run. I am investigating different Inverse Kinematic solving libraries to this end. I am also writing programs to display all of the servo motor angles and location position of each motor in real time. 5.11.2023
-• 'Klampt' python library seems useful. Also the 'Moveit' library. Also see this walkthrough: https://hackaday.io/project/171456-diy-hobby-servos-quadruped-robot/log/177488-lets-talk-about-the-kinematic-model
+"Anything is possible if you can only imagine it."
 
-#### I have begun the process of designing Regis V0.2, this robot will have a 10Ah battery, larger servos, and will run on Ubuntu-64x with the robot operating system(ROS) and a separate Arduino as the motor controller.
+Have a wonderful day!
 
