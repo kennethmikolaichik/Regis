@@ -1,3 +1,4 @@
+
 """Initialize
 Created by: Kenneth Mikolaichik
 5.8.2023"""
@@ -10,6 +11,37 @@ import pigpio
 import time
 import pyttsx3
 import pygame
+#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+'''Gyroscope stuff'''
+def MPU_Init():
+	#write to sample rate register
+	bus.write_byte_data(Device_Address, SMPLRT_DIV, 7)
+	
+	#Write to power management register
+	bus.write_byte_data(Device_Address, PWR_MGMT_1, 1)
+	
+	#Write to Configuration register
+	bus.write_byte_data(Device_Address, CONFIG, 0)
+	
+	#Write to Gyro configuration register
+	bus.write_byte_data(Device_Address, GYRO_CONFIG, 24)
+	
+	#Write to interrupt enable register
+	bus.write_byte_data(Device_Address, INT_ENABLE, 1)
+
+def read_raw_data(addr):
+	#Accelero and Gyro value are 16-bit
+        high = bus.read_byte_data(Device_Address, addr)
+        low = bus.read_byte_data(Device_Address, addr+1)
+    
+        #concatenate higher and lower value
+        value = ((high << 8) | low)
+        
+        #to get signed value from mpu6050
+        if(value > 32768):
+                value = value - 65536
+        return value
+
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 def Pan_Update(Pan_Angle, Desired_Pan):
     # Limiting Program: keeps motors from attempting to move past physical stops
@@ -162,17 +194,20 @@ def Matrix_Update():
             pi.set_servo_pulsewidth(Pin, PWM_Signal)
         
         A = A*Correction_Array #Remove correction
+        A = np.round(A, decimals=2, out=None)
 
         time.sleep(Speed) #Speed Controller
         #DEBUGGUING# print(A,"Current Angles\n\n",C, "adjustment Array\n\n", B,"Desired Angles\n\n", "completed =",np.allclose(A, B, rtol=0.001, atol=0.005))    
         
-        # prints the time it takes to the screen
-        Move_Time = Speed*Counter     
-        print(f"{Move_Time:.2f}s",end="\r")
+        # Tracks Loop and prints the time it takes to the screen
+        #Move_Time = Speed*Counter     
+        #print(Counter)
+        #print(f"{Move_Time:.2f}s",end="\r")
         Counter +=1
         
         #Counter Runaway
         if Counter >= 1500:
+            A = np.round(A, decimals=2, out=None)
             Matrix_Update.Angle_Array = A
             print("ERROR - Move_Time timeout")
             Counter = 0
@@ -182,6 +217,7 @@ def Matrix_Update():
         #Comapres A to B within tolerance of 0.003
         #if equal then stop movement.         
         if np.allclose(A, B, rtol=0.003, atol=0.007) == True: 
+            A = np.round(A, decimals=2, out=None)
             Matrix_Update.Angle_Array = A
             Counter = 0           
             break 
@@ -306,10 +342,6 @@ Desired_Angle_Array = np.array([[Cda1, Fda1, Tda1],
                                 [Cda3, Fda3, Tda3],
                                 [Cda4, Fda4, Tda4]])
 
-Pan_Angle = 0
-Tilt_Angle = 0
-Desired_Pan = 0
-Desired_Tilt = 0
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 #- - Bring Servo Motors Online - -#
 pi = pigpio.pi()
@@ -342,6 +374,8 @@ time.sleep(0.4)
 print("\nPreparing to move!")
 time.sleep(1.5)
 '''
+#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
 # DEFAULT POSITION AT AWAKEN
 #All shoulders square, Femurs Up, Tarsus Up
 # Really need a way to move to this position slowly!!!!!
@@ -361,41 +395,20 @@ Current_Array = np.array([[Ca1, Fa1, Ta1],
                           [Ca2, Fa2, Ta2],
                           [Ca3, Fa3, Ta3],
                           [Ca4, Fa4, Ta4]])
-
-Desired_Angle_Array = Current_Array
-Matrix_Update()
-time.sleep(1.5)
-'''
-# All Tarsus Down
-Desired_Angle_Array = np.array ([[25, F_max, 0],
-                                 [-25, F_max, 0],
-                                 [25, F_max, 0],
-                                 [-25, F_max, 0]])   
-Matrix_Update()
-Current_Array = Matrix_Update.Angle_Array 
-
-#Stand
-Desired_Angle_Array = np.array ([[25, 5, -20],
-                                 [-25, 5, -20],
-                                 [25, 5, -20],
-                                 [-25, 5, -20]])   
-Matrix_Update()
-Current_Array = Matrix_Update.Angle_Array 
-
-Desired_Angle_Array = np.array ([[25, 5, 0],
-                                 [-25, 5, 0],
-                                 [25, 5, 0],
-                                 [-25, 5, 0]])   
 '''
 Matrix_Update()
 Current_Array = Matrix_Update.Angle_Array 
 
 # Moves Head to center
+Pan_Angle = 0
+Tilt_Angle = 0
+Desired_Pan = 0
+Desired_Tilt = 0
 Pan_Update(Pan_Angle, Desired_Pan)
 Pan_Angle = Pan_Update.Pan_Angle
 Tilt_Update(Tilt_Angle, Desired_Tilt)
 Tilt_Angle = Tilt_Update.Tilt_Angle
-
+'''
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@    
 '''                               MAIN PROGRAM                              '''
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -404,11 +417,11 @@ while True:
     while Main_Pgm_Answer == 0:
         os.system('clear')
         print("\n")
-        print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
-        print("$                    MAIN PROGRAM --- LONG LIVE REGIS!                  $")
-        print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
+        print("   $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
+        print("   $                    MAIN PROGRAM --- LONG LIVE REGIS!                  $")
+        print("   $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
         print("\nSelect from the following:")
-        print("  1) Wave Hello!")
+        print("  1) Sit Down")
         print("  2) Turn on Camera")     
         print("  3) Go to Maintenance Position")        
         print("  4) Move Robot / Servo Angle Input Mode")
@@ -416,16 +429,341 @@ while True:
         print("  6) Get Current Servo Angles")
         print("  7) Get Current Joint Positions")
         print("  8) Get Current Leg Dimensions")
-        print("  9) Sit Down")
+        print("  9) Wave Hello!")
         print(" 10) Stand Up")
         print(" 11) Stand Tall")
         print(" 12) Pan Left & Right")
         print(" 13) Control Camera Head")
         print(" 14) Turn on Camera with Object Detection")
+        print(" 15) Get Gyro Data")
+        print(" 16) Real Time Motor Control")
+        print(" 17) Play a song")
         
         Main_Pgm_Answer = int(input("Enter 1,2,3...\n"))
     #--------------------------------------------------------------------------
-    while Main_Pgm_Answer == 1: #Wave Hello 
+    #Sit
+    while Main_Pgm_Answer == 1:
+        Desired_Angle_Array = np.array ([[25, 80, -40],
+                                         [-25, 80, -40],
+                                         [25, 80, -40],
+                                         [-25, 80, -40]])  
+        Matrix_Update()
+        Current_Array = Matrix_Update.Angle_Array 
+
+        Desired_Angle_Array = np.array ([[15, 80, -40],
+                                        [-15, 80, -40],
+                                        [15, 80, -40],
+                                        [-15, 80, -40]])
+        os.system('clear')
+        Main_Pgm_Answer = 0
+        break  
+    #--------------------------------------------------------------------------
+    #Turn on Camera
+    while Main_Pgm_Answer == 2:
+        subprocess.call(['lxterminal', '-e', 'python /home/kennethmikolaichik/Regis/Awaken/Camera/Picamera_with_OpenCV.py'])
+        os.system('clear')
+        Main_Pgm_Answer = 0
+        break
+    #--------------------------------------------------------------------------
+    #Default Position / Maintenence Mode
+    while Main_Pgm_Answer == 3:
+        #Legs
+        Desired_Angle_Array = np.array ([[0, 0, 0],
+                                         [0, 0, 0],
+                                         [0, 0, 0],
+                                         [0, 0, 0]])   
+        Matrix_Update()
+        Current_Array = Matrix_Update.Angle_Array
+
+        #Head
+        Pan_Angle = 0
+        Tilt_Angle = 0
+        Desired_Pan = 0
+        Desired_Tilt = 0
+        # Update Servo Signals
+        Pan_Update(Pan_Angle, Desired_Pan)
+        Pan_Angle = Pan_Update.Pan_Angle
+        Tilt_Update(Tilt_Angle, Desired_Tilt)
+        Tilt_Angle = Tilt_Update.Tilt_Angle
+
+        os.system('clear')
+        Main_Pgm_Answer = 0
+        break  
+    #--------------------------------------------------------------------------
+    #Servo Angle Input
+    while Main_Pgm_Answer == 4:
+        Answer = None
+        #- - - - - - - - - - - - - - - - - - - - - - - - - -#
+        #- - - - - - - - Desired Angle Prompt- - - - - - - -#
+        #- - - - - - - - - - - - - - - - - - - - - - - - - -#
+        os.system('clear')
+        print("Enter desired Angles from L to R, Top to Bottom:\n")
+        print("- Servo Angle Matrix -")
+        print("Leg1:  C1 F1 T1 ")
+        print("Leg2:  C2 F2 T2 ")
+        print("Leg3:  C3 F3 T3 ")
+        print("Leg4:  C4 F4 T4 ")
+        Cda1 = float(input("C1:"))
+        Fda1 = float(input("F1:"))
+        Tda1 = float(input("T1:"))
+        Cda2 = float(input("C2:"))
+        Fda2 = float(input("F2:"))
+        Tda2 = float(input("T2:"))
+        Cda3 = float(input("C3:"))
+        Fda3 = float(input("F3:"))
+        Tda3 = float(input("T3:"))
+        Cda4 = float(input("C4:"))
+        Fda4 = float(input("F4:"))
+        Tda4 = float(input("T4:"))
+        Desired_Angle_Array = np.array([[Cda1, Fda1, Tda1],
+                                        [Cda2, Fda2, Tda2],
+                                        [Cda3, Fda3, Tda3],
+                                        [Cda4, Fda4, Tda4]])
+        os.system('clear')
+        print("You have selected:\n\n",Desired_Angle_Array)
+        
+        Answer = input("\nEnter y/n or 'q' to quit\n\nIs this Correct?\n")            
+        if Answer == "q":
+            Main_Pgm_Answer = 0
+            break
+        elif Answer == "y":
+            Matrix_Update()
+            Current_Array = Matrix_Update.Angle_Array
+            os.system('clear')
+            print("\n\n Actual Servo Angles:\n",Matrix_Update.Angle_Array)
+            Answer2 = input("\nAgain?\n 'y' or 'q' to quit\n")            
+            if Answer2 == "q":
+                Main_Pgm_Answer = 0
+                break
+            elif Answer == "y":
+                continue
+
+                continue
+        elif Answer == "n":
+            print(" ")
+    #--------------------------------------------------------------------------
+    #Desired Position Prompt
+    while Main_Pgm_Answer == 5:
+        os.system('clear')
+        #- - - - - - - - - - - - - - - - - - - - - - - - - -#
+        #- - - - - - - -Desired Position Prompt- - - - - - -#
+        #- - - - - - - - - - - - - - - - - - - - - - - - - -#
+        #- - Desired Position Prompt - -#
+        Dx = float()
+        Dy = float()
+        Dz = float()
+        Desired_Position = [Dx, Dy, Dz]
+        
+        print("Enter desired position from current position as: x y z in meters")
+        print("Looking down from above, +x is to the right, +y is forward")
+        print("Enter x coordinate...\n", end="\r")
+        Dx = input()
+        print("Enter y coordinate...\n", end="\r")
+        Dy = input()
+        print("Enter z coordinate, for default enter 'h'...\n", end="\r")
+        Dz = input()
+        if Dz == 'h':
+            Dz = 0.09
+            
+        #Calculates current position from current motor positions
+        
+        print("\nUNDER CONSTRUCTION! -SORRY-5.10.2023\n")
+        print("requires inverse kinematic solver to be functional")
+        dummy = input("press enter to continue")
+        os.system('clear')
+        Main_Pgm_Answer = 0
+        break
+    #--------------------------------------------------------------------------  
+    #Get Servo Angles 
+    while Main_Pgm_Answer == 6: 
+        os.system('clear')
+
+        
+        
+        '''
+        # Set the environment variable with Current_Array data
+        os.environ['CURRENT_ARRAY'] = repr(Current_Array)
+
+        #launches the file in another window but it closes immediately
+        os.chdir('/home/kennethmikolaichik/Regis/Awaken')
+        subprocess.call(['lxterminal', '-e', 'python',  'Display_Servo_Angles.py'])
+        os.chdir('/')
+        os.system('clear')
+        Main_Pgm_Answer = 0
+        break 
+        '''
+        def trunc(values, decs=0):
+            return np.trunc(values*10**decs)/(10**decs)
+
+        Current_Array = np.round(Current_Array, decimals=2, out=None)
+        print(Current_Array)
+        
+        '''
+        for value in Current_Array:
+            print("{:.2f}".format(value))     
+        '''
+        
+
+        dummy = input("\npress enter to continue")
+        os.system('clear')
+        Main_Pgm_Answer = 0
+        break 
+        
+     #--------------------------------------------------------------------------    
+    #Get Current Frames / Positions
+    while Main_Pgm_Answer == 7:
+        deg2rad = (math.pi/180)
+        
+        #- - Positional Data - -#
+        Body_Frame = [0, 0, 0]
+        [Bx, By, Bz] = Body_Frame
+        #Center of body
+
+        Head_Frame = Body_Frame + [Head_Offset_x, Head_Offset_y, Head_Offset_z]
+        [Hx, Hy, Hz] = Head_Frame
+        #Center of head
+
+        #Leg 1 - Fwd RH. Quadrant I (+x,+y, z)
+        C1_Angle = Current_Array[0,0]
+        C1_Offset_x = Coxa_Length * math.cos(Current_Array[0,0])
+        C1_Offset_y = Coxa_Length * math.cos(Current_Array[0,0])
+        
+        C1_Frame = Body_Frame + [C1_Offset_x, C1_Offset_y, 0]
+        [Cx1, Cy1, Cz1] = C1_Frame
+        #- - - - - -
+        F1_Angle = Current_Array[0,1]
+        F1_Frame = C1_Frame + [Femur_Length * math.cos(F1_Angle), 0, Femur_Length * math.sin(F1_Angle)]
+        [Fx1, Fy1, Fz1] = F1_Frame
+        #- - - - - -
+        
+        T1_Frame = [Tx1, Ty1, Tz1]
+        #- - - - - -
+        #Manipulator
+
+
+
+
+
+        M1_Frame = [Mx1, My1, Mz1]
+        #Leg2
+        #- - - - - -
+        #Manipulator
+        M2_Frame = [Mx2, My2, Mz2]
+        #- - - - - -
+        C2_Frame = [Cx2, Cy2, Cz2]
+        F2_Frame = [Fx2, Fy2, Fz2]
+        T2_Frame = [Tx2, Ty2, Tz2]
+
+        #Leg3
+        #- - - - - -
+        #Manipulator
+        M3_Frame = [Mx3, My3, Mz3]
+        #- - - - - -
+        C3_Frame = [Cx3, Cy3, Cz3]
+        F3_Frame = [Fx3, Fy3, Fz3]
+        T3_Frame = [Tx3, Ty3, Tz3]
+
+        #Leg4
+        #- - - - - -
+        #Manipulator
+        M4_Frame = [Mx4, My4, Mz4]
+        #- - - - - -
+        C4_Frame = [Cx4, Cy4, Cz4]
+        F1_Frame = [Fx4, Fy4, Fz4]
+        T4_Frame = [Tx4, Ty4, Tz4]
+          
+        print("Positional Data:")
+        print("Body_Frame =", Body_Frame)
+        print("Head_Frame =", Head_Frame)
+        print("Leg1:")
+        print("Coxa 1 =", C1_Frame)
+        print("Femur 1 =", F1_Frame)
+        print("Tarsus 1 =", T1_Frame)
+        print("Leg2:")
+        print("Coxa 2 =", C2_Frame)
+        print("Femur 2 =", F2_Frame)
+        print("Tarsus 2 =", T2_Frame)
+        print("Leg3:")
+        print("Coxa 3 =", C3_Frame)
+        print("Femur 3 =", F3_Frame)
+        print("Tarsus 3 =", T3_Frame)
+        print("Leg4:")
+        print("Coxa 4 =", C4_Frame)
+        print("Femur 4 =", F4_Frame)
+        print("Tarsus 4 =", T4_Frame)
+
+
+    
+    
+    
+        print("\nUNDER CONSTRUCTION! -SORRY-5.10.2023\n")
+        dummy = input("press enter to continue")
+        os.system('clear')
+        Main_Pgm_Answer = 0
+        break
+    #--------------------------------------------------------------------------    
+    #Get Current Leg Dimensions
+    while Main_Pgm_Answer == 8:
+        # - - Dimensional Computations - - #    
+
+        deg2rad = (math.pi/180)
+        #Leg1
+
+        F1lr = Femur_Length * (math.cos(deg2rad*Current_Array[0,1]))#Leg1 Femur [i,1]
+        F1lh = Femur_Length * (math.sin(deg2rad*Current_Array[0,1]))#Leg1 Femur [i,1]
+        Theta_1 = deg2rad*Current_Array[0,1] + deg2rad*Current_Array[0,2]
+        T1lr = Tarsus_Length * math.sin(Theta_1)
+        T1lh = Tarsus_Length * math.cos(Theta_1)
+        Reach_1r = F1lr + T1lr
+        Reach_1h = F1lh + T1lh
+
+        #Leg2
+        F2lr = Femur_Length * math.cos(deg2rad*Current_Array[1,1])
+        F2lh = Femur_Length * math.sin(deg2rad*Current_Array[1,1])
+        Theta_2 = deg2rad*Current_Array[1,1] + deg2rad*Current_Array[1,2]
+        T2lr = Tarsus_Length * math.sin(Theta_2)
+        T2lh = Tarsus_Length * math.cos(Theta_2)
+        Reach_2r = F2lr + T2lr
+        Reach_2h = F2lh + T2lh
+
+        #Leg3
+        F3lr = Femur_Length * math.cos(deg2rad*Current_Array[2,1]) #Leg 1 Femur [i,1]
+        F3lh = Femur_Length * math.sin(deg2rad*Current_Array[2,1]) #Leg 1 Femur [i,1]
+        Theta_3 = deg2rad*Current_Array[2,1] + deg2rad*Current_Array[2,2]
+        T3lr = Tarsus_Length * math.sin(Theta_3)
+        T3lh = Tarsus_Length * math.cos(Theta_3)
+        Reach_3r = F3lr + T3lr
+        Reach_3h = F3lh + T3lh
+
+        #Leg4
+        F4lr = Femur_Length * math.cos(deg2rad*Current_Array[3,1]) #Leg 1 Femur [i,1]
+        F4lh = Femur_Length * math.sin(deg2rad*Current_Array[3,1]) #Leg 1 Femur [i,1]
+        Theta_4 = deg2rad*Current_Array[3,1] + deg2rad*Current_Array[3,2]
+        T4lr = Tarsus_Length * math.sin(Theta_4)
+        T4lh = Tarsus_Length * math.cos(Theta_4)
+        Reach_4r = F4lr + T4lr
+        Reach_4h = F4lh + T4lh
+         
+        # - - Positional Computations - - #  
+        os.system('clear')    
+        print("Where reach is the Hypotenuse of the Femur and Tarsus,")
+        print("and z is the position above or below initial xy-plane.")
+        print(f"Leg 1 reach: {Reach_1r:.3f}")
+        print(f"Leg 1 z: {Reach_1h:.3f}")
+        print(f"Leg 2 reach: {Reach_2r:.3f}")
+        print(f"Leg 2 z: {Reach_2h:.3f}")
+        print(f"Leg 3 reach: {Reach_3r:.3f}")
+        print(f"Leg 3 z: {Reach_3h:.3f}")
+        print(f"Leg 4 reach: {Reach_4r:.3f}")
+        print(f"Leg 4 z: {Reach_4h:.3f}")
+        #---------
+        dummy = input("press enter to continue")
+        os.system('clear')
+        Main_Pgm_Answer = 0
+        break  
+    #--------------------------------------------------------------------------
+    #Wave Hello
+    while Main_Pgm_Answer == 9:
         os.system('clear')
         print("\nHello!\n")
         Final_Array = Current_Array
@@ -533,301 +871,10 @@ while True:
         playsound('/home/kennethmikolaichik/Regis/Sounds/hello-hi-nice-to-see-you.mp3')
         os.system('clear')
         Main_Pgm_Answer = 0
-        break    
+        break     
     #--------------------------------------------------------------------------
-    while Main_Pgm_Answer == 2: #Turn on Camera
-        subprocess.call(['lxterminal', '-e', 'python /home/kennethmikolaichik/Regis/Awaken/Camera/Picamera_with_OpenCV.py'])
-        os.system('clear')
-        Main_Pgm_Answer = 0
-        break
-    #--------------------------------------------------------------------------
-    while Main_Pgm_Answer == 3: #Default Position
-        Desired_Angle_Array = np.array ([[0, 0, 0],
-                                         [0, 0, 0],
-                                         [0, 0, 0],
-                                         [0, 0, 0]])   
-        Matrix_Update()
-        Current_Array = Matrix_Update.Angle_Array
-        os.system('clear')
-        Main_Pgm_Answer = 0
-        break  
-    #--------------------------------------------------------------------------
-    while Main_Pgm_Answer == 4: #Servo Angle Input
-        Answer = None
-        #- - - - - - - - - - - - - - - - - - - - - - - - - -#
-        #- - - - - - - - Desired Angle Prompt- - - - - - - -#
-        #- - - - - - - - - - - - - - - - - - - - - - - - - -#
-        print("Enter desired Angles from L to R, Top to Bottom:\n")
-        print("- Servo Angle Matrix -")
-        print("Leg1:  C1 F1 T1 ")
-        print("Leg2:  C2 F2 T2 ")
-        print("Leg3:  C3 F3 T3 ")
-        print("Leg4:  C4 F4 T4 ")
-        Cda1 = float(input("C1:"))
-        Fda1 = float(input("F1:"))
-        Tda1 = float(input("T1:"))
-        Cda2 = float(input("C2:"))
-        Fda2 = float(input("F2:"))
-        Tda2 = float(input("T2:"))
-        Cda3 = float(input("C3:"))
-        Fda3 = float(input("F3:"))
-        Tda3 = float(input("T3:"))
-        Cda4 = float(input("C4:"))
-        Fda4 = float(input("F4:"))
-        Tda4 = float(input("T4:"))
-        Desired_Angle_Array = np.array([[Cda1, Fda1, Tda1],
-                                        [Cda2, Fda2, Tda2],
-                                        [Cda3, Fda3, Tda3],
-                                        [Cda4, Fda4, Tda4]])
-        print("You have selected:\n",Desired_Angle_Array)
-        
-        Answer = input("Enter y/n or 'q' to quit\nIs this Correct?\n")            
-        if Answer == "q":
-            Main_Pgm_Answer = 0
-            break
-        elif Answer == "y":
-            Matrix_Update()
-            Current_Array = Matrix_Update.Angle_Array
-            print("\n\n Servo Angles:\n",Matrix_Update.Angle_Array)
-            Answer2 = input("Again?\n 'y' or 'q' to quit\n")            
-            if Answer2 == "q":
-                Main_Pgm_Answer = 0
-                break
-            elif Answer == "y":
-                continue
-
-                continue
-        elif Answer == "n":
-            print(" ")
-    while Main_Pgm_Answer == 5: #Desired Position Prompt
-        
-        #- - - - - - - - - - - - - - - - - - - - - - - - - -#
-        #- - - - - - - -Desired Position Prompt- - - - - - -#
-        #- - - - - - - - - - - - - - - - - - - - - - - - - -#
-        #- - Desired Position Prompt - -#
-        Dx = float()
-        Dy = float()
-        Dz = float()
-        Desired_Position = [Dx, Dy, Dz]
-        
-        print("Enter desired position from current position as: x y z in meters")
-        print("Looking down from above, +x is to the right, +y is forward")
-        print("Enter x coordinate...", end="\r")
-        Dx = input()
-        print("Enter y coordinate...", end="\r")
-        Dy = input()
-        print("Enter z coordinate, for default enter 'h'...", end="\r")
-        Dz = input()
-        if Dz == 'h':
-            Dz = 0.09
-            
-        #Calculates current position from current motor positions
-        
-        print("\nUNDER CONSTRUCTION! -SORRY-5.10.2023\n")
-        dummy = input("press enter to continue")
-        os.system('clear')
-        Main_Pgm_Answer = 0
-        break
-    #--------------------------------------------------------------------------  
-    while Main_Pgm_Answer == 6: #Get Servo Angles  
-        '''
-        try:
-          subprocess.call(['lxterminal', '-e', 'display_servo_angles.py'])
-        except BaseException:
-          print(sys.exc_info()[0])
-          import traceback
-          print(traceback.format_exc())
-        finally:
-          input()
-        '''
-        
-        '''
-        #launches the file in another window but it closes immediately
-        os.chdir('/home/kennethmikolaichik/Regis/Awaken')
-        subprocess.call(['lxterminal', '-e', 'Display_Servo_Angles.py'])
-        os.chdir('/')
-        os.system('clear')
-        '''
-
-        os.system('clear')
-        print(Current_Array)   
-        dummy = input("\npress enter to continue")
-        os.system('clear')
-        Main_Pgm_Answer = 0
-        break    
-     #--------------------------------------------------------------------------    
-    while Main_Pgm_Answer == 7: #Get Current Frames / Positions
-        deg2rad = (math.pi/180)
-        
-        #- - Positional Data - -#
-
-        Body_Frame = [0, 0, 0]
-        [Bx, By, Bz] = Body_Frame
-        #Center of body
-
-
-        Head_Frame = Body_Frame + [Head_Offset_x, Head_Offset_y, Head_Offset_z]
-        [Hx, Hy, Hz] = Head_Frame
-        #Center of head
-
-        #Leg 1 - Fwd RH. Quadrant I (+x,+y, z)
-        C1_Angle = Current_Array[0,0]
-        C1_Offset_x = Coxa_Length * math.cos(Current_Array[0,0])
-        C1_Offset_y = Coxa_Length * math.cos(Current_Array[0,0])
-        
-        C1_Frame = Body_Frame + [C1_Offset_x, C1_Offset_y, 0]
-        [Cx1, Cy1, Cz1] = C1_Frame
-        #- - - - - -
-        F1_Angle = Current_Array[0,1]
-        F1_Frame = C1_Frame + [Femur_Length * math.cos(F1_Angle), 0, Femur_Length * math.sin(F1_Angle)]
-        [Fx1, Fy1, Fz1] = F1_Frame
-        #- - - - - -
-        
-        T1_Frame = [Tx1, Ty1, Tz1]
-        #- - - - - -
-        #Manipulator
-
-
-
-
-
-        M1_Frame = [Mx1, My1, Mz1]
-        #Leg2
-        #- - - - - -
-        #Manipulator
-        M2_Frame = [Mx2, My2, Mz2]
-        #- - - - - -
-        C2_Frame = [Cx2, Cy2, Cz2]
-        F2_Frame = [Fx2, Fy2, Fz2]
-        T2_Frame = [Tx2, Ty2, Tz2]
-
-        #Leg3
-        #- - - - - -
-        #Manipulator
-        M3_Frame = [Mx3, My3, Mz3]
-        #- - - - - -
-        C3_Frame = [Cx3, Cy3, Cz3]
-        F3_Frame = [Fx3, Fy3, Fz3]
-        T3_Frame = [Tx3, Ty3, Tz3]
-
-        #Leg4
-        #- - - - - -
-        #Manipulator
-        M4_Frame = [Mx4, My4, Mz4]
-        #- - - - - -
-        C4_Frame = [Cx4, Cy4, Cz4]
-        F1_Frame = [Fx4, Fy4, Fz4]
-        T4_Frame = [Tx4, Ty4, Tz4]
-          
-        print("Positional Data:")
-        print("Body_Frame =", Body_Frame)
-        print("Head_Frame =", Head_Frame)
-        print("Leg1:")
-        print("Coxa 1 =", C1_Frame)
-        print("Femur 1 =", F1_Frame)
-        print("Tarsus 1 =", T1_Frame)
-        print("Leg2:")
-        print("Coxa 2 =", C2_Frame)
-        print("Femur 2 =", F2_Frame)
-        print("Tarsus 2 =", T2_Frame)
-        print("Leg3:")
-        print("Coxa 3 =", C3_Frame)
-        print("Femur 3 =", F3_Frame)
-        print("Tarsus 3 =", T3_Frame)
-        print("Leg4:")
-        print("Coxa 4 =", C4_Frame)
-        print("Femur 4 =", F4_Frame)
-        print("Tarsus 4 =", T4_Frame)
-
-
-    
-    
-    
-        print("\nUNDER CONSTRUCTION! -SORRY-5.10.2023\n")
-        dummy = input("press enter to continue")
-        os.system('clear')
-        Main_Pgm_Answer = 0
-        break
-    #--------------------------------------------------------------------------    
-    while Main_Pgm_Answer == 8: #Get Current Leg Dimensions
-        # - - Dimensional Computations - - #    
-
-        deg2rad = (math.pi/180)
-        #Leg1
-
-        F1lr = Femur_Length * (math.cos(deg2rad*Current_Array[0,1]))#Leg1 Femur [i,1]
-        F1lh = Femur_Length * (math.sin(deg2rad*Current_Array[0,1]))#Leg1 Femur [i,1]
-        Theta_1 = deg2rad*Current_Array[0,1] + deg2rad*Current_Array[0,2]
-        T1lr = Tarsus_Length * math.sin(Theta_1)
-        T1lh = Tarsus_Length * math.cos(Theta_1)
-        Reach_1r = F1lr + T1lr
-        Reach_1h = F1lh + T1lh
-
-        #Leg2
-        F2lr = Femur_Length * math.cos(deg2rad*Current_Array[1,1])
-        F2lh = Femur_Length * math.sin(deg2rad*Current_Array[1,1])
-        Theta_2 = deg2rad*Current_Array[1,1] + deg2rad*Current_Array[1,2]
-        T2lr = Tarsus_Length * math.sin(Theta_2)
-        T2lh = Tarsus_Length * math.cos(Theta_2)
-        Reach_2r = F2lr + T2lr
-        Reach_2h = F2lh + T2lh
-
-        #Leg3
-        F3lr = Femur_Length * math.cos(deg2rad*Current_Array[2,1]) #Leg 1 Femur [i,1]
-        F3lh = Femur_Length * math.sin(deg2rad*Current_Array[2,1]) #Leg 1 Femur [i,1]
-        Theta_3 = deg2rad*Current_Array[2,1] + deg2rad*Current_Array[2,2]
-        T3lr = Tarsus_Length * math.sin(Theta_3)
-        T3lh = Tarsus_Length * math.cos(Theta_3)
-        Reach_3r = F3lr + T3lr
-        Reach_3h = F3lh + T3lh
-
-        #Leg4
-        F4lr = Femur_Length * math.cos(deg2rad*Current_Array[3,1]) #Leg 1 Femur [i,1]
-        F4lh = Femur_Length * math.sin(deg2rad*Current_Array[3,1]) #Leg 1 Femur [i,1]
-        Theta_4 = deg2rad*Current_Array[3,1] + deg2rad*Current_Array[3,2]
-        T4lr = Tarsus_Length * math.sin(Theta_4)
-        T4lh = Tarsus_Length * math.cos(Theta_4)
-        Reach_4r = F4lr + T4lr
-        Reach_4h = F4lh + T4lh
-         
-        # - - Positional Computations - - #  
-        os.system('clear')    
-        print("Where reach is the Hypotenuse of the Femur and Tarsus,")
-        print("and z is the position above or below initial xy-plane.")
-        print(f"Leg 1 reach: {Reach_1r:.3f}")
-        print(f"Leg 1 z: {Reach_1h:.3f}")
-        print(f"Leg 2 reach: {Reach_2r:.3f}")
-        print(f"Leg 2 z: {Reach_2h:.3f}")
-        print(f"Leg 3 reach: {Reach_3r:.3f}")
-        print(f"Leg 3 z: {Reach_3h:.3f}")
-        print(f"Leg 4 reach: {Reach_4r:.3f}")
-        print(f"Leg 4 z: {Reach_4h:.3f}")
-        #---------
-        dummy = input("press enter to continue")
-        os.system('clear')
-        Main_Pgm_Answer = 0
-        break  
-    #--------------------------------------------------------------------------
-    while Main_Pgm_Answer == 9:
-        #Sit
-        Desired_Angle_Array = np.array ([[25, 80, -40],
-                                         [-25, 80, -40],
-                                         [25, 80, -40],
-                                         [-25, 80, -40]])  
-        Matrix_Update()
-        Current_Array = Matrix_Update.Angle_Array 
-
-        Desired_Angle_Array = np.array ([[15, 80, -40],
-                                        [-15, 80, -40],
-                                        [15, 80, -40],
-                                        [-15, 80, -40]])
-        os.system('clear')
-        Main_Pgm_Answer = 0
-        break  
-    #--------------------------------------------------------------------------
+    #Stand
     while Main_Pgm_Answer == 10:
-        #Stand
-
         speed = 0
         # Legs up
         Desired_Angle_Array = np.array ([[25, F_max, T_min],
@@ -863,9 +910,8 @@ while True:
         Main_Pgm_Answer = 0
         break 
     #--------------------------------------------------------------------------
-    while Main_Pgm_Answer == 11:    
-        speed = 0
-        #Stand Tall
+    #Stand Tall
+    while Main_Pgm_Answer == 11:
         Desired_Angle_Array = np.array ([[25, F_min, 70],
                                          [-25, F_min, 70],
                                          [25, F_min, 70],
@@ -876,8 +922,8 @@ while True:
         Main_Pgm_Answer = 0
         break 
     #--------------------------------------------------------------------------
+    #Pan L & R
     while Main_Pgm_Answer == 12:
-        #Pan L & R
         #- -DEFINE PARAMETERS- -#
         position = 1500
         pi = pigpio.pi()
@@ -916,6 +962,7 @@ while True:
         Main_Pgm_Answer = 0
         break 
     #--------------------------------------------------------------------------
+    #Control Camera Head
     while Main_Pgm_Answer == 13:
         Desired_Pan = Pan_Angle
         Desired_Tilt = Tilt_Angle
@@ -1034,22 +1081,218 @@ while True:
         Main_Pgm_Answer = 0
         break     
     #--------------------------------------------------------------------------
-    while Main_Pgm_Answer == 14: #Tensorflow Object Detectrion and Classification
+    #Tensorflow Object Detectrion and Classification
+    while Main_Pgm_Answer == 14:
         os.chdir('/home/kennethmikolaichik/Regis/examples/lite/examples/object_detection/raspberry_pi')
-
         subprocess.call(['lxterminal', '-e', 'python detect.py'])
         os.chdir('/')
         os.system('clear')
         Main_Pgm_Answer = 0
         break  
     #--------------------------------------------------------------------------
-    while Main_Pgm_Answer == 15: #Real Time Leg Control
-        print("under construction 7.31.2023")
-        time.sleept(2)
+    #Print Gyroscope Data To Screen
+    while Main_Pgm_Answer == 15:
+        os.chdir('/home/kennethmikolaichik/Regis/Awaken')
+        subprocess.Popen(['lxterminal', '-e', 'python', 'Get_Gyro_Data.py'])  # Use Popen to allow separate terminal
+        os.chdir('/')
+        os.system('clear')
         Main_Pgm_Answer = 0
         break
     #--------------------------------------------------------------------------
-    while Main_Pgm_Answer >= 16: #Invalid Selection
+    #Real Time Leg Control
+    while Main_Pgm_Answer == 16:
+        os.system('clear')
+        # - - - - - - - - - - - 
+        #Break Current Servo Angles Array into independent variables
+        Ca1 = Current_Array[0,0]
+        Ca2 = Current_Array[1,0]
+        Ca3 = Current_Array[2,0]
+        Ca4 = Current_Array[3,0]
+        Fa1 = Current_Array[0,1]
+        Fa2 = Current_Array[1,1]
+        Fa3 = Current_Array[2,1]
+        Fa4 = Current_Array[3,1]
+        Ta1 = Current_Array[0,2]
+        Ta2 = Current_Array[1,2]
+        Ta3 = Current_Array[2,2]
+        Ta4 = Current_Array[3,2]
+        
+        Pgm16 = int(input("\nselect Leg 1, 2, 3 or 4\n"))
+        if Pgm16 == 1:
+            current_angle1 = Ta1
+            current_angle2 = Fa1
+            current_angle3 = Ca1
+        elif Pgm16 == 2:  
+            current_angle1 = Ta2
+            current_angle2 = Fa2
+            current_angle3 = Ca2      
+        elif Pgm16 == 3:
+            current_angle1 = Ta3
+            current_angle2 = Fa3
+            current_angle3 = Ca3
+        elif Pgm16 == 4:
+            current_angle1 = Ta4
+            current_angle2 = Fa4
+            current_angle3 = Ca4
+
+        os.system('clear')
+        print("Close window to exit")
+
+        # Initialize Pygame
+        pygame.init()
+        angle_step = 1
+        # Set up the screen and display
+        WIDTH, HEIGHT = 400, 200
+        screen = pygame.display.set_mode((WIDTH, HEIGHT))
+        pygame.display.set_caption("Motor Angle Control")
+        # Set up the clock for controlling frame rate
+        clock = pygame.time.Clock()
+        # Create boolean flags to track whether keys are pressed or not
+        r_key_pressed = False
+        f_key_pressed = False
+        e_key_pressed = False
+        d_key_pressed = False
+        a_key_pressed = False
+        s_key_pressed = False
+
+        # Main game loop
+        running = True
+        while running:
+            # Handle events
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    running = False
+
+                # Continuous angle changes when keys are held down
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_r:
+                        r_key_pressed = True
+                    elif event.key == pygame.K_f:
+                        f_key_pressed = True
+                    elif event.key == pygame.K_e:
+                        e_key_pressed = True
+                    elif event.key == pygame.K_d:
+                        d_key_pressed = True
+                    elif event.key == pygame.K_a:
+                        a_key_pressed = True
+                    elif event.key == pygame.K_s:
+                        s_key_pressed = True
+                # Stop changing angle when the keys are released
+                if event.type == pygame.KEYUP:
+                    if event.key == pygame.K_r:
+                        r_key_pressed = False
+                    elif event.key == pygame.K_f:
+                        f_key_pressed = False
+                    elif event.key == pygame.K_e:
+                        e_key_pressed = False
+                    elif event.key == pygame.K_d:
+                        d_key_pressed = False
+                    elif event.key == pygame.K_a:
+                        a_key_pressed = False
+                    elif event.key == pygame.K_s:
+                        s_key_pressed = False
+
+            # Update the motor angles based on continuous key presses
+            if r_key_pressed: #Tibia Up
+                current_angle1 += angle_step
+                current_angle1 = min(current_angle1, T_max)  # Clamp angle to maximum value
+            if f_key_pressed: #Tibia Down
+                current_angle1 -= angle_step
+                current_angle1 = max(current_angle1, T_min)  # Clamp angle to minimum value
+            if e_key_pressed: #Femur Down
+                current_angle2 += angle_step
+                current_angle2 = min(current_angle2, F_max)  # Clamp angle to minimum value
+            if d_key_pressed: #Femur Up
+                current_angle2 -= angle_step
+                current_angle2 = max(current_angle2, F_min)  # Clamp angle to maximum value
+            if a_key_pressed: #Coxa Aft
+                current_angle3 += angle_step
+                current_angle3 = min(current_angle3, C_max)  # Clamp angle to maximum value
+            if s_key_pressed: #Coxa Fwd
+                current_angle3 -= angle_step
+                current_angle3 = max(current_angle3, C_min)  # Clamp angle to minimum value
+            
+            # Clear the screen
+            screen.fill((255, 255, 255))
+            # Display the current motor angles on the screen
+            font = pygame.font.Font(None, 24)
+            angle_text1 = font.render(f"Tarsus: {current_angle1:.2f} degrees", True, (0, 0, 0))
+            angle_text2 = font.render(f"Femur: {current_angle2:.2f} degrees", True, (0, 0, 0))
+            angle_text3 = font.render(f"Coxa: {current_angle3:.2f} degrees", True, (0, 0, 0))
+            screen.blit(angle_text1, (20, 20))
+            screen.blit(angle_text2, (20, 60))
+            screen.blit(angle_text3, (20, 100))
+            
+            # Load Current Array with variable values
+            if Pgm16 == 1:     
+                Ta1 = current_angle1
+                Fa1 = current_angle2
+                Ca1 = current_angle3
+            elif Pgm16 == 2:  
+                Ta2 = current_angle1
+                Fa2 = current_angle2
+                Ca2 = current_angle3      
+            elif Pgm16 == 3:
+                Ta3 = current_angle1
+                Fa3 = current_angle2
+                Ca3 = current_angle3
+            elif Pgm16 == 4:
+                Ta4 = current_angle1
+                Fa4 = current_angle2
+                Ca4 = current_angle3
+            Current_Array = np.array([[Ca1, Fa1, Ta1],
+                                      [Ca2, Fa2, Ta2],
+                                      [Ca3, Fa3, Ta3],
+                                      [Ca4, Fa4, Ta4]])
+   
+            # - - - Update Servo Signal / Move Robot - - - #
+            Current_Array = Current_Array*Correction_Array
+            #Debugging
+            #print("Corrected Array Values - ACTUAL MOTOR ANGLE")
+            #print(Current_Array)
+            for i in range(3): #scans rows from L/R, top to bottom
+                Angle = Current_Array[0,i]
+                PWM_Signal = ((1000 * Angle) / 90) + 1500
+                Pin = Servo_Array[0,i]
+                pi.set_servo_pulsewidth(Pin, PWM_Signal)
+               
+                Angle = Current_Array[1,i]
+                PWM_Signal = ((1000 * Angle) / 90) + 1500
+                Pin = Servo_Array[1,i]
+                pi.set_servo_pulsewidth(Pin, PWM_Signal)
+                Angle = Current_Array[2,i]
+                PWM_Signal = ((1000 * Angle) / 90) + 1500
+                Pin = Servo_Array[2,i]
+                pi.set_servo_pulsewidth(Pin, PWM_Signal)
+                Angle = Current_Array[3,i]
+                PWM_Signal = ((1000 * Angle) / 90) + 1500
+                Pin = Servo_Array[3,i]
+                pi.set_servo_pulsewidth(Pin, PWM_Signal)
+            Current_Array = Current_Array*Correction_Array
+                
+            # Update the screen
+            pygame.display.flip()
+            # Control the frame rate
+            clock.tick(30)
+
+        # Quit the program  
+        pygame.quit()
+        dummy = input("\npress enter to continue")
+        os.system('clear')
+        Pgm16 = 0
+        Main_Pgm_Answer = 0
+        break    
+    #--------------------------------------------------------------------------
+    #Play a Song
+    while Main_Pgm_Answer == 17:
+        os.chdir('/home/kennethmikolaichik/Regis/Awaken')
+        subprocess.Popen(['lxterminal', '-e', 'python', 'Play_Classical_Music.py'])  # Use Popen to allow separate terminal
+        os.chdir('/')
+        os.system('clear')
+        Main_Pgm_Answer = 0
+        break
+    #--------------------------------------------------------------------------
+    while Main_Pgm_Answer >= 18: #Invalid Selection
         print("\nPlease Make a Valid Selection\n")
         dummy = input("press enter to continue")
         os.system('clear')
