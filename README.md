@@ -92,15 +92,25 @@ And that’s it!
 
 #### Download the Pi Image here: https://downloads.raspberrypi.org/raspios_full_armhf/images/raspios_full_armhf-2023-05-03/2023-05-03-raspios-bullseye-armhf-full.img.xz
 
-You will need to install a number of packages from the terminal/command line in order for the python packages to be imported sucessfully. First ensure that 'wheels' and 'python3' are installed. Then pip install the following python modules:  os, playsound, subprocess, math, numpy, pigpio, time, pyttsx3, and pygame.
-
 For advanced users you may want to set up SSH to dial into your spider.
 Otherwise connect a monitor (or tv) to the micro HDMI port.
 Connect a mouse and keyboard to the Raspberry Pi USB ports. I highly recommend a wireless keyboard and mouse combo. I use a logitec model.
 Currently running the official raspberry pi GUI, 32 bit for reliability reasons.
 
+You will now need to install a large number of packages and programs. Make sure you have Python 3 installed as some of the camera software will not work correctly with Python 2 and below.
+From the terminal/command line, install the following packages. This is necessary in order for the python packages to be imported sucessfully when the Robot Control scripts are run in the next section. First ensure that 'wheels' and 'python3' are installed. Then pip install the following python modules:  os, playsound, subprocess, math, numpy, pigpio, time, pyttsx3, and pygame.
+
+You will need to follow the documentation to install openCV, https://opencv.org/get-started/
+    
+    pip3 install opencv-python
+
+Also follow this video and documentation to install Tensorflow Lite, https://www.youtube.com/watch?v=Lyh84KMqUPI
+
+https://www.tensorflow.org/lite/guide/python
+
+    python3 -m pip install tflite-runtime
+
 A Note about Software:
-Make sure you have Python 3 installed as some of the camera software will not work correctly with Python 2 and below.
 The servo PWM timing is written with the aid of the PiGPIO library:
 https://abyz.me.uk/rpi/pigpio/
 
@@ -108,13 +118,13 @@ https://abyz.me.uk/rpi/pigpio/
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 ## Using Your Spider
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-Now that your very own 'Regis' robot is up and running. Download all files in >Code Bits to your robot’s local directory.
+Now that your very own 'Regis' robot is up and running. Download all files to your robot’s local directory.
 
 1). First, update everything. Open the command terminal and type:
 
     sudo apt -get update
 
-The files in the directory 'Awaken' Can be run to control the legs and head. 
+The files in the directory 'Code_Bits/Old_Programs' Can be run to control the legs and head. 
 
 2). Now type: 
 
@@ -122,9 +132,9 @@ The files in the directory 'Awaken' Can be run to control the legs and head.
 
 Hit enter. This will engage the PiGPIO daemon to run in the background. This will allow the motor controller to run.
 
-3). Move to the directory containing the motor control files, if you copied the entire directory, it will be in Regis > Awaken:
+3). Move to the directory containing the motor control files, if you copied the entire directory, it will be in Code_Bits/Old_Programs:
 
-    cd Awaken/Old_Programs
+    cd Code_Bits/Old_Programs
 
  Now try out:
 
