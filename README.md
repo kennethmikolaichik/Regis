@@ -11,6 +11,11 @@
 # Regis Quadruped Robot
 ![Regis Looking Cool](https://github.com/kennethmikolaichik/Regis/blob/main/Progress%20Pictures/the_readme_pic.jpg)
 
+
+
+https://github.com/kennethmikolaichik/Regis/assets/14054289/5544b9f7-79c9-4541-8287-6319b5d9ae8c
+
+
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 ## Inspiration and General Description
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
