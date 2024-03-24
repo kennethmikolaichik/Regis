@@ -89,6 +89,13 @@ def Matrix_Update():
     #- - - - - - - - - - - - - - - - - - - - - - - - - -#
     #- - - - - - - - Matrix Update Program - - - - - - -#
     #- - - - - - - - - - - - - - - - - - - - - - - - - -#
+    
+    # This program is the main way the robot moves. Matrix 'C' of small movements
+    # is created approaching the value of matrix 'B' the desired motor position.
+    # Matrix 'B' is checked to be within limits of the min and max values, it is corrected if needed.
+    # These two matricies are then added together, the signal is transmitted to the motors.
+    # The process repeats itself until the desired position is reached or the counter overflows.
+    
     Matrix_Update.Angle_Array = Current_Array
     # Ca1 = Coxa, Current Angle, Leg one
     A = Matrix_Update.Angle_Array
@@ -117,7 +124,7 @@ def Matrix_Update():
             B[3,i] = MIN[3,i]
 
     # Combes through columns of 'A' from top to bottom, determines if difference,
-    # Creates Matrix 'C' which adds or subtracts 0.1 until matrix 'A' == 'B'
+    # Creates Matrix 'C' which adds or subtracts 0.1 so that elements of 'A' approach 'B'
     # Where i is the number of Rows of 'A', Runs left to right.
     # Each pass creates Matrix 'C' which has an element value of either 0 or +/-0.1
     # The adjustment matrix 'C' is then added to 'A', the current angles.
@@ -357,58 +364,58 @@ for pin in servos:
 #Boot up Sound File
 #playsound('/home/kennethmikolaichik/Regis/Sounds/holy-smokes-its-me-regis-im-a-sexy-little-monkey.mp3')
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-'''
+
 #- - Stand Up Sequence - -#
 print("Please ensure Regis is laying flat and clear of obstacles, stand clear.", end="\r")
-time.sleep(0.4)
+time.sleep(0.2)
 print("Please ensure Regis is laying flat and clear of obstacles, stand clear..", end="\r")
-time.sleep(0.4)
+time.sleep(0.2)
 print("Please ensure Regis is laying flat and clear of obstacles, stand clear...", end="\r")
-time.sleep(0.4)
+time.sleep(0.2)
 print("Please ensure Regis is laying flat and clear of obstacles, stand clear....", end="\r")
-time.sleep(0.4)
+time.sleep(0.2)
 print("Please ensure Regis is laying flat and clear of obstacles, stand clear.....", end="\r")
-time.sleep(0.4)
+time.sleep(0.2)
 print("Please ensure Regis is laying flat and clear of obstacles, stand clear......", end="\r")
-time.sleep(0.4)
+time.sleep(0.2)
 print("\nPreparing to move!")
 time.sleep(1.5)
-'''
+
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 # DEFAULT POSITION AT AWAKEN
 #All shoulders square, Femurs Up, Tarsus Up
-# Really need a way to move to this position slowly!!!!!
+# Really need a way to move to this position slowly or remember last position!!!!!
 Ca1 = float(25)
 Ca2 = float(-25)
 Ca3 = float(25)
 Ca4 = float(-25)
-Fa1 = float(F_max)
-Fa2 = float(F_max)
-Fa3 = float(F_max)
-Fa4 = float(F_max)
-Ta1 = float(T_max)
-Ta2 = float(T_max)
-Ta3 = float(T_max)
-Ta4 = float(T_max) 
+Fa1 = float(F_min)
+Fa2 = float(F_min)
+Fa3 = float(F_min)
+Fa4 = float(F_min)
+Ta1 = float(T_min)
+Ta2 = float(T_min)
+Ta3 = float(T_min)
+Ta4 = float(T_min) 
 Current_Array = np.array([[Ca1, Fa1, Ta1],
                           [Ca2, Fa2, Ta2],
                           [Ca3, Fa3, Ta3],
                           [Ca4, Fa4, Ta4]])
-'''
-Matrix_Update()
-Current_Array = Matrix_Update.Angle_Array 
-
-# Moves Head to center
+# Head to center
 Pan_Angle = 0
 Tilt_Angle = 0
 Desired_Pan = 0
 Desired_Tilt = 0
+
+Matrix_Update()
+Current_Array = Matrix_Update.Angle_Array 
+
 Pan_Update(Pan_Angle, Desired_Pan)
 Pan_Angle = Pan_Update.Pan_Angle
 Tilt_Update(Tilt_Angle, Desired_Tilt)
 Tilt_Angle = Tilt_Update.Tilt_Angle
-'''
+
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@    
 '''                               MAIN PROGRAM                              '''
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -438,6 +445,8 @@ while True:
         print(" 15) Get Gyro Data")
         print(" 16) Real Time Motor Control")
         print(" 17) Play a song")
+        print(" 18) Get Vibration Sensor Data")
+        print(" 19) Freak Out")
         
         Main_Pgm_Answer = int(input("Enter 1,2,3...\n"))
     #--------------------------------------------------------------------------
@@ -596,6 +605,7 @@ while True:
             return np.trunc(values*10**decs)/(10**decs)
 
         Current_Array = np.round(Current_Array, decimals=2, out=None)
+        print("- Servo Angle Matrix -")
         print(Current_Array)
         
         '''
@@ -619,8 +629,9 @@ while True:
         [Bx, By, Bz] = Body_Frame
         #Center of body
 
-        Head_Frame = Body_Frame + [Head_Offset_x, Head_Offset_y, Head_Offset_z]
-        [Hx, Hy, Hz] = Head_Frame
+        #!!!!!!!!!!!!!issue here
+        #Head_Frame = Body_Frame + [Head_Offset_x, Head_Offset_y, Head_Offset_z]
+        #[Hx, Hy, Hz] = Head_Frame
         #Center of head
 
         #Leg 1 - Fwd RH. Quadrant I (+x,+y, z)
@@ -704,59 +715,43 @@ while True:
     #--------------------------------------------------------------------------    
     #Get Current Leg Dimensions
     while Main_Pgm_Answer == 8:
-        # - - Dimensional Computations - - #    
-
+        
+        # - - Dimensional Computations - - #  
         deg2rad = (math.pi/180)
         #Leg1
-
-        F1lr = Femur_Length * (math.cos(deg2rad*Current_Array[0,1]))#Leg1 Femur [i,1]
-        F1lh = Femur_Length * (math.sin(deg2rad*Current_Array[0,1]))#Leg1 Femur [i,1]
-        Theta_1 = deg2rad*Current_Array[0,1] + deg2rad*Current_Array[0,2]
-        T1lr = Tarsus_Length * math.sin(Theta_1)
-        T1lh = Tarsus_Length * math.cos(Theta_1)
-        Reach_1r = F1lr + T1lr
-        Reach_1h = F1lh + T1lh
-
+        Theta_1 = Current_Array[0,2] + 90
+        Theta_1rad = deg2rad * Theta_1
+        Reach_1 = math.sqrt(math.pow(Femur_Length, 2) + math.pow(Tarsus_Length, 2) - (2*Femur_Length*Tarsus_Length*math.cos(Theta_1rad)))
+        
         #Leg2
-        F2lr = Femur_Length * math.cos(deg2rad*Current_Array[1,1])
-        F2lh = Femur_Length * math.sin(deg2rad*Current_Array[1,1])
-        Theta_2 = deg2rad*Current_Array[1,1] + deg2rad*Current_Array[1,2]
-        T2lr = Tarsus_Length * math.sin(Theta_2)
-        T2lh = Tarsus_Length * math.cos(Theta_2)
-        Reach_2r = F2lr + T2lr
-        Reach_2h = F2lh + T2lh
-
+        Theta_2 = Current_Array[1,2] + 90
+        Theta_2rad = deg2rad * Theta_2
+        Reach_2 = math.sqrt(math.pow(Femur_Length, 2) + math.pow(Tarsus_Length, 2) - (2*Femur_Length*Tarsus_Length*math.cos(Theta_2rad)))
+        
         #Leg3
-        F3lr = Femur_Length * math.cos(deg2rad*Current_Array[2,1]) #Leg 1 Femur [i,1]
-        F3lh = Femur_Length * math.sin(deg2rad*Current_Array[2,1]) #Leg 1 Femur [i,1]
-        Theta_3 = deg2rad*Current_Array[2,1] + deg2rad*Current_Array[2,2]
-        T3lr = Tarsus_Length * math.sin(Theta_3)
-        T3lh = Tarsus_Length * math.cos(Theta_3)
-        Reach_3r = F3lr + T3lr
-        Reach_3h = F3lh + T3lh
+        Theta_3 = Current_Array[2,2] + 90
+        Theta_3rad = deg2rad * Theta_3
+        Reach_3 = math.sqrt(math.pow(Femur_Length, 2) + math.pow(Tarsus_Length, 2) - (2*Femur_Length*Tarsus_Length*math.cos(Theta_3rad)))
 
         #Leg4
-        F4lr = Femur_Length * math.cos(deg2rad*Current_Array[3,1]) #Leg 1 Femur [i,1]
-        F4lh = Femur_Length * math.sin(deg2rad*Current_Array[3,1]) #Leg 1 Femur [i,1]
-        Theta_4 = deg2rad*Current_Array[3,1] + deg2rad*Current_Array[3,2]
-        T4lr = Tarsus_Length * math.sin(Theta_4)
-        T4lh = Tarsus_Length * math.cos(Theta_4)
-        Reach_4r = F4lr + T4lr
-        Reach_4h = F4lh + T4lh
-         
+        Theta_4 = Current_Array[3,2] + 90
+        Theta_4rad = deg2rad * Theta_4
+        Reach_4 = math.sqrt(math.pow(Femur_Length, 2) + math.pow(Tarsus_Length, 2) - (2*Femur_Length*Tarsus_Length*math.cos(Theta_4rad)))
+        
         # - - Positional Computations - - #  
         os.system('clear')    
         print("Where reach is the Hypotenuse of the Femur and Tarsus,")
-        print("and z is the position above or below initial xy-plane.")
-        print(f"Leg 1 reach: {Reach_1r:.3f}")
-        print(f"Leg 1 z: {Reach_1h:.3f}")
-        print(f"Leg 2 reach: {Reach_2r:.3f}")
-        print(f"Leg 2 z: {Reach_2h:.3f}")
-        print(f"Leg 3 reach: {Reach_3r:.3f}")
-        print(f"Leg 3 z: {Reach_3h:.3f}")
-        print(f"Leg 4 reach: {Reach_4r:.3f}")
-        print(f"Leg 4 z: {Reach_4h:.3f}")
-        #---------
+        print("the reach is computed with the law of cosines.")
+        print(" ")
+        print(f"Leg 1 reach: {Reach_1:.3f} meters")
+        print("-------------------")
+        print(f"Leg 2 reach: {Reach_2:.3f} meters")
+        print("-------------------")
+        print(f"Leg 3 reach: {Reach_3:.3f} meters")
+        print("-------------------")
+        print(f"Leg 4 reach: {Reach_4:.3f} meters")
+        print(" ")
+
         dummy = input("press enter to continue")
         os.system('clear')
         Main_Pgm_Answer = 0
@@ -1292,7 +1287,63 @@ while True:
         Main_Pgm_Answer = 0
         break
     #--------------------------------------------------------------------------
-    while Main_Pgm_Answer >= 18: #Invalid Selection
+    #Get Vibration Data
+    while Main_Pgm_Answer == 18:
+        os.chdir('/home/kennethmikolaichik/Regis/Awaken')
+        subprocess.Popen(['lxterminal', '-e', 'python', 'VibTest.py'])  # Use Popen to allow separate terminal
+        os.chdir('/')
+        os.system('clear')
+        Main_Pgm_Answer = 0
+        break
+    #--------------------------------------------------------------------------
+    #Freak Out
+    while Main_Pgm_Answer == 19:
+        import random
+        print("Enter number of times to freak out:")
+        Freak_Count = int(input())
+        
+        os.system('clear')          
+        #here is where the freak out happens
+        while Freak_Count > 0:      
+            print("- Servo Angle Matrix -")
+            print("Leg1:  C1 F1 T1 ")
+            print(f"       {Cda1:.1f} {Fda1:.1f} {Tda1:.1f}")
+            print("Leg2:  C2 F2 T2 ")
+            print(f"       {Cda2:.1f} {Fda2:.1f} {Tda2:.1f}")
+            print("Leg3:  C3 F3 T3 ")
+            print(f"       {Cda3:.1f} {Fda3:.1f} {Tda3:.1f}")
+            print("Leg4:  C4 F4 T4 ")
+            print(f"       {Cda4:.1f} {Fda4:.1f} {Tda4:.1f}")
+        
+            #Leg freak out parameters
+            Cda1 = float(random.randrange(-90,90))
+            Fda1 = float(random.randrange(-90,90))
+            Tda1 = float(random.randrange(-90,90))
+            Cda2 = float(random.randrange(-90,90))
+            Fda2 = float(random.randrange(-90,90))
+            Tda2 = float(random.randrange(-90,90))
+            Cda3 = float(random.randrange(-90,90))
+            Fda3 = float(random.randrange(-90,90))
+            Tda3 = float(random.randrange(-90,90))
+            Cda4 = float(random.randrange(-90,90))
+            Fda4 = float(random.randrange(-90,90))
+            Tda4 = float(random.randrange(-90,90))
+            Desired_Angle_Array = np.array([[Cda1, Fda1, Tda1],
+                                            [Cda2, Fda2, Tda2],
+                                            [Cda3, Fda3, Tda3],
+                                            [Cda4, Fda4, Tda4]])
+            Matrix_Update()
+
+            time.sleep(0.1)
+            Freak_Count -= 1
+            os.system('clear')
+        
+        Current_Array = Matrix_Update.Angle_Array    
+        os.system('clear')
+        Main_Pgm_Answer = 0
+        break
+    #--------------------------------------------------------------------------
+    while Main_Pgm_Answer >= 20: #Invalid Selection
         print("\nPlease Make a Valid Selection\n")
         dummy = input("press enter to continue")
         os.system('clear')
