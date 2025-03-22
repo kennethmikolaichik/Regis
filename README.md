@@ -122,7 +122,7 @@ Now that your very own 'Regis' robot is up and running. Download all files to yo
 
 1). First, update everything. Open the command terminal and type:
 
-    sudo apt -get update
+    sudo apt update && sudo apt upgrade -y
 
 The files in the directory 'Code_Bits/Old_Programs' Can be run to control the legs and head. 
 
