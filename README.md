@@ -1,12 +1,5 @@
+Welcome! Visitor number:
 ![Visitor Count](https://profile-counter.glitch.me/{kennethmikoliachik}/count.svg)
-
-#### Working on: 8/4/2023
-
-• **Enabling real time face tracking, get TensorFlow to control pan/tilt motors.** see here: https://www.instructables.com/Pan-Tilt-face-tracking-with-the-raspberry-pi/
-
-• **Building inverse kinematic model and program for defining walking parameters.** see here: https://hackaday.io/project/171456-diy-hobby-servos-quadruped-robot/log/177488-lets-talk-about-the-kinematic-model
-
-• **Training a hand signal model that Regis will respond to** see here: https://techvidvan.com/tutorials/hand-gesture-recognition-tensorflow-opencv/
 
 # Regis Quadruped Robot
 ![Regis Looking Cool](https://github.com/kennethmikolaichik/Regis/blob/main/Progress%20Pictures/the_readme_pic.jpg)
