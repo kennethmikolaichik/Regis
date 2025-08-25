@@ -1,1 +1,0 @@
-echo "Regis Online!" | festival --tts
