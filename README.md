@@ -1,6 +1,3 @@
-Welcome! Visitor number:
-![Visitor Count](https://profile-counter.glitch.me/{kennethmikoliachik}/count.svg)
-
 # Regis Quadruped Robot
 ![Regis Looking Cool](https://github.com/kennethmikolaichik/Regis/blob/main/Progress%20Pictures/the_readme_pic.jpg)
 
@@ -35,9 +32,16 @@ HD Converter: Eluteng mSATA to usb3.0 adapter
 
 Battery: DC 12300 - DC12V Rechargeable 3000mAh lithium-ion Battery
 
-Servos: MG90S
+Servos: 14 x MG90S
 
 Power Converter: UCTRONICS DC 6V-24V to DC 5V 5A Buck Converter Module, 9-36V Step Down to USB 5V Transformer Dual Output Voltage Regulator Board
+
+Screws:
+
+M2.5 for MG90S mounting
+
+
+M4 for structure
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 ## Chassis
@@ -46,9 +50,9 @@ Power Converter: UCTRONICS DC 6V-24V to DC 5V 5A Buck Converter Module, 9-36V St
 ![Chassis Cad Model](https://github.com/kennethmikolaichik/Regis/blob/main/Progress%20Pictures/chassis_cad_pic.png)
 
 Use Regis > CAD FILES > Version 0.0
-All structural pieces have been 3D printed using PLA and ABS filament on an Ender 3. Any G-code files will be for this setup. Recommend high percentage to solid infill.
+All structural pieces have been 3D printed using PLA and ABS filament on an Ender 3. Recommend high percentage to solid infill.
 
-All working CAD files have been created in FreeCAD Version 0.19 - (.FCStd) filetype. Please convert if using another program. Or fall in love with Freecad at https://www.freecad.org/ 
+CAD files have been created in FreeCAD Version 0.19 - (.FCStd) filetype. Please convert if using another program. Or fall in love with Freecad at https://www.freecad.org/ 
 
 The robots "shoes" have been constructed from rubber stoppers from the hardware store. They are necessary for any sort of traction on smooth surfaces. Purchase 1/2 inch stoppers and drill halfway through with a 7/64" or 1//4" drill bit. Clean out the holes and slide on the ends of the legs.
 
@@ -71,13 +75,11 @@ This way the 3-pin connector for each leg can be bundled together and a motor ea
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 ## Method of Assembly
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-The legs for this project are assembled with the screws that come with the MG90 Servos. They are 2.5mm. The battery case is assembled with M8 machine screws. The raspberry pi is installed in the case and held to the upper surface of the battery/case with double sided tape. The fan is attached to the upper portion of the raspberry pi case with some oversized screws that penetrate into the honeycomb skin of the raspberry pi case. The SSD is attached with double sided tape, electrical tape is used to shield the IC's from contact with the tape and prevent stray current. Twist ties are employed throughout the robot for wire control and routing. Rubber bands have been used to 'tidy up' the wires coming from the power distribution board and signal wires. 
+The legs for this project are assembled with the screws that come with the MG90 Servos. They are 2.5mm. The battery case is assembled with M4 machine screws. The raspberry pi is installed in the case and held to the upper surface of the battery/case with double sided tape. The fan is attached to the upper portion of the raspberry pi case with some oversized wood screws. The SSD is attached with double sided tape, electrical tape is used to shield the IC's. Twist ties are employed throughout the robot for wire control and routing.
 
-*NOTE: This is a prototype and will be constantly changing which is why I have opted for impermanent fastening of nonstructural components.
+For wiring: You will need to 1) Plug the battery into the power converter. 2) Wire the power distribution board to the power converter. 3) Route and plug in all motors to the power distribution board. 4) Connect all signal wires to their proper Raspberry Pi GPIO pin. 5) Connect the fan to the power converter output (this way it will always be on when the battery is on) 6) plug in the SSD/mSATA to USB adapter and then into pi. The camera requires a ribbon cable.
 
-For all wiring: SEE DIAGRAMS - You will need to 1) Plug the battery into the power converter. 2) Wire the power distribution board to the power converter. 3) Route and plug in all motors to the power distribution board. 4) Connect all signal wires to their proper Raspberry Pi GPIO pin. 5) Connect the fan to the power converter output (this way it will always be on when the battery is on) 6) plug in the SSD/mSATA to USB adapter and then into pi. The camera requires a ribbon cable.
-
-And that’s it!
+SEE DIAGRAMS
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 ## Interface
@@ -87,13 +89,20 @@ And that’s it!
 
 For advanced users you may want to set up SSH to dial into your spider.
 Otherwise connect a monitor (or tv) to the micro HDMI port.
-Connect a mouse and keyboard to the Raspberry Pi USB ports. I highly recommend a wireless keyboard and mouse combo. I use a logitec model.
-Currently running the official raspberry pi GUI, 32 bit for reliability reasons.
+Connect a mouse and keyboard to the Raspberry Pi USB ports. I highly recommend a wireless keyboard and mouse combo. Currently running the official raspberry pi GUI, 32 bit for reliability reasons.
 
-You will now need to install a large number of packages and programs. Make sure you have Python 3 installed as some of the camera software will not work correctly with Python 2 and below.
-From the terminal/command line, install the following packages. This is necessary in order for the python packages to be imported sucessfully when the Robot Control scripts are run in the next section. First ensure that 'wheels' and 'python3' are installed. Then pip install the following python modules:  os, playsound, subprocess, math, numpy, pigpio, time, pyttsx3, and pygame.
+You will now need to install some packages and programs. Make sure to use Python 3 as some of the camera software will not work correctly with Python 2 and below. From the terminal/command line, install the following packages. 
 
-You will need to follow the documentation to install openCV, https://opencv.org/get-started/
+	sudo apt-get install -y \
+	  python3 python3-pip python3-numpy python3-pygame python3-pigpio \
+	  pigpio espeak-ng espeak-ng-data libespeak-ng1 build-essential python3-dev
+
+
+This is necessary in order for the python packages to be imported sucessfully when the Robot control script is run in the next section.
+
+You may want to install some computer vision software. (not necessary)
+
+To install openCV, https://opencv.org/get-started/
     
     pip3 install opencv-python
 
@@ -111,7 +120,7 @@ https://abyz.me.uk/rpi/pigpio/
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 ## Using Your Spider
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-Now that your very own 'Regis' robot is up and running. Download all files to your robot’s local directory.
+Now that your very own 'Regis' robot is up and running. Download "Initialize.py" to your robot’s local directory.
 
 1). First, update everything. Open the command terminal and type:
 
@@ -125,26 +134,7 @@ The files in the directory 'Code_Bits/Old_Programs' Can be run to control the le
 
 Hit enter. This will engage the PiGPIO daemon to run in the background. This will allow the motor controller to run.
 
-3). Move to the directory containing the motor control files, if you copied the entire directory, it will be in Code_Bits/Old_Programs:
+3). Now, run the folowing program from the command line of your pi to control the robots movment and camera. This file is the main interface I have created for controlling the robot:
 
-    cd Code_Bits/Old_Programs
-
- Now try out:
-
-    Python3 Leg1_UP.py
-
-The robot should lift its front right leg and the terminal should output "completed successfully"
-
-The remaining motor control files in this folder can be run in this manner through the command line.
-
-Now, run the folowing program from the command line of your pi to control the robots movment and camera. This file is the main interface I have created for controlling the robot:
-
-    cd Awaken
    
     python3 Initialize.py
-
-
-"Anything is possible if you can only imagine it."
-
-Have a wonderful day!
-
