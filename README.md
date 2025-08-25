@@ -3,7 +3,7 @@
 
 
 
-https://github.com/kennethmikolaichik/Regis/assets/14054289/5544b9f7-79c9-4541-8287-6319b5d9ae8c
+https://github.com/kennethmikolaichik/Regis/blob/main/Progress%20Pictures/Showcase.mp4
 
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
@@ -54,7 +54,7 @@ CAD files have been created in FreeCAD Version 0.19 - (.FCStd) filetype.
 
 Freecad: https://www.freecad.org/ 
 
-The robots "shoes" have been constructed from rubber stoppers from the hardware store. They are necessary for any sort of traction on smooth surfaces. Purchase 1/2 inch stoppers and drill halfway through with a 7/64" or 1//4" drill bit. Clean out the holes and slide on the ends of the legs.
+The robots "shoes" have been constructed from rubber stoppers from the hardware store. They are necessary for any sort of traction on smooth surfaces. Purchase 1/2 inch stoppers and drill halfway through with a 7/64" or 1/4" drill bit. Clean out the holes and slide on the ends of the legs.
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 ## Power Distribution Board
@@ -79,7 +79,7 @@ The legs for this project are assembled with the screws that come with the MG90 
 
 For wiring: You will need to 1) Plug the battery into the power converter. 2) Wire the power distribution board to the power converter. 3) Route and plug in all motors to the power distribution board. 4) Connect all signal wires to their proper Raspberry Pi GPIO pin. 5) Connect the fan to the power converter output (this way it will always be on when the battery is on) 6) plug in the SSD/mSATA to USB adapter and then into pi. The camera requires a ribbon cable.
 
-SEE DIAGRAMS
+See Diagrams
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 ## Interface
