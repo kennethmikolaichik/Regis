@@ -9,11 +9,9 @@ https://github.com/kennethmikolaichik/Regis/assets/14054289/5544b9f7-79c9-4541-8
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 ## Inspiration and General Description
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-This project started out as a desire to bring to life a teachable basic droid.
-I could see that the technology existed, but there seemed to only be a few entities making any real progress. This work is largely the coupling together of several other open-source projects. I have brought together an easily buildable and affordable set of hardware in hopes that this project might be used for research into AI. I believe that the decentralization of AI and the distribution of uniquely trained models to the public is an important step in an agreeable future.
+This project started out as a desire to bring to life a teachable basic robot.
 
-Regis is a basic mobile quadrupedal chassis, power source, and two axis camera head designed loosely around a spider (although 4 legged).
-He sports three degrees of freedom in his legs, and an onboard computer running linux. Although battery life is limited due to the power requirements of the Raspberry Pi and SSD (maybe 1/2 hour), he can easily run plugged in on a tabletop due to his small size.
+The robot is a basic mobile quadrupedal chassis, power source, and two axis camera head designed loosely around a spider. Although battery life is limited due to the power requirements of the Raspberry Pi and SSD, it can easily run plugged in on a tabletop.
 
 Long live Regis!
 
@@ -49,10 +47,12 @@ M4 for structure
 
 ![Chassis Cad Model](https://github.com/kennethmikolaichik/Regis/blob/main/Progress%20Pictures/8.25.2025.png)
 
-Use Regis > CAD FILES > Version 0.0
-All structural pieces have been 3D printed using PLA and ABS filament on an Ender 3. Recommend high percentage to solid infill.
+Use Regis > CAD & .stl files > Version 0.0
+All structural pieces are 3D printed using PLA or ABS filament. Recommend high percentage to solid infill.
 
-CAD files have been created in FreeCAD Version 0.19 - (.FCStd) filetype. Please convert if using another program. Or fall in love with Freecad at https://www.freecad.org/ 
+CAD files have been created in FreeCAD Version 0.19 - (.FCStd) filetype. 
+
+Freecad: https://www.freecad.org/ 
 
 The robots "shoes" have been constructed from rubber stoppers from the hardware store. They are necessary for any sort of traction on smooth surfaces. Purchase 1/2 inch stoppers and drill halfway through with a 7/64" or 1//4" drill bit. Clean out the holes and slide on the ends of the legs.
 
@@ -97,6 +97,7 @@ You will now need to install some packages and programs. Make sure to use Python
 	  python3 python3-pip python3-numpy python3-pygame python3-pigpio \
 	  pigpio espeak-ng espeak-ng-data libespeak-ng1 build-essential python3-dev
 
+	python3 -m pip install playsound pyttsx3 --break-system-packages
 
 This is necessary in order for the python packages to be imported sucessfully when the Robot control script is run in the next section.
 
