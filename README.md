@@ -47,7 +47,7 @@ M4 for structure
 ## Chassis
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
-![Chassis Cad Model](https://github.com/kennethmikolaichik/Regis/blob/main/Progress%20Pictures/chassis_cad_pic.png)
+![Chassis Cad Model](https://github.com/kennethmikolaichik/Regis/blob/main/Progress%20Pictures/8.25.2025.png)
 
 Use Regis > CAD FILES > Version 0.0
 All structural pieces have been 3D printed using PLA and ABS filament on an Ender 3. Recommend high percentage to solid infill.

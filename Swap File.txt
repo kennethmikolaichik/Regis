@@ -1,3 +1,0 @@
-sudo apt-get install libatlas-base-dev libjasper-dev
-
-sudo apt-get install libqt5gui5
