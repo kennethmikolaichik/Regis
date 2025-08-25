@@ -2,8 +2,7 @@
 ![Regis Looking Cool](https://github.com/kennethmikolaichik/Regis/blob/main/Progress%20Pictures/the_readme_pic.jpg)
 
 
-
-https://github.com/kennethmikolaichik/Regis/blob/main/Progress%20Pictures/Showcase.mp4
+https://github.com/user-attachments/assets/0da9238e-a415-42d3-97d8-b65ffef475de
 
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
